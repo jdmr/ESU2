@@ -1,0 +1,16 @@
+.DS_Store
+target
+nb-configuration.xml
+nbactions.xml
+nb_jr_remoting.cfg
+esu.log**
+esu-test.log**
+.idea
+*.iml
+.classpath
+.project
+.settings
+.sass-cache
+/src/main/resources/esu.properties
+Thumbs.db
+rebel.xml

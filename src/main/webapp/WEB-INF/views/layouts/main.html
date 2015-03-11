@@ -1,0 +1,145 @@
+<!--
+The MIT License
+
+Copyright 2014 J. David Mendoza.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment='head(title)'>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title th:text="|${title} - #{project.name}|">Main</title>
+        <meta name="description" content=""/>
+        <meta name="author" content="Southwestern Adventist University"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="shortcut icon" href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" />
+        <link rel="apple-touch-icon" sizes="57x57" href="../../../static/img/apple-touch-icon-57x57.png" th:href="@{/static/img/apple-touch-icon-57x57.png}" />
+        <link rel="apple-touch-icon" sizes="114x114" href="../../../static/img/apple-touch-icon-114x114.png" th:href="@{/static/img/apple-touch-icon-114x114.png}" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../../static/img/apple-touch-icon-144x144.png" th:href="@{/static/img/apple-touch-icon-144x144.png}" />
+        <link rel="apple-touch-icon" sizes="60x60" href="../../../static/img/apple-touch-icon-60x60.png" th:href="@{/static/img/apple-touch-icon-60x60.png}" />
+        <link rel="apple-touch-icon" sizes="120x120" href="../../../static/img/apple-touch-icon-120x120.png" th:href="@{/static/img/apple-touch-icon-120x120.png}" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../../../static/img/apple-touch-icon-76x76.png" th:href="@{/static/img/apple-touch-icon-76x76.png}" />
+        <link rel="apple-touch-icon" sizes="152x152" href="../../../static/img/apple-touch-icon-152x152.png" th:href="@{/static/img/apple-touch-icon-152x152.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-196x196.png" sizes="196x196" th:href="@{/static/img/favicon-196x196.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-160x160.png" sizes="160x160" th:href="@{/static/img/favicon-160x160.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-96x96.png" sizes="96x96" th:href="@{/static/img/favicon-96x96.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-16x16.png" sizes="16x16" th:href="@{/static/img/favicon-16x16.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-32x32.png" sizes="32x32" th:href="@{/static/img/favicon-32x32.png}" />
+        <meta name="msapplication-TileColor" content="#67b6ea" />
+        <meta name="msapplication-TileImage" content="../../../static/img/mstile-144x144.png" th:content="@{/static/img/mstile-144x144.png}" />
+        <meta name="msapplication-config" content="../../../static/img/browserconfig.xml" th:content="@{/static/img/browserconfig.xml}" />
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../../../static/css/main.css" th:href="@{/static/css/main.css}" />
+
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top" role="banner" th:fragment='navigation(activeMenu)'>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only" th:text="toggle.navigation">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <a href="#" th:href="@{/inicio}" class="navbar-brand"><img src="../../../static/img/logo.jpg" th:src="@{/static/img/logo.jpg}" alt="Escuela Sabática Universitaria" th:alt="#{escuela.sabatica.universitaria}" /></a>
+                <nav class="collapse navbar-collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li th:class="${activeMenu} == 'inicio' ? 'active'"><a href="#" th:href="@{/}" th:text="#{inicio}">Inicio</a></li>
+                        <li th:class="${activeMenu} == 'estudia' ? 'active'"><a href="#" th:href="@{/estudia}" th:text="#{estudia}">Estudia</a></li>
+                        <li th:class="${activeMenu} == 'profundiza' ? 'active'"><a href="#" th:href="@{/profundiza}" th:text="#{profundiza}">Profundiza</a></li>
+                        <li th:class="${activeMenu} == 'comparte' ? 'active'"><a href="#" th:href="@{/comparte}" th:text="#{comparte}">Comparte</a></li>
+                        <li th:class="${activeMenu} == 'conocenos' ? 'active'"><a href="#" th:href="@{/conocenos}" th:text="#{conocenos}">Conocenos</a></li>
+                        <li th:class="${activeMenu} == 'foro' ? 'active'"><a href="#" th:href="@{/foro}" th:text="#{foro}">Foro</a></li>
+                    </ul>
+                    <form action="#" th:action="@{/articulo/buscar}" method="GET" class="navbar-form navbar-right" name="buscarForm" id="buscarForm" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search" th:placeholder="#{buscar}" id="filtro" name="filtro" />
+                        </div>
+                    </form>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="row" id="searchDiv" th:fragment='searchDiv'>
+                <div class="col-sm-12">
+                    <form action='#' th:action='@{/articulo/buscar}' method='GET' role='search' name="buscarForm2" id='buscarForm2'>
+                        <input type="text" class="form-control" placeholder="Search" th:placeholder="#{buscar}" id="filtro2" name="filtro" />
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 th:text="#{welcome.label}">Welcome</h1>
+
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo" th:fragment="footer" class="footer" >
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5 leftfooter">
+                        <h4><a href="#" th:href="@{/conocenos}" th:text="#{acerca.de.esu}">Acerca de Escuela Sabática Universitaria</a></h4>
+
+                        <p><a href="#" th:href="@{/inicio}" th:text="#{inicio}">Inicio</a></p>
+
+                        <p><a href="#" th:href="@{/estudia}" th:text="#{estudia}">Estudia</a></p>
+
+                        <p><a href="#" th:href="@{/profundiza}" th:text="#{profundiza}">Profundiza</a></p>
+
+                        <p><a href="#" th:href="@{/comparte}" th:text="#{comparte}">Comparte</a></p>
+                    </div>
+
+                    <div class="col-sm-2 centerfooter">
+                        <h4 th:text="#{redes.sociales}">Redes Sociales</h4>
+                        <p style="font-size: 2em;">
+                            <a href="http://www.facebook.com/EscuelaSabaticaUniversitaria" target="_blank" alt="facebook" th:alt="#{facebook}"><i class="fa fa-facebook-square"></i></a>
+                            <a href="http://twitter.com/esuniversitaria" target="_blank" alt="twitter" th:alt="#{twitter}"><i class="fa fa-twitter-square"></i></a>
+                            <a href="#" th:href="@{/rss}" alt="rss" th:alt="#{rss}"><i class="fa fa-rss-square"></i></a>
+                        </p>
+
+                    </div>
+
+                    <div class="col-sm-5 rightfooter">
+                        <h4>Powered by <a href="http://www.um.edu.mx" target="_blank">Universidad de Montemorelos</a></h4>
+                    </div>
+                </div>                
+            </div>
+        </footer>
+
+        <div th:fragment="scripts" th:remove="tag">
+            <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+            <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+            <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
+        </div>
+    </body>
+</html>
