@@ -67,8 +67,8 @@ THE SOFTWARE.
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-                <a href="#" th:href="@{/inicio}" class="navbar-brand"><img src="../../../static/img/logo.jpg" th:src="@{/static/img/logo.jpg}" alt="Escuela Sabática Universitaria" th:alt="#{escuela.sabatica.universitaria}" /></a>
-                <nav class="collapse navbar-collapse" role="navigation">
+                <a id="mainLogo" href="#" th:href="@{/inicio}" class="navbar-brand"><img src="../../../static/img/logo.jpg" th:src="@{/static/img/logo.jpg}" alt="Escuela Sabática Universitaria" th:alt="#{escuela.sabatica.universitaria}" /></a>
+                <nav id="mainMenu" class="collapse navbar-collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <li th:class="${activeMenu} == 'inicio' ? 'active'"><a href="#" th:href="@{/}" th:text="#{inicio}">Inicio</a></li>
                         <li th:class="${activeMenu} == 'estudia' ? 'active'"><a href="#" th:href="@{/estudia}" th:text="#{estudia}">Estudia</a></li>

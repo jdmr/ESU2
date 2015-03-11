@@ -114,9 +114,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-left: 0;
 }
 
-.navbar-brand {
+a.navbar-brand {
     float: none;
     padding: 0;
+    margin: 0;
 }
 
 .navbar-collapse {
@@ -177,6 +178,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 @media (min-width: 768px) {
     #searchDiv {
         display: none;
+    }
+    
+    #mainLogo {
+        margin: 0;
+    }
+    
+    #mainMenu {
+        padding-top: 5px;
     }
 }
 

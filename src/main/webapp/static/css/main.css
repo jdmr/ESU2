@@ -90,9 +90,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border-right: 0;
   border-left: 0; }
 
-.navbar-brand {
+a.navbar-brand {
   float: none;
-  padding: 0; }
+  padding: 0;
+  margin: 0; }
 
 .navbar-collapse {
   padding: 0; }
@@ -132,7 +133,13 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 2em; } }
 @media (min-width: 768px) {
   #searchDiv {
-    display: none; } }
+    display: none; }
+
+  #mainLogo {
+    margin: 0; }
+
+  #mainMenu {
+    padding-top: 5px; } }
 /* Tablet
 ------------------------- */
 @media (max-width: 767px) {

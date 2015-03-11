@@ -49,31 +49,71 @@ THE SOFTWARE.
         </header>
 
         <div class="container">
+
+            <div class="row" id="searchDiv" th:replace="/layouts/main :: searchDiv">
+
+            </div>
+
             <div class="row">
-                <div class="col-md-12">
-                    <p>TEST</p>
+                <div class="col-md-6">
+                    <div th:if="${inicio.video != null}" class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="http://www.google.com" th:src="${inicio.video.articulo.contenido}" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"></iframe>
+                    </div>
+                    <img th:unless="${inicio.video != null}" src="../../../resources/img/home3.jpg" th:src="@{/resources/img/home3.jpg}" alt="EscuelaSabaticaUniversitaria.ORG" class="img-responsive" />
+                </div>
+                <div class="col-md-6">
+                    <th:block th:if="${inicio.publicacion != null}">
+                        <h2><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${inicio.publicacion.articulo.titulo}">Titulo Leccion</a></h2>
+                        <h4 th:text="${inicio.hoyString}">Domingo 20/Jul/2014</h4>
+                        <p th:utext="${inicio.publicacion.articulo.descripcion}">Texto de la leccion</p>
+                        <p><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:text="#{estudia}" class="btn btn-primary btn-lg">Estudia</a></p>
+                    </th:block>
                 </div>
             </div>
-            <div class="row">
+
+            <div clas="row" th:if="${inicio.podcast != null}">
                 <div class="col-md-12">
-                    <p>TEST</p>
+                    <th:block th:text="#{podcast}">Podcast</th:block>: <audio controls="controls" style="width: 80%;">
+                        <source src="#" th:src="@{inicio.podcast.articulo.contenido}" type="audio/mpeg" th:text="#{navegador.no.podcast}">Tu navegador no nos permite reproducir audio.</source>
+                    </audio>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row" th:if="${inicio.versiculo != null}">
                 <div class="col-md-12">
-                    <p>TEST</p>
+                    <div class="well versiculo" th:utext="${inicio.versiculo.articulo.contenido}">
+                        <p>Porque de tal manera amo Dios al mundo...</p>
+                    </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-md-12">
-                    <p>Prueba!</p>
+                <div class="col-md-6">
+                    <th:block th:each="dialoga : ${inicio.dialoga}">
+                        <h2><a href="#" th:href="@{'/dialoga/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h2>
+                        <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h4>
+                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/dialoga/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:text="#{leer.mas}">Leer mas...</a></p>
+                    </th:block>
+                </div>
+                <div class="col-md-6">
+                    <th:block th:each="comunica : ${inicio.comunica}">
+                        <h2><a href="#" th:href="@{'/comunica/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h2>
+                        <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h4>
+                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comunica/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:text="#{leer.mas}">Leer mas...</a></p>
+                    </th:block>
                 </div>
             </div>
         </div>
 
-        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
+        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        </footer>
+
+        <div th:replace="/layouts/main :: scripts" th:remove="tag">
+            <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+            <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+            <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
+        </div>
+
     </body>
 </html>
