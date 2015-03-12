@@ -40,21 +40,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
 @Controller
-@RequestMapping("/profundiza")
-public class ProfundizaController extends BaseController {
+@RequestMapping("/comparte")
+public class ComparteController extends BaseController {
 
     @Autowired
     private InicioService inicioService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String profundiza(HttpSession session) {
+    public String comparte(HttpSession session) {
         String anio = (String) session.getAttribute("anio");
         if (StringUtils.isNotEmpty(anio)) {
             String trimestre = (String) session.getAttribute("trimestre");
             String leccion = (String) session.getAttribute("leccion");
 
             StringBuilder url = new StringBuilder();
-            url.append("redirect:/profundiza/");
+            url.append("redirect:/comparte/");
             url.append(anio).append("/");
             url.append(trimestre).append("/");
             url.append(leccion).append("/");
@@ -64,7 +64,7 @@ public class ProfundizaController extends BaseController {
             Inicio inicio = inicioService.inicio();
             if (inicio != null) {
                 StringBuilder url = new StringBuilder();
-                url.append("redirect:/profundiza/");
+                url.append("redirect:/comparte/");
                 url.append(inicio.getAnio()).append("/");
                 url.append(inicio.getTrimestre()).append("/");
                 url.append(inicio.getLeccion()).append("/");
@@ -84,7 +84,7 @@ public class ProfundizaController extends BaseController {
         inicio = inicioService.inicio(inicio);
         
         boolean notFound = true;
-        for (Publicacion publicacion : inicio.getDialoga()) {
+        for (Publicacion publicacion : inicio.getComunica()) {
             if (publicacion.getTema().equals(tema)) {
                 model.addAttribute("tema", publicacion);
                 notFound = false;
@@ -96,8 +96,8 @@ public class ProfundizaController extends BaseController {
             return "redirect:/inicio";
         }
 
-        model.addAttribute("profundiza", inicio);
+        model.addAttribute("comparte", inicio);
 
-        return "profundiza/tema";
+        return "comparte/tema";
     }
 }
