@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Trimestre;
@@ -102,37 +103,37 @@ public class InicioServiceImpl extends BaseService implements InicioService {
         String trimestre = inicio.getTrimestre();
         String leccion = inicio.getLeccion();
         String dia = inicio.getDia();
-        
+        if (StringUtils.isBlank(dia)) {
+            dia = obtieneDia(new GregorianCalendar(Locale.ENGLISH).get(Calendar.DAY_OF_WEEK));
+        }
+        log.debug("DIA: {}", dia);
+
         Publicacion leccion1 = publicacionService.obtiene(anio, trimestre, leccion, dia, "leccion");
-        
+
         Publicacion versiculo = publicacionService.obtiene(anio, trimestre, leccion, null, "versiculo");
-        
+
         Publicacion video = publicacionService.obtiene(anio, trimestre, leccion, null, "video");
-        
+
         Publicacion podcast = publicacionService.obtiene(anio, trimestre, leccion, null, "podcast");
-        
+
         List<Publicacion> dialoga = publicacionService.obtiene(anio, trimestre, leccion, "dialoga");
-        
+
         List<Publicacion> comunica = publicacionService.obtiene(anio, trimestre, leccion, "comunica");
-        
-        Trimestre t = trimestreService.obtiene(anio+trimestre);
+
+        Trimestre t = trimestreService.obtiene(anio + trimestre);
         if (t != null) {
             try {
                 Calendar cal = new GregorianCalendar(Locale.ENGLISH);
                 cal.setTime(t.getInicia());
                 cal.add(Calendar.SECOND, 1);
-                if (dia != null) {
-                    cal.set(Calendar.DAY_OF_WEEK, obtieneDia(dia));
-                } else {
-                    dia = obtieneDia(cal.get(Calendar.DAY_OF_WEEK));
-                }
-                int weeks = ((Long)nf.parse(leccion.substring(1))).intValue();
+                cal.set(Calendar.DAY_OF_WEEK, obtieneDia(dia));
+                int weeks = ((Long) nf.parse(leccion.substring(1))).intValue();
                 if (dia.equals("sabado")) {
                     weeks--;
                 }
                 cal.add(Calendar.WEEK_OF_YEAR, weeks);
                 Date hoy = cal.getTime();
-                
+
                 inicio.setPublicacion(leccion1);
                 inicio.setDialoga(dialoga);
                 inicio.setComunica(comunica);
@@ -140,9 +141,9 @@ public class InicioServiceImpl extends BaseService implements InicioService {
                 inicio.setPodcast(podcast);
                 inicio.setVersiculo(versiculo);
                 inicio.setHoy(hoy);
-                
+
                 return inicio;
-            } catch(ParseException e) {
+            } catch (ParseException e) {
                 log.error("No pude poner la fecha de hoy", e);
             }
         }
@@ -168,7 +169,7 @@ public class InicioServiceImpl extends BaseService implements InicioService {
                 return "sabado";
         }
     }
-    
+
     private Integer obtieneDia(String dia) {
         switch (dia) {
             case "domingo":
@@ -187,5 +188,5 @@ public class InicioServiceImpl extends BaseService implements InicioService {
                 return Calendar.SATURDAY;
         }
     }
-    
+
 }

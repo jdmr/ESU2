@@ -80,9 +80,9 @@ public class ProfundizaController extends BaseController {
     public String tema(@ModelAttribute Inicio inicio, Model model, HttpSession session) {
 
         String tema = inicio.getTema();
-        
+
         inicio = inicioService.inicio(inicio);
-        
+
         boolean notFound = true;
         for (Publicacion publicacion : inicio.getDialoga()) {
             if (publicacion.getTema().equals(tema)) {
@@ -91,7 +91,7 @@ public class ProfundizaController extends BaseController {
                 break;
             }
         }
-        
+
         if (notFound) {
             return "redirect:/inicio";
         }
