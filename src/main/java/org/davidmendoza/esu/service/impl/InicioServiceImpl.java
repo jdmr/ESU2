@@ -121,7 +121,11 @@ public class InicioServiceImpl extends BaseService implements InicioService {
                 Calendar cal = new GregorianCalendar(Locale.ENGLISH);
                 cal.setTime(t.getInicia());
                 cal.add(Calendar.SECOND, 1);
-                cal.set(Calendar.DAY_OF_WEEK, obtieneDia(dia));
+                if (dia != null) {
+                    cal.set(Calendar.DAY_OF_WEEK, obtieneDia(dia));
+                } else {
+                    dia = obtieneDia(cal.get(Calendar.DAY_OF_WEEK));
+                }
                 int weeks = ((Long)nf.parse(leccion.substring(1))).intValue();
                 if (dia.equals("sabado")) {
                     weeks--;

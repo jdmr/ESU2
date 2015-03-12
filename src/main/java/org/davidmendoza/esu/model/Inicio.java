@@ -50,6 +50,7 @@ public class Inicio implements Serializable {
     private Publicacion video;
     private Publicacion podcast;
     private Publicacion versiculo;
+    private Publicacion temaSeleccionado;
     private Date hoy;
     private final SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MMM/yyyy", new Locale("es"));
 
@@ -208,6 +209,20 @@ public class Inicio implements Serializable {
      */
     public void setVersiculo(Publicacion versiculo) {
         this.versiculo = versiculo;
+    }
+
+    /**
+     * @return the temaSeleccionado
+     */
+    public Publicacion getTemaSeleccionado() {
+        return temaSeleccionado;
+    }
+
+    /**
+     * @param temaSeleccionado the temaSeleccionado to set
+     */
+    public void setTemaSeleccionado(Publicacion temaSeleccionado) {
+        this.temaSeleccionado = temaSeleccionado;
     }
 
     /**

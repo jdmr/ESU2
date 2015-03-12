@@ -90,16 +90,16 @@ THE SOFTWARE.
             <div class="row">
                 <div class="col-md-6">
                     <th:block th:each="dialoga : ${inicio.dialoga}">
-                        <h2><a href="#" th:href="@{'/dialoga/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h2>
+                        <h2><a href="#" th:href="@{'/profundiza/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h2>
                         <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h4>
-                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/dialoga/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:text="#{leer.mas}">Leer mas...</a></p>
+                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/profundiza/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${dialoga.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                 </div>
                 <div class="col-md-6">
                     <th:block th:each="comunica : ${inicio.comunica}">
-                        <h2><a href="#" th:href="@{'/comunica/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h2>
+                        <h2><a href="#" th:href="@{'/comparte/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h2>
                         <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h4>
-                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comunica/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:text="#{leer.mas}">Leer mas...</a></p>
+                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                 </div>
             </div>
