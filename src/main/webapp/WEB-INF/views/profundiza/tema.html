@@ -57,6 +57,7 @@ THE SOFTWARE.
             <div class="row">
                 <div class="col-md-8">
                     <h2 th:utext="${tema.articulo.titulo}">Titulo Leccion</h2>
+                    <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
                     <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
                 </div>
