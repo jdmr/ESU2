@@ -43,6 +43,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -67,6 +69,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuario.findByPasswordExpired", query = "SELECT u FROM Usuario u WHERE u.passwordExpired = :passwordExpired"),
     @NamedQuery(name = "Usuario.findByPublicaciones", query = "SELECT u FROM Usuario u WHERE u.publicaciones = :publicaciones"),
     @NamedQuery(name = "Usuario.findByUsername", query = "SELECT u FROM Usuario u WHERE u.username = :username")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

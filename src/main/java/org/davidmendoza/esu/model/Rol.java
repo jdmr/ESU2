@@ -40,6 +40,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -53,6 +55,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Rol.findById", query = "SELECT r FROM Rol r WHERE r.id = :id"),
     @NamedQuery(name = "Rol.findByVersion", query = "SELECT r FROM Rol r WHERE r.version = :version"),
     @NamedQuery(name = "Rol.findByAuthority", query = "SELECT r FROM Rol r WHERE r.authority = :authority")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Rol implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

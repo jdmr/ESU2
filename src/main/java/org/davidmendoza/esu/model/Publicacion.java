@@ -40,6 +40,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -61,6 +63,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Publicacion.findByTema", query = "SELECT p FROM Publicacion p WHERE p.tema = :tema"),
     @NamedQuery(name = "Publicacion.findByTipo", query = "SELECT p FROM Publicacion p WHERE p.anio = :anio AND p.trimestre = :trimestre AND p.leccion = :leccion AND p.tipo = :tipo AND p.estatus = 'PUBLICADO'"),
     @NamedQuery(name = "Publicacion.findByTrimestre", query = "SELECT p FROM Publicacion p WHERE p.trimestre = :trimestre")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Publicacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

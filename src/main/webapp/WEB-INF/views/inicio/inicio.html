@@ -59,7 +59,7 @@ THE SOFTWARE.
                     <div th:if="${inicio.video != null}" class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src="http://www.google.com" th:src="${inicio.video.articulo.contenido}" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"></iframe>
                     </div>
-                    <img th:unless="${inicio.video != null}" src="../../../resources/img/home3.jpg" th:src="@{/resources/img/home3.jpg}" alt="EscuelaSabaticaUniversitaria.ORG" class="img-responsive" />
+                    <img th:unless="${inicio.video != null}" src="../../../static/img/home3.jpg" th:src="@{/static/img/home3.jpg}" alt="EscuelaSabaticaUniversitaria.ORG" class="img-responsive" />
                 </div>
                 <div class="col-md-6">
                     <th:block th:if="${inicio.publicacion != null}">

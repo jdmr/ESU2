@@ -41,6 +41,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -58,6 +60,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Trimestre.findByTermina", query = "SELECT t FROM Trimestre t WHERE t.termina = :termina"),
     @NamedQuery(name = "Trimestre.findByDate", query = "SELECT t FROM Trimestre t WHERE :date BETWEEN t.inicia AND t.termina AND t.publicado = true")
 })
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Trimestre implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

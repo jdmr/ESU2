@@ -43,6 +43,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -60,6 +62,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Articulo.findByLastUpdated", query = "SELECT a FROM Articulo a WHERE a.lastUpdated = :lastUpdated"),
     @NamedQuery(name = "Articulo.findByTitulo", query = "SELECT a FROM Articulo a WHERE a.titulo = :titulo"),
     @NamedQuery(name = "Articulo.findByVistas", query = "SELECT a FROM Articulo a WHERE a.vistas = :vistas")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Articulo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
