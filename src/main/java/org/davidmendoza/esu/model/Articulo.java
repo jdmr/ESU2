@@ -125,7 +125,7 @@ public class Articulo implements Serializable {
         this.titulo = titulo;
         this.vistas = vistas;
     }
-
+    
     public Long getId() {
         return id;
     }

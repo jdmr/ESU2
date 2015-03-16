@@ -28,6 +28,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.davidmendoza.esu.dao.BaseDao;
 import org.davidmendoza.esu.dao.PublicacionDao;
+import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +82,26 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         query.setParameter("leccion", leccion);
         query.setParameter("tipo", tipo);
         return query.getResultList();
+    }
+
+    @Override
+    public Integer agregarVista(Articulo articulo) {
+        Query query = em.createQuery("select a.vistas from Articulo a where a.id = :articuloId");
+        query.setParameter("articuloId", articulo.getId());
+        Integer vistas = 0;
+        try {
+            vistas = (Integer) query.getSingleResult();
+        } catch(NoResultException e) {
+            // do nothing
+        }
+        vistas++;
+        
+        query = em.createQuery("update Articulo a set a.vistas = :vistas where a.id = :articuloId");
+        query.setParameter("vistas", vistas);
+        query.setParameter("articuloId", articulo.getId());
+        query.executeUpdate();
+        
+        return vistas;
     }
 
 }

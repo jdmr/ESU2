@@ -26,6 +26,7 @@ package org.davidmendoza.esu.service.impl;
 
 import java.util.List;
 import org.davidmendoza.esu.dao.PublicacionDao;
+import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.PublicacionService;
@@ -54,6 +55,11 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     @Override
     public List<Publicacion> obtiene(Integer anio, String trimestre, String leccion, String tipo) {
         return publicacionDao.obtiene(anio, trimestre, leccion, tipo);
+    }
+
+    @Override
+    public Integer agregarVista(Articulo articulo) {
+        return publicacionDao.agregarVista(articulo);
     }
     
 }

@@ -25,6 +25,7 @@
 package org.davidmendoza.esu.dao;
 
 import java.util.List;
+import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 
 /**
@@ -36,5 +37,7 @@ public interface PublicacionDao {
     public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo);
 
     public List<Publicacion> obtiene(Integer anio, String trimestre, String leccion, String tipo);
+
+    public Integer agregarVista(Articulo articulo);
     
 }

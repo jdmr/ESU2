@@ -26,7 +26,9 @@ package org.davidmendoza.esu.web;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
+import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.service.InicioService;
+import org.davidmendoza.esu.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +46,8 @@ public class EstudiaController extends BaseController {
 
     @Autowired
     private InicioService inicioService;
+    @Autowired
+    private PublicacionService publicacionService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String estudia(HttpSession session) {
@@ -85,6 +89,9 @@ public class EstudiaController extends BaseController {
         session.setAttribute("dia", inicio.getDia());
 
         inicio = inicioService.inicio(inicio);
+        
+        Publicacion publicacion = inicio.getPublicacion();
+        publicacion.getArticulo().setVistas(publicacionService.agregarVista(publicacion.getArticulo()));
 
         model.addAttribute("estudia", inicio);
 
