@@ -40,4 +40,5 @@ public interface PublicacionDao {
 
     public Integer agregarVista(Articulo articulo);
     
+    public void actualizaVistasDelDia();
 }

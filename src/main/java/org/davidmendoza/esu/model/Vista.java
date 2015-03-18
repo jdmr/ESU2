@@ -89,7 +89,13 @@ public class Vista implements Serializable {
         this.cantidad = cantidad;
         this.fecha = fecha;
     }
-
+    
+    public Vista(int cantidad, Date fecha, Articulo articulo) {
+        this.cantidad = cantidad;
+        this.fecha = fecha;
+        this.articulo = articulo;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -152,7 +158,7 @@ public class Vista implements Serializable {
 
     @Override
     public String toString() {
-        return "org.davidmendoza.esu.model.Vista[ id=" + id + " ]";
+        return "Vista{" + "cantidad=" + cantidad + ", fecha=" + fecha + ", articulo=" + articulo + '}';
     }
-    
+
 }

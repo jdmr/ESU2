@@ -61,5 +61,10 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     public Integer agregarVista(Articulo articulo) {
         return publicacionDao.agregarVista(articulo);
     }
+
+    @Override
+    public void actualizaVistasDelDia() {
+        publicacionDao.actualizaVistasDelDia();
+    }
     
 }

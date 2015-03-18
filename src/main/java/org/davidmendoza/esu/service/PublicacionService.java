@@ -40,4 +40,5 @@ public interface PublicacionService {
 
     public Integer agregarVista(Articulo articulo);
     
+    public void actualizaVistasDelDia();
 }

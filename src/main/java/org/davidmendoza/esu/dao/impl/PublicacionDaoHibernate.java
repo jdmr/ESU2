@@ -23,13 +23,18 @@
  */
 package org.davidmendoza.esu.dao.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.davidmendoza.esu.dao.BaseDao;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Vista;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,6 +107,22 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         query.executeUpdate();
         
         return vistas;
+    }
+    
+    @Async
+    @Scheduled(cron="0 0 2 * * ?")
+    @Override
+    public void actualizaVistasDelDia() {
+        log.info("Iniciando proceso de actualizacion de vistas del dia.");
+        Date fecha = new Date();
+        Query query = em.createQuery("select new map(a.id as id, a.vistas as vistas) from Articulo a");
+        List<Map> results = query.getResultList();
+        for(Map result : results) {
+            Articulo articulo = em.getReference(Articulo.class, result.get("id"));
+            Vista vista = new Vista((Integer)result.get("vistas"), fecha, articulo);
+            em.persist(vista);
+        }
+        log.info("Finalizo proceso de actualizacion de vistas del dia.");
     }
 
 }
