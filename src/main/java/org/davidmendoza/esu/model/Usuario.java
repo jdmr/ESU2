@@ -24,15 +24,21 @@
 package org.davidmendoza.esu.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -45,6 +51,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -70,7 +78,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @NamedQuery(name = "Usuario.findByPublicaciones", query = "SELECT u FROM Usuario u WHERE u.publicaciones = :publicaciones"),
     @NamedQuery(name = "Usuario.findByUsername", query = "SELECT u FROM Usuario u WHERE u.username = :username")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails  {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,8 +143,11 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "username", nullable = false, length = 255)
     private String username;
-    @ManyToMany(mappedBy = "usuarioList")
-    private List<Rol> rolList;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuarios_roles", joinColumns = {
+        @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "rol_id", referencedColumnName = "id", nullable = false)})
+    private List<Rol> roles;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "autor")
     private List<Articulo> articulos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
@@ -259,6 +270,7 @@ public class Usuario implements Serializable {
     /**
      * @return the enabled
      */
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -301,6 +313,7 @@ public class Usuario implements Serializable {
     /**
      * @return the password
      */
+    @Override
     public String getPassword() {
         return password;
     }
@@ -343,6 +356,7 @@ public class Usuario implements Serializable {
     /**
      * @return the username
      */
+    @Override
     public String getUsername() {
         return username;
     }
@@ -355,17 +369,17 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * @return the rolList
+     * @return the roles
      */
-    public List<Rol> getRolList() {
-        return rolList;
+    public List<Rol> getRoles() {
+        return roles;
     }
 
     /**
-     * @param rolList the rolList to set
+     * @param roles the roles to set
      */
-    public void setRolList(List<Rol> rolList) {
-        this.rolList = rolList;
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
     }
 
     /**
@@ -432,15 +446,34 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "org.davidmendoza.esu.model.Usuario[ id=" + getId() + " ]";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new LinkedHashSet<>();
+        authorities.addAll(roles);
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return !accountExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !accountLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return !passwordExpired;
     }
     
 }

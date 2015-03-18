@@ -42,6 +42,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  *
@@ -56,7 +57,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @NamedQuery(name = "Rol.findByVersion", query = "SELECT r FROM Rol r WHERE r.version = :version"),
     @NamedQuery(name = "Rol.findByAuthority", query = "SELECT r FROM Rol r WHERE r.authority = :authority")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Rol implements Serializable {
+public class Rol implements Serializable, GrantedAuthority {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,11 +73,6 @@ public class Rol implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "authority", nullable = false, length = 255)
     private String authority;
-    @JoinTable(name = "usuarios_roles", joinColumns = {
-        @JoinColumn(name = "rol_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)})
-    @ManyToMany
-    private List<Usuario> usuarioList;
 
     public Rol() {
     }
@@ -115,14 +111,6 @@ public class Rol implements Serializable {
         this.authority = authority;
     }
 
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
-    }
-
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -137,15 +125,12 @@ public class Rol implements Serializable {
             return false;
         }
         Rol other = (Rol) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "org.davidmendoza.esu.model.Rol[ id=" + id + " ]";
+        return "org.davidmendoza.esu.model.Rol[ authority=" + authority + " ]";
     }
     
 }
