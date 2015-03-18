@@ -72,7 +72,7 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
                 default:
                     return null;
             }
-        } catch(NoResultException e) {
+        } catch (NoResultException e) {
             log.error("No se pudo obtener publicacion para {} {} {} {} {}", anio, trimestre, leccion, dia, tipo);
             return null;
         }
@@ -96,33 +96,33 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         Integer vistas = 0;
         try {
             vistas = (Integer) query.getSingleResult();
-        } catch(NoResultException e) {
+        } catch (NoResultException e) {
             // do nothing
         }
         vistas++;
-        
+
         query = em.createQuery("update Articulo a set a.vistas = :vistas where a.id = :articuloId");
         query.setParameter("vistas", vistas);
         query.setParameter("articuloId", articulo.getId());
         query.executeUpdate();
-        
+
         return vistas;
     }
-    
+
     @Async
-    @Scheduled(cron="0 0 2 * * ?")
+    @Scheduled(cron = "0 0 2 * * ?")
     @Override
     public void actualizaVistasDelDia() {
         log.info("Iniciando proceso de actualizacion de vistas del dia.");
         Date fecha = new Date();
         Query query = em.createQuery("select new map(a.id as id, a.vistas as vistas) from Articulo a");
         List<Map> results = query.getResultList();
-        for(Map result : results) {
+        for (Map result : results) {
             Articulo articulo = em.getReference(Articulo.class, result.get("id"));
-            Vista vista = new Vista((Integer)result.get("vistas"), fecha, articulo);
+            Vista vista = new Vista((Integer) result.get("vistas"), fecha, articulo);
             em.persist(vista);
         }
-        log.info("Finalizo proceso de actualizacion de vistas del dia.");
+        log.info("Finalizo proceso de actualizacion de vistas del dia de {} articulos.", results.size());
     }
 
 }
