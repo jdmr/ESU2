@@ -66,5 +66,11 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     public void actualizaVistasDelDia() {
         publicacionDao.actualizaVistasDelDia();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Articulo> articulos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

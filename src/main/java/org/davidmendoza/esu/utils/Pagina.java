@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 J. David Mendoza.
+ * Copyright 2015 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,26 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package org.davidmendoza.esu.utils;
 
-package org.davidmendoza.esu.service;
-
-import java.util.List;
-import org.davidmendoza.esu.model.Articulo;
-import org.davidmendoza.esu.model.Publicacion;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 /**
  *
- * @author J. David Mendoza <jdmendozar@gmail.com>
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface PublicacionService {
-
-    public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo);
-
-    public List<Publicacion> obtiene(Integer anio, String trimestre, String leccion, String tipo);
-
-    public Integer agregarVista(Articulo articulo);
+public class Pagina extends PageRequest {
+    private static final long serialVersionUID = -360444300259433637L;
     
-    public void actualizaVistasDelDia();
+    public Pagina() {
+        super(0, 20);
+    }
 
-    public List<Articulo> articulos();
+    public Pagina(int page, int size) {
+        super(page, size);
+    }
+
+    public Pagina(int page, int size, Sort.Direction direction, String[] properties) {
+        super(page, size, direction, properties);
+    }
+
+    public Pagina(int page, int size, Sort sort) {
+        super(page, size, sort);
+    }
 }
