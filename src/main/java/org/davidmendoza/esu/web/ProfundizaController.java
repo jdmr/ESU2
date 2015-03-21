@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.service.InicioService;
+import org.davidmendoza.esu.service.PerfilService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,8 @@ public class ProfundizaController extends BaseController {
     private InicioService inicioService;
     @Autowired
     private PublicacionService publicacionService;
+    @Autowired
+    private PerfilService perfilService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String profundiza(HttpSession session) {
@@ -91,6 +94,7 @@ public class ProfundizaController extends BaseController {
             if (publicacion.getTema().equals(tema)) {
                 publicacion.getArticulo().setVistas(publicacionService.agregarVista(publicacion.getArticulo()));
                 model.addAttribute("tema", publicacion);
+                model.addAttribute("perfil", perfilService.obtienePorUsuario(publicacion.getArticulo().getAutor()));
                 notFound = false;
                 break;
             }

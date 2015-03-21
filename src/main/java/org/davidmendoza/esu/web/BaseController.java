@@ -28,13 +28,72 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 
 public abstract class BaseController {
 
     protected final transient Logger log = LoggerFactory.getLogger(getClass());
+    
+    protected PageRequest preparaPaginacion(Integer pagina, String ordena, String direccion, String direccionContraria) {
+        if (pagina == null) {
+            pagina = 0;
+        }
+        if (StringUtils.isBlank(ordena)) {
+            ordena = "lastUpdated";
+            direccion = "desc";
+        }
+        if (StringUtils.isBlank(direccion)) {
+            direccion = "asc";
+        }
+        Sort sort;
+        switch (direccion) {
+            case "desc":
+                sort = new Sort(Sort.Direction.DESC, ordena);
+                direccionContraria = "asc";
+                break;
+            default:
+                sort = new Sort(Sort.Direction.ASC, ordena);
+                direccionContraria = "desc";
+        }
+        PageRequest pageRequest = new PageRequest(pagina, 20, sort);
+
+        return pageRequest;
+    }
+    
+    protected void pagina(Model model, Page page, String ordena, String direccion, String direccionContraria, Integer pagina, String filtro) {
+        List<Integer> paginas = new ArrayList<>();
+
+        int current = page.getNumber() + 1;
+        int begin = Math.max(0, current - 6);
+        int end = Math.min(begin + 11, page.getTotalPages());
+
+        if (begin > 0) {
+            paginas.add(0);
+            if (begin > 1) {
+                paginas.add(-1);
+            }
+        }
+        for (int i = begin; i < end; i++) {
+            paginas.add(i);
+        }
+        if (end < page.getTotalPages()) {
+            paginas.add(-1);
+            paginas.add(page.getTotalPages() - 1);
+        }
+        model.addAttribute("ordena", ordena);
+        model.addAttribute("direccion", direccion);
+        model.addAttribute("direccionContraria", direccionContraria);
+        model.addAttribute("paginaActual", pagina);
+        model.addAttribute("paginasTotales", page.getTotalPages() - 1);
+        model.addAttribute("paginas", paginas);
+        model.addAttribute("filtro", filtro);
+    }
 
     protected void paginate(Map<String, Object> params, Model model, Long page) {
         if (page != null) {

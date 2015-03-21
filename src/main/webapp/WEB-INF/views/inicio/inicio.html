@@ -71,7 +71,7 @@ THE SOFTWARE.
                 </div>
             </div>
 
-            <div clas="row" th:if="${inicio.podcast != null}">
+            <div class="row" th:if="${inicio.podcast != null}">
                 <div class="col-md-12">
                     <th:block th:text="#{podcast}">Podcast</th:block>: <audio controls="controls" style="width: 80%;">
                         <source src="#" th:src="@{inicio.podcast.articulo.contenido}" type="audio/mpeg" th:text="#{navegador.no.podcast}">Tu navegador no nos permite reproducir audio.</source>

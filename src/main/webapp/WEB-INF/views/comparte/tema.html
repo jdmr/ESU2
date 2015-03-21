@@ -60,10 +60,16 @@ THE SOFTWARE.
                     <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
                     <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
+                    <h3>Acerca del Autor</h3>
+                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${tema.articulo.autor.nombreCompleto}" style="float:left;width: 200px;" /></a>
+                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><h2 th:text="${tema.articulo.autor.nombreCompleto}">Nombre</h2></a>
+                    <p th:text="${perfil.texto}">Descripcion</p>
+                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}">Artículos de <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></a>
                 </div>
                 <div class="col-md-4">
                     <th:block th:if="${comparte.publicacion != null}">
                         <h3><a href="#" th:href="@{'/estudia/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${comparte.dia}}" th:utext="${comparte.publicacion.articulo.titulo}">Leccion</a></h3>
+                        <h5 th:text="${comparte.hoyString}">Domingo 20/Jul/2014</h5>
                         <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comparte.publicacion.articulo.autor.nombreCompleto}">Autor</th:block></h5>
                         <p><th:block th:utext="${comparte.publicacion.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/estudia/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${comparte.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
@@ -73,7 +79,7 @@ THE SOFTWARE.
                         <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     <th:block th:each="dialoga : ${comparte.dialoga}">
-                        <h3><a href="#" th:href="@{'/dialoga/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h3>
+                        <h3><a href="#" th:href="@{'/profundiza/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h3>
                         <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h5>
                         <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${comparte.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>

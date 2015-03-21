@@ -21,19 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.dao;
+package org.davidmendoza.esu.service;
 
 import org.davidmendoza.esu.model.Articulo;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.domain.PageRequest;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface ArticuloRepository extends PagingAndSortingRepository<Articulo, Long> {
+public interface ArticuloService {
 
-    public Page<Articulo> findByTituloOrDescripcionOrContenidoAllIgnoreCase(String filtro, Pageable pageable);
+    public Page<Articulo> lista(PageRequest pageRequest);
+
+    public Page<Articulo> busca(String filtro, PageRequest pageRequest);
     
 }

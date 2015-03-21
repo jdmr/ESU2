@@ -23,16 +23,13 @@
  */
 package org.davidmendoza.esu.web.admin;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,65 +45,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ArticuloController extends BaseController {
 
     @Autowired
-    private ArticuloRepository articuloRepository;
+    private ArticuloService articuloService;
 
     @RequestMapping(value = {"", "/lista"}, method = RequestMethod.GET)
     public String lista(Model model,
             @RequestParam(value = "pagina", required = false) Integer pagina,
             @RequestParam(value = "ordena", required = false) String ordena,
-            @RequestParam(value = "direccion", required = false) String direccion) {
+            @RequestParam(value = "direccion", required = false) String direccion,
+            @RequestParam(value = "filtro", required = false) String filtro) {
         log.debug("Pagina: {}", pagina);
 
-        if (pagina == null) {
-            pagina = 0;
-        }
-        if (StringUtils.isBlank(ordena)) {
-            ordena = "lastUpdated";
-            direccion = "desc";
-        }
-        if (StringUtils.isBlank(direccion)) {
-            direccion = "asc";
-        }
-        Sort sort;
-        String direccionContraria;
-        switch (direccion) {
-            case "desc":
-                sort = new Sort(Sort.Direction.DESC, ordena);
-                direccionContraria = "asc";
-                break;
-            default:
-                sort = new Sort(Sort.Direction.ASC, ordena);
-                direccionContraria = "desc";
-        }
-        PageRequest pageRequest = new PageRequest(pagina, 20, sort);
 
-        Page<Articulo> page = articuloRepository.findAll(pageRequest);
-        List<Integer> paginas = new ArrayList<>();
-
-        int current = page.getNumber() + 1;
-        int begin = Math.max(0, current - 6);
-        int end = Math.min(begin + 11, page.getTotalPages());
-
-        if (begin > 0) {
-            paginas.add(0);
-            if (begin > 1) {
-                paginas.add(-1);
-            }
+        String direccionContraria = null;
+        PageRequest pageRequest = preparaPaginacion(pagina, ordena, direccion, direccionContraria);
+        
+        Page<Articulo> page;
+        if (StringUtils.isNotBlank(filtro)) {
+            page = articuloService.lista(pageRequest);
+        } else {
+            page = articuloService.busca(filtro, pageRequest);
         }
-        for (int i = begin; i < end; i++) {
-            paginas.add(i);
-        }
-        if (end < page.getTotalPages()) {
-            paginas.add(-1);
-            paginas.add(page.getTotalPages() - 1);
-        }
-        model.addAttribute("ordena", ordena);
-        model.addAttribute("direccion", direccion);
-        model.addAttribute("direccionContraria", direccionContraria);
-        model.addAttribute("paginaActual", pagina);
-        model.addAttribute("paginasTotales", page.getTotalPages() - 1);
-        model.addAttribute("paginas", paginas);
 
+        pagina(model, page, ordena, direccion, direccionContraria, pagina, filtro);
+        
         model.addAttribute("articulos", page);
         return "admin/articulo/lista";
     }

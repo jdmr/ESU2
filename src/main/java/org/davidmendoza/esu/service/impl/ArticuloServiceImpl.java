@@ -21,19 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.dao;
+package org.davidmendoza.esu.service.impl;
 
+import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.service.ArticuloService;
+import org.davidmendoza.esu.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface ArticuloRepository extends PagingAndSortingRepository<Articulo, Long> {
+@Service
+@Transactional
+public class ArticuloServiceImpl extends BaseService implements ArticuloService {
+    
+    @Autowired
+    private ArticuloRepository articuloRepository;
 
-    public Page<Articulo> findByTituloOrDescripcionOrContenidoAllIgnoreCase(String filtro, Pageable pageable);
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Articulo> lista(PageRequest pageRequest) {
+        return articuloRepository.findAll(pageRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Articulo> busca(String filtro, PageRequest pageRequest) {
+        return articuloRepository.findByTituloOrDescripcionOrContenidoAllIgnoreCase(filtro, pageRequest);
+    }
     
 }
