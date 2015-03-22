@@ -27,6 +27,7 @@ package org.davidmendoza.esu.dao;
 import java.util.List;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Usuario;
 
 /**
  *
@@ -41,4 +42,6 @@ public interface PublicacionDao {
     public Integer agregarVista(Articulo articulo);
     
     public void actualizaVistasDelDia();
+
+    public List<Publicacion> publicaciones(Usuario autor);
 }

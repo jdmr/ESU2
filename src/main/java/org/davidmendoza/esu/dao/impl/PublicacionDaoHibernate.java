@@ -32,6 +32,7 @@ import org.davidmendoza.esu.dao.BaseDao;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.model.Vista;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -123,6 +124,16 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
             em.persist(vista);
         }
         log.info("Finalizo proceso de actualizacion de vistas del dia de {} articulos.", results.size());
+    }
+
+    @Override
+    public List<Publicacion> publicaciones(Usuario autor) {
+        log.debug("Buscando publicaciones de autor {} : {}", autor.getNombreCompleto(), autor.getId());
+        Query query = em.createQuery("select p from Publicacion p where p.articulo.autor.id = :autorId order by p.dateCreated");
+        query.setParameter("autorId", autor.getId());
+        List<Publicacion> publicaciones = query.getResultList();
+        log.debug("Publicaciones: {}", publicaciones);
+        return query.getResultList();
     }
 
 }

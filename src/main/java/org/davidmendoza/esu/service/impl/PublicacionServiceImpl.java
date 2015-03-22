@@ -28,6 +28,7 @@ import java.util.List;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +69,8 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Articulo> articulos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Publicacion> publicaciones(Usuario autor) {
+        return publicacionDao.publicaciones(autor);
     }
     
 }

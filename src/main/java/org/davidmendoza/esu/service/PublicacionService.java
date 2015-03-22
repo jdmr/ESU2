@@ -27,6 +27,7 @@ package org.davidmendoza.esu.service;
 import java.util.List;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Usuario;
 
 /**
  *
@@ -42,5 +43,5 @@ public interface PublicacionService {
     
     public void actualizaVistasDelDia();
 
-    public List<Articulo> articulos();
+    public List<Publicacion> publicaciones(Usuario autor);
 }
