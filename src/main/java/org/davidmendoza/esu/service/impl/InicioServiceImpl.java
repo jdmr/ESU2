@@ -105,6 +105,7 @@ public class InicioServiceImpl extends BaseService implements InicioService {
         String dia = inicio.getDia();
         if (StringUtils.isBlank(dia)) {
             dia = obtieneDia(new GregorianCalendar(Locale.ENGLISH).get(Calendar.DAY_OF_WEEK));
+            inicio.setDia(dia);
         }
         log.debug("DIA: {}", dia);
 
