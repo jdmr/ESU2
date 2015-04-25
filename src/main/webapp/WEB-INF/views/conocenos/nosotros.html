@@ -24,7 +24,7 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include='/layouts/main :: head(#{conocenos.autor(${perfil.usuario.nombreCompleto})})'>
+    <head th:include='/layouts/main :: head(#{conocenos})'>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Inicio</title>
@@ -56,26 +56,23 @@ THE SOFTWARE.
 
             <div class="row">
                 <div class="col-md-3">
-                    <div class="well">
-                        Navigation sidebar
-                    </div>
+                    <ul class="nav esu-sidenav">
+                        <li class="active"><a href="/conocenos/nosotros">Acerca de Nosotros</a></li>
+                        <li><a href="/conocenos/equipo">Equipo</a></li>
+                        <li><a href="/conocenos/contacto">Contacto</a></li>
+                    </ul>
                 </div>
                 <div class="col-md-9">
-                    <img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${perfil.usuario.nombreCompleto}" style="float:right;width: 200px;" />
-                    <h2 th:text="${perfil.usuario.nombreCompleto}">Nombre</h2>
-                    <p th:text="${perfil.texto}">Descripcion</p>
-                    <th:block th:unless="${#lists.isEmpty(publicaciones)}">
-                        <h3>Artículos</h3>
-                        <ul>
-                            <li th:each="publicacion : ${publicaciones}" th:if="${publicacion.tipo == 'dialoga' || publicacion.tipo == 'comunica'}">
-                                <a th:if="${publicacion.tipo == 'dialoga'}" href="#" th:href="@{'/profundiza/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:text="${publicacion.articulo.titulo}"></a>
-                                <a th:if="${publicacion.tipo == 'comunica'}" href="#" th:href="@{'/comparte/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:text="${publicacion.articulo.titulo}"></a>
-                            </li>
-                        </ul>
-                    </th:block>
+                    <h1>Acerca de Nosotros</h1>
+                    <p>"EscuelaSabáticaUniversitaria.org" (ESU) aprovecha las nuevas tecnologías de la información para la propagación del evangelio. Se trata de un sitio web dirigido especialmente a <em>estudiantes universitarios</em> y <em>jóvenes profesionales</em> que provee recursos de información en un ambiente de interpretación confiable, ideas frescas para comunicar el evangelio, y una comunidad atractiva y amena. Todo esto gira en torno al estudio de la lección de la Escuela Sabática.</p>
+                    <h1>Misión</h1>
+                    <p>La Escuela Sabática Universitaria es una organización basada en la web, que ministra en favor de estudiantes universitarios y profesionales jóvenes, proveyendo recursos con información confiable, socios con interpretaciones correctas, y una comunidad amena de estudiantes, que tiene el fin de desafiar a sus usuarios a comunicar la verdad en amor, y así, transformar su mundo.</p>
+                    <h1>Visión</h1>
+                    <p>Nuestra visión es desafiar a los estudiantes universitarios y profesionales jóvenes a estudiar la palabra de Dios en profundidad para que luego cambien su mundo. Para esto proveeremos un espacio de calidad en la web, en donde ellos se puedan reunir para pensar, dialogar, interactuar, y compartir el estudio de las lecciones de Escuela Sabática.</p>
+                    <p>Esta visión expresa el punto central de nuestra determinación como organización, que es nuestro deseo de desafiar a los usuarios de nuestro sitio web a profundizar en la palabra de Dios y actuar de forma acorde.</p>
+                    <p>Por lo tanto, nuestro MOTTO es: <strong>"Profundiza en la palabra… Cambia tu mundo"</strong> (Inglés: <strong>“Think deep on the Word… Transform your world”</strong>).</p>
                 </div>
             </div>
-
         </div>
 
         <footer role="contentinfo" th:replace="/layouts/main :: footer">

@@ -24,6 +24,7 @@
 package org.davidmendoza.esu.dao.impl;
 
 import java.util.Date;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.davidmendoza.esu.dao.BaseDao;
 import org.davidmendoza.esu.dao.TrimestreDao;
@@ -44,7 +45,12 @@ public class TrimestreDaoHibernate extends BaseDao implements TrimestreDao {
     public Trimestre obtiene(Date fecha) {
         Query query = em.createNamedQuery("Trimestre.findByDate");
         query.setParameter("date", fecha);
-        return (Trimestre) query.getSingleResult();
+        try {
+            return (Trimestre) query.getSingleResult();
+        } catch(NoResultException e) {
+            log.error("No hay trimestre configurado para {}", fecha, e);
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)
@@ -52,7 +58,12 @@ public class TrimestreDaoHibernate extends BaseDao implements TrimestreDao {
     public Trimestre obtiene(String nombre) {
         Query query = em.createNamedQuery("Trimestre.findByNombre");
         query.setParameter("nombre", nombre);
-        return (Trimestre) query.getSingleResult();
+        try {
+            return (Trimestre) query.getSingleResult();
+        } catch(NoResultException e) {
+            log.error("No hay trimestre configurado para {}", nombre, e);
+            return null;
+        }
     }
 
 }

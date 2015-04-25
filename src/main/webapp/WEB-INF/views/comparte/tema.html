@@ -37,8 +37,8 @@ THE SOFTWARE.
         <link rel="apple-touch-icon" sizes="72x72"   href="../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
         <link rel="apple-touch-icon"                 href="../../../static/img/apple-touch-icon.png" th:href="@{/static/img/apple-touch-icon.png}" />
 
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="../../../static/css/main.css" th:href="@{/static/css/main.css}" />
 
@@ -60,11 +60,13 @@ THE SOFTWARE.
                     <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
                     <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
-                    <h3>Acerca del Autor</h3>
-                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${tema.articulo.autor.nombreCompleto}" style="float:left;width: 200px;" /></a>
-                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><h2 th:text="${tema.articulo.autor.nombreCompleto}">Nombre</h2></a>
-                    <p th:text="${perfil.texto}">Descripcion</p>
-                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}">Artículos de <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></a>
+                    <div th:if="${perfil != null}">
+                        <h3>Acerca del Autor</h3>
+                        <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${tema.articulo.autor.nombreCompleto}" style="float:left;width: 200px;" /></a>
+                        <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><h2 th:text="${tema.articulo.autor.nombreCompleto}">Nombre</h2></a>
+                        <p th:text="${perfil.texto}">Descripcion</p>
+                        <a href="#" th:href="@{'/perfil/'+${perfil.id}}">Artículos de <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></a>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <th:block th:if="${comparte.publicacion != null}">
@@ -94,7 +96,7 @@ THE SOFTWARE.
         <div th:replace="/layouts/main :: scripts" th:remove="tag">
             <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
             <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
         </div>
     </body>

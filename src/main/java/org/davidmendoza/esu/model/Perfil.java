@@ -72,7 +72,7 @@ public class Perfil implements Serializable {
     @Column(name = "nombre_imagen", length = 255)
     private String nombreImagen;
     @Column(name = "tamano")
-    private BigInteger tamano;
+    private Long tamano;
     @Size(max = 2000)
     @Column(name = "texto", length = 2000)
     private String texto;
@@ -127,11 +127,11 @@ public class Perfil implements Serializable {
         this.nombreImagen = nombreImagen;
     }
 
-    public BigInteger getTamano() {
+    public Long getTamano() {
         return tamano;
     }
 
-    public void setTamano(BigInteger tamano) {
+    public void setTamano(Long tamano) {
         this.tamano = tamano;
     }
 
