@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-top: 5px;
   padding: 0;
   text-shadow: 0 1px 0 #fff;
-  background-color: #eadfcb;
+  background-color: #f9f5ef;
   border-radius: 5px; }
 
 .esu-sidenav > li.nav-header {
@@ -81,7 +81,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .esu-sidenav > li.active > a, .esu-sidenav > li.active:hover > a, .esu-sidenav > li.active:focus > a {
   font-weight: bold;
   color: #808080;
-  background-color: #f9f5ef; }
+  background-color: #f1eadd;
+  border-right: 1px solid #808080; }
 
 .esu-sidenav > li > a:focus, .esu-sidenav > li > a:hover {
   text-decoration: none;

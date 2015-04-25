@@ -44,4 +44,6 @@ public interface PublicacionDao {
     public void actualizaVistasDelDia();
 
     public List<Publicacion> publicaciones(Usuario autor);
+
+    public List<Publicacion> publicacionesUnicasDeArticulos(Usuario usuario);
 }

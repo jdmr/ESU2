@@ -23,7 +23,12 @@
  */
 package org.davidmendoza.esu.web;
 
+import java.util.List;
+import org.davidmendoza.esu.model.Perfil;
+import org.davidmendoza.esu.service.PerfilService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,8 +40,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/conocenos")
 public class ConocenosController extends BaseController {
     
-    @RequestMapping(method = RequestMethod.GET)
+    @Autowired
+    private PerfilService perfilService;
+    
+    @RequestMapping(value = {"", "/nosotros"}, method = RequestMethod.GET)
     public String nosotros() {
         return "conocenos/nosotros";
+    }
+    
+    @RequestMapping(value = "/equipo", method = RequestMethod.GET)
+    public String equipo(Model model) {
+        log.debug("Equipo");
+        List<Perfil> perfiles = perfilService.todos();
+        model.addAttribute("perfiles", perfiles);
+        return "conocenos/equipo";
+    }
+    
+    @RequestMapping(value = "/contacto", method = RequestMethod.GET)
+    public String contacto() {
+        log.debug("Contacto");
+        return "conocenos/contacto";
     }
 }

@@ -24,7 +24,8 @@
 package org.davidmendoza.esu.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,6 +37,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
@@ -82,6 +84,8 @@ public class Perfil implements Serializable {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
+    @Transient
+    private List<Publicacion> publicacionesUnicas = new ArrayList<>();
 
     public Perfil() {
     }
@@ -182,6 +186,20 @@ public class Perfil implements Serializable {
     @Override
     public String toString() {
         return "org.davidmendoza.esu.model.Perfil[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the publicacionesUnicas
+     */
+    public List<Publicacion> getPublicacionesUnicas() {
+        return publicacionesUnicas;
+    }
+
+    /**
+     * @param publicacionesUnicas the publicacionesUnicas to set
+     */
+    public void setPublicacionesUnicas(List<Publicacion> publicacionesUnicas) {
+        this.publicacionesUnicas = publicacionesUnicas;
     }
     
 }

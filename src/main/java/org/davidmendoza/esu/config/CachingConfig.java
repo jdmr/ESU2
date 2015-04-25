@@ -66,6 +66,11 @@ public class CachingConfig {
         inicioCache.setTimeToLiveSeconds(3600);
         inicioCache.setTimeToIdleSeconds(3600);
 
+        CacheConfiguration equipoCache = new CacheConfiguration();
+        equipoCache.setName("equipoCache");
+        equipoCache.setTimeToLiveSeconds(3600);
+        equipoCache.setTimeToIdleSeconds(3600);
+
         CacheConfiguration defaultConfig = new CacheConfiguration();
         defaultConfig.setEternal(false);
         defaultConfig.setTimeToLiveSeconds(21600);
@@ -89,6 +94,7 @@ public class CachingConfig {
         config.addCache(articulos);
         config.addCache(diaCache);
         config.addCache(inicioCache);
+        config.addCache(equipoCache);
 
         return net.sf.ehcache.CacheManager.newInstance(config);
     }

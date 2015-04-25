@@ -23,12 +23,19 @@
  */
 package org.davidmendoza.esu.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.davidmendoza.esu.dao.PerfilRepository;
 import org.davidmendoza.esu.model.Perfil;
+import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.PerfilService;
+import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,10 +46,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PerfilServiceImpl extends BaseController implements PerfilService {
-    
+
     @Autowired
     private PerfilRepository perfilRepository;
-    
+    @Autowired
+    private PublicacionService publicacionService;
+
     @Override
     @Transactional(readOnly = true)
     public Perfil obtienePorUsuario(Usuario usuario) {
@@ -52,5 +61,25 @@ public class PerfilServiceImpl extends BaseController implements PerfilService {
     @Override
     public Perfil obtiene(Long perfilId) {
         return perfilRepository.findOne(perfilId);
+    }
+
+    @Cacheable(value = "equipoCache")
+    @Override
+    public List<Perfil> todos() {
+        List<Perfil> perfiles = perfilRepository.todos();
+        for (Perfil perfil : perfiles) {
+            List<Publicacion> publicaciones = publicacionService.publicacionesUnicasDeArticulos(perfil.getUsuario());
+            List<Publicacion> unicas = new ArrayList<>();
+            Map<Long, Long> articulos = new HashMap<>();
+            for (Publicacion publicacion : publicaciones) {
+                Long articuloId = articulos.get(publicacion.getArticulo().getId());
+                if (articuloId == null) {
+                    unicas.add(publicacion);
+                    articulos.put(publicacion.getArticulo().getId(), publicacion.getArticulo().getId());
+                }
+            }
+            perfil.setPublicacionesUnicas(unicas);
+        }
+        return perfiles;
     }
 }

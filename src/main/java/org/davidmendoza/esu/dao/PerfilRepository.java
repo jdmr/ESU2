@@ -23,8 +23,10 @@
  */
 package org.davidmendoza.esu.dao;
 
+import java.util.List;
 import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Usuario;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
@@ -34,4 +36,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface PerfilRepository extends PagingAndSortingRepository<Perfil, Long> {
     
     public Perfil findByUsuario(Usuario usuario);
+    
+    @Query("select p from #{#entityName} p order by p.usuario.nombre, p.usuario.apellido")
+    public List<Perfil> todos();
 }

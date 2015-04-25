@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.service;
 
+import java.util.List;
 import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Usuario;
 
@@ -35,4 +36,6 @@ public interface PerfilService {
     public Perfil obtienePorUsuario(Usuario usuario);
 
     public Perfil obtiene(Long perfilId);
+
+    public List<Perfil> todos();
 }

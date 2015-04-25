@@ -72,5 +72,10 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     public List<Publicacion> publicaciones(Usuario autor) {
         return publicacionDao.publicaciones(autor);
     }
+
+    @Override
+    public List<Publicacion> publicacionesUnicasDeArticulos(Usuario usuario) {
+        return publicacionDao.publicacionesUnicasDeArticulos(usuario);
+    }
     
 }

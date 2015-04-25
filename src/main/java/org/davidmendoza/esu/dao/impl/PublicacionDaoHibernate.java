@@ -133,7 +133,15 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         query.setParameter("autorId", autor.getId());
         List<Publicacion> publicaciones = query.getResultList();
         log.debug("Publicaciones: {}", publicaciones);
-        return query.getResultList();
+        return publicaciones;
+    }
+
+    @Override
+    public List<Publicacion> publicacionesUnicasDeArticulos(Usuario autor) {
+        Query query = em.createQuery("select p from Publicacion p where p.articulo.autor.id = :autorId and (p.tipo = 'dialoga' or p.tipo = 'comunica') and p.estatus = 'PUBLICADO' order by p.dateCreated");
+        query.setParameter("autorId", autor.getId());
+        List<Publicacion> publicaciones = query.getResultList();
+        return publicaciones;
     }
 
 }
