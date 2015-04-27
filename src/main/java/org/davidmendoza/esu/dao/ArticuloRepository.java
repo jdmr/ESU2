@@ -34,6 +34,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface ArticuloRepository extends PagingAndSortingRepository<Articulo, Long> {
 
-    public Page<Articulo> findByTituloOrDescripcionOrContenidoAllIgnoreCase(String filtro, Pageable pageable);
+    public Page<Articulo> findAllByTituloOrDescripcionOrContenidoAllIgnoreCase(String filtro, Pageable pageable);
     
 }

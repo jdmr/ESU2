@@ -23,7 +23,9 @@
  */
 package org.davidmendoza.esu.web.admin;
 
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.davidmendoza.esu.Constants;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.web.BaseController;
@@ -56,17 +58,18 @@ public class ArticuloController extends BaseController {
         log.debug("Pagina: {}", pagina);
 
 
-        String direccionContraria = null;
-        PageRequest pageRequest = preparaPaginacion(pagina, ordena, direccion, direccionContraria);
+        
+        Map<String, Object> params = preparaPaginacion(pagina, ordena, direccion, filtro);
         
         Page<Articulo> page;
+        PageRequest pageRequest = (PageRequest) params.get(Constants.PAGE_REQUEST);
         if (StringUtils.isNotBlank(filtro)) {
-            page = articuloService.lista(pageRequest);
-        } else {
             page = articuloService.busca(filtro, pageRequest);
+        } else {
+            page = articuloService.lista(pageRequest);
         }
 
-        pagina(model, page, ordena, direccion, direccionContraria, pagina, filtro);
+        pagina(model, page, params);
         
         model.addAttribute("articulos", page);
         return "admin/articulo/lista";

@@ -24,11 +24,13 @@
 package org.davidmendoza.esu.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
+import org.davidmendoza.esu.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -40,7 +42,9 @@ public abstract class BaseController {
 
     protected final transient Logger log = LoggerFactory.getLogger(getClass());
     
-    protected PageRequest preparaPaginacion(Integer pagina, String ordena, String direccion, String direccionContraria) {
+    protected Map<String, Object> preparaPaginacion(Integer pagina, String ordena, String direccion, String filtro) {
+        Map<String, Object> params = new HashMap<>();
+        String direccionContraria;
         if (pagina == null) {
             pagina = 0;
         }
@@ -61,12 +65,26 @@ public abstract class BaseController {
                 sort = new Sort(Sort.Direction.ASC, ordena);
                 direccionContraria = "desc";
         }
+        params.put(Constants.PAGINA, pagina);
+        params.put(Constants.ORDENA, ordena);
+        params.put(Constants.DIRECCION, direccion);
+        params.put(Constants.DIRECCION_CONTRARIA, direccionContraria);
+        params.put(Constants.FILTRO, filtro);
         PageRequest pageRequest = new PageRequest(pagina, 20, sort);
+        params.put(Constants.PAGE_REQUEST, pageRequest);
 
-        return pageRequest;
+        return params;
     }
     
-    protected void pagina(Model model, Page page, String ordena, String direccion, String direccionContraria, Integer pagina, String filtro) {
+    protected void pagina(Model model, Page page, Map<String, Object> params) {
+        Integer pagina = (Integer) params.get(Constants.PAGINA);
+        String ordena = (String) params.get(Constants.ORDENA);
+        String direccion = (String) params.get(Constants.DIRECCION);
+        String direccionContraria = (String) params.get(Constants.DIRECCION_CONTRARIA);
+        String filtro = (String) params.get(Constants.FILTRO);
+        if (pagina == null) {
+            pagina = 0;
+        }
         List<Integer> paginas = new ArrayList<>();
 
         int current = page.getNumber() + 1;

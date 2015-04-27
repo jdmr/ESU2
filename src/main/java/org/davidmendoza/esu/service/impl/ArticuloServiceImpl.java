@@ -53,7 +53,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     @Override
     @Transactional(readOnly = true)
     public Page<Articulo> busca(String filtro, PageRequest pageRequest) {
-        return articuloRepository.findByTituloOrDescripcionOrContenidoAllIgnoreCase(filtro, pageRequest);
+        return articuloRepository.findAllByTituloOrDescripcionOrContenidoAllIgnoreCase(filtro, pageRequest);
     }
     
 }

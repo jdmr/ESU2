@@ -21,20 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu;
+package org.davidmendoza.esu.web.admin;
+
+import org.davidmendoza.esu.web.BaseController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public class Constants {
-
-    public static final String SPRING_PROFILE_DEVELOPMENT = "dev";
-    public static final String SPRING_PROFILE_PRODUCTION = "prod";
-    public static final String PAGINA = "pagina";
-    public static final String ORDENA = "ordena";
-    public static final String DIRECCION = "direccion";
-    public static final String DIRECCION_CONTRARIA = "direccionContraria";
-    public static final String PAGE_REQUEST = "pageRequest";
-    public static final String FILTRO = "filtro";
+@Controller
+@RequestMapping("/admin")
+public class AdminController extends BaseController {
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String admin() {
+        return "redirect:/admin/articulo";
+    }
 }

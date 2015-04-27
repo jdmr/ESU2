@@ -58,7 +58,19 @@ THE SOFTWARE.
                 </div>
                 <div class="col-md-9">
                     <h1>Artículos</h1>
-                    
+
+                    <hr/>
+
+                    <form id="articuloForm" name="articuloForm" action="/admin/articulo" method="get" class="form-inline">
+                        <input type="hidden" name="pagina" th:value="${paginaActual}" />
+                        <input type="hidden" name="ordena" th:value="${ordena}" />
+                        <input type="hidden" name="direccion" th:value="${direccion}" />
+                        <div class="form-group">
+                            <input type="text" name="filtro" id="articuloFiltro" value="" class="form-control"/>
+                        </div>
+                        <button type="submit" name="searchBtn" id="searchBtn" class="btn btn-default"><i class="fa fa-search"></i> Buscar Artículo</button>
+                    </form>
+
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
