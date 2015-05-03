@@ -47,5 +47,10 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     public List<Usuario> busca(String filtro) {
         return usuarioDao.busca(filtro);
     }
+
+    @Override
+    public Usuario obtiene(String username) {
+        return usuarioDao.obtiene(username);
+    }
     
 }

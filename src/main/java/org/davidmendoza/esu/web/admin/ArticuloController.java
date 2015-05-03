@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.web.admin;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,15 @@ public class ArticuloController extends BaseController {
         Articulo articulo = articuloService.obtiene(articuloId);
         model.addAttribute("articulo", articulo);
         return "admin/articulo/ver";
+    }
+    
+    @RequestMapping(value = "/nuevo", method = RequestMethod.GET)
+    public String nuevo(Model model, Principal principal) {
+        Usuario autor = usuarioService.obtiene(principal.getName());
+        Articulo articulo = new Articulo();
+        articulo.setAutor(autor);
+        model.addAttribute("articulo", articulo);
+        return "admin/articulo/nuevo";
     }
     
     @RequestMapping(value = "/editar/{articuloId}", method = RequestMethod.GET)

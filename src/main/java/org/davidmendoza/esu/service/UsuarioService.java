@@ -33,5 +33,7 @@ import org.davidmendoza.esu.model.Usuario;
 public interface UsuarioService {
 
     public List<Usuario> busca(String filtro);
+
+    public Usuario obtiene(String username);
     
 }
