@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.dao;
 
+import java.util.List;
 import org.davidmendoza.esu.model.Usuario;
 
 /**
@@ -32,5 +33,7 @@ import org.davidmendoza.esu.model.Usuario;
 public interface UsuarioDao {
 
     public Usuario obtiene(String username);
+
+    public List<Usuario> busca(String filtro);
     
 }

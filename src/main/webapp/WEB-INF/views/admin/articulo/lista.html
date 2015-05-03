@@ -60,13 +60,17 @@ THE SOFTWARE.
                     <h1>Artículos</h1>
 
                     <hr/>
+                    
+                    <div class="alert" th:classappend="${not #strings.isEmpty(message)} ? ${messageStyle}" th:unless="${#strings.isEmpty(message)}" th:utext="${message}">
+                        Message
+                    </div>
 
                     <form id="articuloForm" name="articuloForm" action="/admin/articulo" method="get" class="form-inline">
                         <input type="hidden" name="pagina" th:value="${paginaActual}" />
                         <input type="hidden" name="ordena" th:value="${ordena}" />
                         <input type="hidden" name="direccion" th:value="${direccion}" />
                         <div class="form-group">
-                            <input type="text" name="filtro" id="articuloFiltro" value="" class="form-control"/>
+                            <input type="text" name="filtro" id="articuloFiltro" value="" class="form-control" th:value="${filtro}"/>
                         </div>
                         <button type="submit" name="searchBtn" id="searchBtn" class="btn btn-default"><i class="fa fa-search"></i> Buscar Artículo</button>
                     </form>
@@ -109,7 +113,7 @@ THE SOFTWARE.
                             </thead>
                             <tbody>
                                 <tr th:each="articulo : ${articulos.content}">
-                                    <td th:text="${articulo.titulo}">Título</td>
+                                    <td><a href="#" th:href="@{'/admin/articulo/ver/'+${articulo.id}}" th:text="${articulo.titulo}">Título</a></td>
                                     <td th:text="${articulo.descripcion}">Descripción</td>
                                     <td class="text-center" th:text="${articulo.autor.nombreCompleto}">Autor</td>
                                     <td class="text-center" th:text="${#dates.format(articulo.dateCreated, 'dd/MM/yyyy hh:mm a')}">Creado</td>
@@ -125,19 +129,19 @@ THE SOFTWARE.
                                 <span aria-hidden="true">&laquo;</span>
                             </li>
                             <li th:unless="${paginaActual == 0}">
-                                <a href="#" aria-label="Previous" th:href="@{/admin/articulo(pagina=${paginaActual - 1})}">
+                                <a href="#" aria-label="Previous" th:href="@{/admin/articulo(pagina=${paginaActual - 1}, ordena=${ordena}, direccion=${direccion}, filtro=${filtro})}">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             <th:block th:each="pagina : ${paginas}">
-                                <li th:if="${pagina >= 0}" th:class="${pagina == paginaActual}?'active'"><a href="#" th:href="@{/admin/articulo(pagina=${pagina}, ordena=${ordena}, direccion=${direccion})}" th:text="${pagina + 1}" >1</a></li>
+                                <li th:if="${pagina >= 0}" th:class="${pagina == paginaActual}?'active'"><a href="#" th:href="@{/admin/articulo(pagina=${pagina}, ordena=${ordena}, direccion=${direccion}, filtro=${filtro})}" th:text="${pagina + 1}" >1</a></li>
                                 <li th:unless="${pagina >= 0}" class="disabled"><a href="#">...</a></li>
                             </th:block>
                             <li th:if="${paginaActual == paginasTotales}" class="disabled">
                                 <span aria-hidden="true">&raquo;</span>
                             </li>
                             <li th:unless="${paginaActual == paginasTotales}">
-                                <a href="#" aria-label="Next" th:href="@{/admin/articulo(pagina=${paginaActual + 1})}">
+                                <a href="#" aria-label="Next" th:href="@{/admin/articulo(pagina=${paginaActual + 1}, ordena=${ordena}, direccion=${direccion}, filtro=${filtro})}">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

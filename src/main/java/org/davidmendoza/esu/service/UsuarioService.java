@@ -23,22 +23,15 @@
  */
 package org.davidmendoza.esu.service;
 
-import org.davidmendoza.esu.model.Articulo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import java.util.List;
+import org.davidmendoza.esu.model.Usuario;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface ArticuloService {
+public interface UsuarioService {
 
-    public Page<Articulo> lista(PageRequest pageRequest);
-
-    public Page<Articulo> busca(String filtro, PageRequest pageRequest);
-
-    public Articulo obtiene(Long articuloId);
-
-    public Articulo elimina(Long articuloId);
+    public List<Usuario> busca(String filtro);
     
 }

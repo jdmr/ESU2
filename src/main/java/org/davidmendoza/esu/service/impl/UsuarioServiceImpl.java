@@ -21,47 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.dao.impl;
+package org.davidmendoza.esu.service.impl;
 
 import java.util.List;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import org.davidmendoza.esu.dao.BaseDao;
 import org.davidmendoza.esu.dao.UsuarioDao;
 import org.davidmendoza.esu.model.Usuario;
-import org.springframework.stereotype.Repository;
+import org.davidmendoza.esu.service.BaseService;
+import org.davidmendoza.esu.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author jdmr
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-@Repository
+@Service
 @Transactional
-public class UsuarioDaoHibernate extends BaseDao implements UsuarioDao {
+public class UsuarioServiceImpl extends BaseService implements UsuarioService {
 
-    @Override
-    @Transactional(readOnly = true)
-    public Usuario obtiene(String username) {
-        Query query = em.createNamedQuery("Usuario.findByUsername");
-        query.setParameter("username", username);
-        try {
-            return (Usuario) query.getSingleResult();
-        } catch(NoResultException e) {
-            log.error("No encontre al usuario "+ username, e);
-            return null;
-        }
-    }
-
+    @Autowired
+    private UsuarioDao usuarioDao;
+    
     @Override
     public List<Usuario> busca(String filtro) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("%");
-        sb.append(filtro.toUpperCase());
-        sb.append("%");
-        Query query = em.createQuery("select u from Usuario u where upper(u.nombre) like :filtro or upper(u.apellido) like :filtro order by u.nombre, u.apellido");
-        query.setParameter("filtro", sb.toString());
-        return query.getResultList();
+        return usuarioDao.busca(filtro);
     }
     
 }

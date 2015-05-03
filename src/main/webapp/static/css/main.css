@@ -199,6 +199,9 @@ a.navbar-brand {
     text-align: center; }
 
   .rightfooter {
-    text-align: center; } }
+    text-align: center; }
+
+  #mainLogo img {
+    width: 75%; } }
 
 /*# sourceMappingURL=main.css.map */

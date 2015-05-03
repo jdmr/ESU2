@@ -65,6 +65,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @NamedQuery(name = "Publicacion.findByTrimestre", query = "SELECT p FROM Publicacion p WHERE p.trimestre = :trimestre")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Publicacion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -294,5 +295,32 @@ public class Publicacion implements Serializable {
     public String toString() {
         return "org.davidmendoza.esu.model.Publicacion[ id=" + id + " ]";
     }
-    
+
+    public String getNombre() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(anio);
+        sb.append(" ");
+        sb.append(trimestre);
+        sb.append(" ");
+        sb.append(leccion);
+        sb.append(" ");
+        sb.append(tipo);
+        switch (tipo) {
+            case "leccion":
+                sb.append(" ");
+                sb.append(dia);
+                break;
+            case "dialoga":
+            case "comunica":
+                sb.append(" ");
+                sb.append(tema);
+                break;
+
+        }
+        sb.append(" ");
+        sb.append(estatus);
+        
+        return sb.toString();
+    }
+
 }

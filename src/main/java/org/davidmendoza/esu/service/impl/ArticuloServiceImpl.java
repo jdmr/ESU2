@@ -53,7 +53,23 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     @Override
     @Transactional(readOnly = true)
     public Page<Articulo> busca(String filtro, PageRequest pageRequest) {
-        return articuloRepository.findAllByTituloOrDescripcionOrContenidoAllIgnoreCase(filtro, pageRequest);
+        StringBuilder sb = new StringBuilder();
+        sb.append("%");
+        sb.append(filtro);
+        sb.append("%");
+        return articuloRepository.findByTituloLikeIgnoreCaseOrDescripcionLikeIgnoreCaseOrAutor_ApellidoLikeIgnoreCaseOrAutor_NombreLikeIgnoreCase(sb.toString(), sb.toString(), sb.toString(), sb.toString(), pageRequest);
+    }
+
+    @Override
+    public Articulo obtiene(Long articuloId) {
+        return articuloRepository.findOne(articuloId);
+    }
+
+    @Override
+    public Articulo elimina(Long articuloId) {
+        Articulo articulo = articuloRepository.findOne(articuloId);
+        articuloRepository.delete(articulo);
+        return articulo;
     }
     
 }

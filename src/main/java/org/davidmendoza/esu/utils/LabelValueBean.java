@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 J. David Mendoza.
+ * Copyright 2012 Southwestern Adventist University.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
+package org.davidmendoza.esu.utils;
 
-import org.davidmendoza.esu.model.Articulo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import java.io.Serializable;
 
-/**
- *
- * @author J. David Mendoza <jdmendoza@swau.edu>
- */
-public interface ArticuloService {
+public class LabelValueBean implements Serializable {
 
-    public Page<Articulo> lista(PageRequest pageRequest);
+    private static final long serialVersionUID = -7216799473755244754L;
 
-    public Page<Articulo> busca(String filtro, PageRequest pageRequest);
+    private String label;
+    private String value;
 
-    public Articulo obtiene(Long articuloId);
+    public LabelValueBean() {
+    }
 
-    public Articulo elimina(Long articuloId);
-    
+    public LabelValueBean(String label, String value) {
+        this.label = label;
+        this.value = value;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "LabelValueBean{" + "label=" + label + ", value=" + value + '}';
+    }
 }

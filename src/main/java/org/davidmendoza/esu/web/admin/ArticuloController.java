@@ -23,20 +23,28 @@
  */
 package org.davidmendoza.esu.web.admin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.Constants;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.ArticuloService;
+import org.davidmendoza.esu.service.UsuarioService;
+import org.davidmendoza.esu.utils.LabelValueBean;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -48,6 +56,8 @@ public class ArticuloController extends BaseController {
 
     @Autowired
     private ArticuloService articuloService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @RequestMapping(value = {"", "/lista"}, method = RequestMethod.GET)
     public String lista(Model model,
@@ -73,5 +83,39 @@ public class ArticuloController extends BaseController {
         
         model.addAttribute("articulos", page);
         return "admin/articulo/lista";
+    }
+    
+    @RequestMapping(value = "/ver/{articuloId}", method = RequestMethod.GET)
+    public String ver(@PathVariable Long articuloId, Model model) {
+        Articulo articulo = articuloService.obtiene(articuloId);
+        model.addAttribute("articulo", articulo);
+        return "admin/articulo/ver";
+    }
+    
+    @RequestMapping(value = "/editar/{articuloId}", method = RequestMethod.GET)
+    public String editar(@PathVariable Long articuloId, Model model) {
+        Articulo articulo = articuloService.obtiene(articuloId);
+        model.addAttribute("articulo", articulo);
+        return "admin/articulo/editar";
+    }
+    
+    @RequestMapping(value="/eliminar/{articuloId}", method = RequestMethod.GET)
+    public String eliminar(@PathVariable Long articuloId, Model model, RedirectAttributes redirectAttributes) {
+        Articulo articulo = articuloService.elimina(articuloId);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Se ha eliminado el articulo ").append(articulo.getTitulo());
+        redirectAttributes.addFlashAttribute("message", sb.toString());
+        return "redirect:/admin/articulo";
+    }
+    
+    @RequestMapping(value = "/autores", params = {"term"}, produces = "application/json")
+    public @ResponseBody List<LabelValueBean> autores(@RequestParam("term") String filtro) {
+        log.debug("filtro: {}", filtro);
+        List<Usuario> usuarios = usuarioService.busca(filtro);
+        List<LabelValueBean> autores = new ArrayList<>();
+        for(Usuario usuario : usuarios) {
+            autores.add(new LabelValueBean(usuario.getNombreCompleto(), usuario.getId().toString()));
+        }
+        return autores;
     }
 }

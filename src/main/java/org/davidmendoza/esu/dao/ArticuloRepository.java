@@ -34,6 +34,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface ArticuloRepository extends PagingAndSortingRepository<Articulo, Long> {
 
-    public Page<Articulo> findAllByTituloOrDescripcionOrContenidoAllIgnoreCase(String filtro, Pageable pageable);
+    public Page<Articulo> findByTituloLikeIgnoreCaseOrDescripcionLikeIgnoreCaseOrAutor_ApellidoLikeIgnoreCaseOrAutor_NombreLikeIgnoreCase(String titulo, String descripcion, String apellido, String nombre, Pageable pageable);
     
 }
