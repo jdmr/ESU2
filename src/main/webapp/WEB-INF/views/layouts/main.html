@@ -94,6 +94,19 @@ THE SOFTWARE.
                     </form>
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="col-md-3" th:fragment="sidebar(activeMenu)">
+                    <ul class="nav nav-pills nav-stacked" style="background-color: #dfdfdf">
+                        <li th:class="${activeMenu} == 'articulos' ? 'active'"><a href="#" th:href="@{/admin/articulo}">Artículos</a></li>
+                        <li th:class="${activeMenu} == 'trimestres' ? 'active'"><a href="#" th:href="@{/admin/trimestre}">Trimestres</a></li>
+                        <li th:class="${activeMenu} == 'usuarios' ? 'active'"><a href="#" th:href="@{/admin/usuario}">Usuarios</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <h1>Contenido</h1>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-sm-12">

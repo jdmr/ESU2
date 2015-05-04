@@ -51,10 +51,7 @@ THE SOFTWARE.
         <div class="container">
 
             <div class="row">
-                <div class="col-md-3">
-                    <div class="well">
-                        <h1>Navigation Sidebar</h1>
-                    </div>
+                <div class="col-md-3" th:replace="/layouts/main :: sidebar('articulos')">
                 </div>
                 <div class="col-md-9">
                     <h4>Título</h4>
@@ -78,6 +75,7 @@ THE SOFTWARE.
                     <ul>
                         <li th:each="publicacion : ${articulo.publicaciones}"><th:block th:text="${publicacion.nombre}">Publicacion</th:block> <a href="#" th:href="@{'/admin/articulo/elimina/publicacion/'+${publicacion.id}}" class="btn btn-danger"><i class="fa fa-remove"></i> Eliminar</a></li>
                     </ul>
+                    <a href="#" th:href="@{'/admin/articulo'}" class="btn btn-default"><i class="fa fa-undo"></i> Regresar</a>
                     <a href="#" th:href="@{'/admin/articulo/editar/'+${articulo.id}}" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</a>
                     <a href="#" th:href="@{'/admin/articulo/eliminar/'+${articulo.id}}" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este artículo?');"><i class="fa fa-trash-o"></i> Eliminar</a>
                     <a href="#" th:href="@{'/admin/articulo/publicacion/'+${articulo.id}}" class="btn btn-success"><i class="fa fa-plus"></i> Nueva Publicación</a>
