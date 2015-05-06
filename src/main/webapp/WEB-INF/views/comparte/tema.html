@@ -72,7 +72,6 @@ THE SOFTWARE.
                     <th:block th:if="${comparte.publicacion != null}">
                         <h3><a href="#" th:href="@{'/estudia/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${comparte.dia}}" th:utext="${comparte.publicacion.articulo.titulo}">Leccion</a></h3>
                         <h5 th:text="${comparte.hoyString}">Domingo 20/Jul/2014</h5>
-                        <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comparte.publicacion.articulo.autor.nombreCompleto}">Autor</th:block></h5>
                         <p><th:block th:utext="${comparte.publicacion.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/estudia/'+${comparte.anio}+'/'+${comparte.trimestre}+'/'+${comparte.leccion}+'/'+${comparte.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     <th:block th:each="comunica : ${comparte.comunica}" th:if="${comunica.id != tema.id}">
