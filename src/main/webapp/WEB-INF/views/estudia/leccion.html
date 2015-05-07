@@ -60,7 +60,7 @@ THE SOFTWARE.
                         <p>Porque de tal manera amo Dios al mundo...</p>
                     </div>
                     <h2 th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h2>
-                    <th:block th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</th:block>
+                    <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
                     <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
                 </div>
                 <div class="col-md-4">
@@ -82,11 +82,59 @@ THE SOFTWARE.
         <footer role="contentinfo" th:replace="/layouts/main :: footer">
         </footer>
 
+        <div class="modal fade" id="bibliaModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" >
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div id="bibliaContenido">
+                            <p>One fine body&hellip;</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer leccion">
+                        <a href="#" class="btn btn-primary pull-left" id="anteriorBtn">Anterior</a>
+                        <a href="#" class="btn btn-primary" id="siguienteBtn">Siguiente</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
         <div th:replace="/layouts/main :: scripts" th:remove="tag">
             <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
             <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
         </div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var bibliaUrl = /*[[@{/biblia}]]*/ '/biblia';
+
+            $(function() {
+                $(".leccion a").click(function(e) {
+                    e.preventDefault();
+                    
+                    var link = $(this).attr('href');
+                    
+                    $.getJSON(link, function(data) {
+                        $("#bibliaContenido").html(data.contenido);
+                        if (data.anterior !== null) {
+                            $("#anteriorBtn").show();
+                            $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
+                        } else {
+                            $("#anteriorBtn").hide();
+                        }
+                        if (data.siguiente !== null) {
+                            $("#siguienteBtn").show();
+                            $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
+                        } else {
+                            $("#siguienteBtn").hide();
+                        }
+                        $("#bibliaModal").modal();
+                    });
+                });
+            });
+            
+            /*]]>*/            
+        </script>
     </body>
 </html>
