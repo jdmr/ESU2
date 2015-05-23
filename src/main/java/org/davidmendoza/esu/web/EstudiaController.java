@@ -94,6 +94,8 @@ public class EstudiaController extends BaseController {
         publicacion.getArticulo().setVistas(publicacionService.agregarVista(publicacion.getArticulo()));
 
         model.addAttribute("estudia", inicio);
+        model.addAttribute("ayer", inicioService.ayer(inicio));
+        model.addAttribute("manana", inicioService.manana(inicio));
 
         return "estudia/leccion";
     }

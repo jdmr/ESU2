@@ -190,4 +190,102 @@ public class InicioServiceImpl extends BaseService implements InicioService {
         }
     }
 
+    @Override
+    public Inicio ayer(Inicio inicio) {
+        Inicio ayer = new Inicio();
+        Integer anio = new Integer(inicio.getAnio());
+        String trimestre = inicio.getTrimestre();
+        String leccion = inicio.getLeccion();
+        String dia = inicio.getDia();
+        if (StringUtils.isBlank(dia)) {
+            dia = obtieneDia(new GregorianCalendar(Locale.ENGLISH).get(Calendar.DAY_OF_WEEK));
+        }
+        Trimestre t = trimestreService.obtiene(anio + trimestre);
+        if (t != null) {
+            try {
+                Calendar cal = new GregorianCalendar(Locale.ENGLISH);
+                cal.setTime(t.getInicia());
+                cal.add(Calendar.SECOND, 1);
+                cal.set(Calendar.DAY_OF_WEEK, obtieneDia(dia));
+                int weeks = ((Long) nf.parse(leccion.substring(1))).intValue();
+                if (dia.equals("sabado")) {
+                    weeks--;
+                }
+                cal.add(Calendar.WEEK_OF_YEAR, weeks);
+                cal.add(Calendar.DAY_OF_MONTH, -1);
+                Date hoy = cal.getTime();
+
+                ayer.setHoy(hoy);
+
+                t = trimestreService.obtiene(hoy);
+
+                DateTime a = new DateTime(t.getInicia());
+                DateTime b = new DateTime(hoy);
+
+                Weeks c = Weeks.weeksBetween(a, b);
+                weeks = c.getWeeks();
+                weeks++;
+                leccion = "l" + dosDigitos.format(weeks);
+                ayer.setAnio(t.getNombre().substring(0, 4));
+                ayer.setTrimestre(t.getNombre().substring(4));
+                ayer.setLeccion(leccion);
+                ayer.setDia(obtieneDia(cal.get(Calendar.DAY_OF_WEEK)));
+
+                return ayer;
+            } catch (ParseException e) {
+                log.error("No pude poner la fecha de ayer", e);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Inicio manana(Inicio inicio) {
+        Inicio manana = new Inicio();
+        Integer anio = new Integer(inicio.getAnio());
+        String trimestre = inicio.getTrimestre();
+        String leccion = inicio.getLeccion();
+        String dia = inicio.getDia();
+        if (StringUtils.isBlank(dia)) {
+            dia = obtieneDia(new GregorianCalendar(Locale.ENGLISH).get(Calendar.DAY_OF_WEEK));
+        }
+        Trimestre t = trimestreService.obtiene(anio + trimestre);
+        if (t != null) {
+            try {
+                Calendar cal = new GregorianCalendar(Locale.ENGLISH);
+                cal.setTime(t.getInicia());
+                cal.add(Calendar.SECOND, 1);
+                cal.set(Calendar.DAY_OF_WEEK, obtieneDia(dia));
+                int weeks = ((Long) nf.parse(leccion.substring(1))).intValue();
+                if (dia.equals("sabado")) {
+                    weeks--;
+                }
+                cal.add(Calendar.WEEK_OF_YEAR, weeks);
+                cal.add(Calendar.DAY_OF_MONTH, +1);
+                Date hoy = cal.getTime();
+
+                manana.setHoy(hoy);
+
+                t = trimestreService.obtiene(hoy);
+
+                DateTime a = new DateTime(t.getInicia());
+                DateTime b = new DateTime(hoy);
+
+                Weeks c = Weeks.weeksBetween(a, b);
+                weeks = c.getWeeks();
+                weeks++;
+                leccion = "l" + dosDigitos.format(weeks);
+                manana.setAnio(t.getNombre().substring(0, 4));
+                manana.setTrimestre(t.getNombre().substring(4));
+                manana.setLeccion(leccion);
+                manana.setDia(obtieneDia(cal.get(Calendar.DAY_OF_WEEK)));
+
+                return manana;
+            } catch (ParseException e) {
+                log.error("No pude poner la fecha de manana", e);
+            }
+        }
+        return null;
+    }
+
 }

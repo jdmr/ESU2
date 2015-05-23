@@ -59,7 +59,20 @@ THE SOFTWARE.
                     <div class="well versiculo" th:utext="${estudia.versiculo.articulo.contenido}" th:if="${estudia.versiculo != null}">
                         <p>Porque de tal manera amo Dios al mundo...</p>
                     </div>
-                    <h2 th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h2>
+                    
+                    <div class="row" style="padding-top: 20px;">
+                        <div class="col-xs-3">
+                            <a href="#" th:href="@{'/estudia/'+${ayer.anio}+'/'+${ayer.trimestre}+'/'+${ayer.leccion}+'/'+${ayer.dia}}"><i class="fa fa-chevron-left"></i><span class="hidden-xs"> Anterior</span></a>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <th:block th:text="${estudia.hoyString}">Fecha</th:block>
+                        </div>
+                        <div class="col-xs-3 text-right">
+                            <a href="#" th:href="@{'/estudia/'+${manana.anio}+'/'+${manana.trimestre}+'/'+${manana.leccion}+'/'+${manana.dia}}"><span class="hidden-xs">Siguiente </span><i class="fa fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-center" th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h2>
                     <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
                     <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
                 </div>

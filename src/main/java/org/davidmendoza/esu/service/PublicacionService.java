@@ -46,4 +46,8 @@ public interface PublicacionService {
     public List<Publicacion> publicaciones(Usuario autor);
 
     public List<Publicacion> publicacionesUnicasDeArticulos(Usuario usuario);
+
+    public void nueva(Publicacion publicacion);
+
+    public Long elimina(Long publicacionId);
 }

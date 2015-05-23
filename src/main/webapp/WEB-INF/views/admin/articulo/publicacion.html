@@ -1,0 +1,180 @@
+<!--
+The MIT License
+
+Copyright 2015 J. David Mendoza.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:include="/layouts/main :: head('Nueva Publicación')">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>Inicio</title>
+        <meta name="description" content=""/>
+        <meta name="author" content="J. David Mendoza"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="shortcut icon"                    href="../../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" type="image/x-icon" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../../../static/img/apple-touch-icon-144x144.png" th:href="@{/static/img/apple-touch-icon-144x144.png}" />
+        <link rel="apple-touch-icon" sizes="114x114" href="../../../../static/img/apple-touch-icon-114x114.png" th:href="@{/static/img/apple-touch-icon-114x114.png}" />
+        <link rel="apple-touch-icon" sizes="72x72"   href="../../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
+        <link rel="apple-touch-icon"                 href="../../../../static/img/apple-touch-icon.png" th:href="@{/static/img/apple-touch-icon.png}" />
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../../../../static/css/main.css" th:href="@{/static/css/main.css}" />
+
+    </head>
+    <body>
+
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('admin')">
+        </header>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-3" th:replace="/layouts/main :: sidebar('articulos')">
+                </div>
+                <div class="col-md-9">
+                    <h1>Nueva Publicación</h1>
+                    <form action="#" th:action="@{'/admin/articulo/publicacion/'}" th:object="${publicacion}" method="POST">
+                        <input type="hidden" th:field="*{articulo.id}" />
+                        <div class="row" th:if="${#fields.hasErrors('*')}">
+                            <div class="col-sm-12">
+                                <div class="alert alert-danger">
+                                    <h4>Error</h4>
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Incorrect input</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('anio')}?'has-error'">
+                                <label for="anio">Año</label>
+                                <select id="anio" th:field="*{anio}" autofocus="autofocus" class="form-control" >
+                                    <option th:each="anio : ${anios}" th:value="${anio}" th:text="${anio}">2015</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('trimestre')}?'has-error'">
+                                <label for="trimestre">Trimestre</label>
+                                <select id="trimestre" th:field="*{trimestre}" class="form-control" >
+                                    <option th:each="trimestre : ${trimestres}" th:value="${trimestre}" th:text="${trimestre}">T1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('leccion')}?'has-error'">
+                                <label for="leccion">Lección</label>
+                                <select id="leccion" th:field="*{leccion}" class="form-control" >
+                                    <option th:each="leccion : ${lecciones}" th:value="${leccion}" th:text="${leccion}">L01</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('tipo')}?'has-error'">
+                                <label for="tipo">Tipo</label>
+                                <select id="tipo" th:field="*{tipo}" class="form-control" >
+                                    <option value="">Seleccione uno</option>
+                                    <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}">Tipo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" id="dia-div">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('dia')}?'has-error'">
+                                <label for="dia">Día</label>
+                                <select id="dia" th:field="*{dia}" class="form-control" >
+                                    <option value="">Seleccione uno (si aplica)</option>
+                                    <option th:each="dia : ${dias}" th:value="${dia}" th:text="${dia}">Domingo  </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" id="tema-div">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('tema')}?'has-error'">
+                                <label for="tema">Tema</label>
+                                <select id="tema" th:field="*{tema}" class="form-control" >
+                                    <option value="">Seleccione uno (si aplica)</option>
+                                    <option th:each="tema : ${temas}" th:value="${tema}" th:text="${tema}">Tema1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group" th:classappend="${#fields.hasErrors('estatus')}?'has-error'">
+                                <label for="estatus">Estatus</label>
+                                <select id="estatus" th:field="*{estatus}" class="form-control" >
+                                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}">PUBLICADO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-file"></i> Crear</button>
+                        <a href="#" th:href="@{'/admin/articulo/ver/'+${publicacion.articulo.id}}" class="btn btn-default btn-lg"><i class="fa fa-undo"></i> Cancelar</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        </footer>
+
+        <div th:replace="/layouts/main :: scripts" th:remove="tag">
+            <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+            <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+            <script src="../../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
+        </div>
+        <script>
+            function evalForm() {
+                var tipo = $('#tipo').val();
+                if (tipo === 'leccion' || tipo === 'jovenes' || tipo === 'podcast') {
+                    $('#tema-div').hide();
+                    $('#dia-div').show('slow', function () {
+                        $('#dia').focus();
+                    });
+                } else if (tipo === 'comunica' || tipo === 'dialoga') {
+                    $('#dia-div').hide();
+                    $('#tema-div').show('slow', function () {
+                        $('#tema').focus();
+                    });
+                } else {
+                    $('#dia-div').hide('slow', function () {
+                        $('#estatus').focus();
+                    });
+                    $('#tema-div').hide('slow', function () {
+                        $('#estatus').focus();
+                    });
+                }
+            }
+
+            $(function () {
+                $('#tipo').change(function () {
+                    evalForm();
+                });
+                
+                evalForm();
+            });
+        </script>
+
+    </body>
+</html>

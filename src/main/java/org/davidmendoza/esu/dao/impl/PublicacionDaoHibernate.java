@@ -51,6 +51,7 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
     @Override
     public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo) {
         Query query;
+        List<Publicacion> publicaciones;
         try {
             switch (tipo) {
                 case "leccion":
@@ -60,7 +61,12 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
                     query.setParameter("leccion", leccion);
                     query.setParameter("dia", dia);
                     query.setParameter("tipo", tipo);
-                    return (Publicacion) query.getSingleResult();
+                    publicaciones = query.getResultList();
+                    if (publicaciones != null && !publicaciones.isEmpty()) {
+                        return publicaciones.get(0);
+                    } else {
+                        return null;
+                    }
                 case "versiculo":
                 case "video":
                 case "podcast":
@@ -69,12 +75,18 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
                     query.setParameter("trimestre", trimestre);
                     query.setParameter("leccion", leccion);
                     query.setParameter("tipo", tipo);
-                    return (Publicacion) query.getSingleResult();
+                    publicaciones = query.getResultList();
+                    if (publicaciones != null && !publicaciones.isEmpty()) {
+                        return publicaciones.get(0);
+                    } else {
+                        return null;
+                    }
                 default:
                     return null;
             }
         } catch (NoResultException e) {
             log.error("No se pudo obtener publicacion para {} {} {} {} {}", anio, trimestre, leccion, dia, tipo);
+            log.error("No tuvo resultados", e);
             return null;
         }
     }
@@ -126,6 +138,7 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         log.info("Finalizo proceso de actualizacion de vistas del dia de {} articulos.", results.size());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Publicacion> publicaciones(Usuario autor) {
         log.debug("Buscando publicaciones de autor {} : {}", autor.getNombreCompleto(), autor.getId());
@@ -136,12 +149,31 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         return publicaciones;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Publicacion> publicacionesUnicasDeArticulos(Usuario autor) {
         Query query = em.createQuery("select p from Publicacion p where p.articulo.autor.id = :autorId and (p.tipo = 'dialoga' or p.tipo = 'comunica') and p.estatus = 'PUBLICADO' order by p.dateCreated");
         query.setParameter("autorId", autor.getId());
         List<Publicacion> publicaciones = query.getResultList();
         return publicaciones;
+    }
+
+    @Override
+    public void nueva(Publicacion publicacion) {
+        Date date = new Date();
+        publicacion.setFecha(date);
+        publicacion.setDateCreated(date);
+        publicacion.setLastUpdated(date);
+        em.persist(publicacion);
+    }
+
+    @Override
+    public Long elimina(Long publicacionId) {
+        Publicacion publicacion = (Publicacion) em.find(Publicacion.class, publicacionId);
+        Articulo articulo = publicacion.getArticulo();
+        Long articuloId = articulo.getId();
+        em.remove(publicacion);
+        return articuloId;
     }
 
 }

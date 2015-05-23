@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -240,7 +241,9 @@ public class Inicio implements Serializable {
     }
     
     public String getHoyString() {
-        return sdf.format(hoy);
+        String hoyString = sdf.format(hoy);
+        hoyString = StringUtils.capitalize(hoyString);
+        return hoyString;
     }
 
     @Override

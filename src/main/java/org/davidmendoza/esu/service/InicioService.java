@@ -35,5 +35,9 @@ public interface InicioService {
     public Inicio inicio();
 
     public Inicio inicio(Inicio inicio);
+
+    public Inicio ayer(Inicio inicio);
+    
+    public Inicio manana(Inicio inicio);
     
 }

@@ -31,6 +31,7 @@ import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.PublicacionService;
+import org.davidmendoza.esu.service.TrimestreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,8 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     
     @Autowired
     private PublicacionDao publicacionDao;
+    @Autowired
+    private TrimestreService trimestreService;
 
     @Transactional(readOnly = true)
     @Override
@@ -68,14 +71,27 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         publicacionDao.actualizaVistasDelDia();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Publicacion> publicaciones(Usuario autor) {
         return publicacionDao.publicaciones(autor);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Publicacion> publicacionesUnicasDeArticulos(Usuario usuario) {
         return publicacionDao.publicacionesUnicasDeArticulos(usuario);
+    }
+
+    @Override
+    public void nueva(Publicacion publicacion) {
+        publicacion.setPadre(trimestreService.obtiene(publicacion.getAnio()+publicacion.getTrimestre()));
+        publicacionDao.nueva(publicacion);
+    }
+
+    @Override
+    public Long elimina(Long publicacionId) {
+        return publicacionDao.elimina(publicacionId);
     }
     
 }
