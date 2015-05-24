@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 J. David Mendoza.
+ * Copyright 2015 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,27 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package org.davidmendoza.esu.dao;
 
-package org.davidmendoza.esu.service;
-
-import java.util.Date;
-import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Trimestre;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
- * @author J. David Mendoza <jdmendozar@gmail.com>
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface TrimestreService {
-
-    public Trimestre obtiene(Date fecha);
+public interface TrimestreRepository extends PagingAndSortingRepository<Trimestre, Long> {
     
-    public Trimestre obtiene(String nombre);
-
-    public Page<Trimestre> busca(String filtro, PageRequest pageRequest);
-
-    public Page<Trimestre> lista(PageRequest pageRequest);
-    
+    public Page<Trimestre> findByNombreLikeIgnoreCase(String nombre, Pageable pageable);
 }

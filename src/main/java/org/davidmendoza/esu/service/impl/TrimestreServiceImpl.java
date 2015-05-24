@@ -25,10 +25,14 @@ package org.davidmendoza.esu.service.impl;
 
 import java.util.Date;
 import org.davidmendoza.esu.dao.TrimestreDao;
+import org.davidmendoza.esu.dao.TrimestreRepository;
+import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.TrimestreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +46,8 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
 
     @Autowired
     private TrimestreDao trimestreDao;
+    @Autowired
+    private TrimestreRepository trimestreRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -53,6 +59,20 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
     @Override
     public Trimestre obtiene(String nombre) {
         return trimestreDao.obtiene(nombre);
+    }
+
+    @Override
+    public Page<Trimestre> busca(String filtro, PageRequest pageRequest) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("%");
+        sb.append(filtro);
+        sb.append("%");
+        return trimestreRepository.findByNombreLikeIgnoreCase(sb.toString(), pageRequest);
+    }
+
+    @Override
+    public Page<Trimestre> lista(PageRequest pageRequest) {
+        return trimestreRepository.findAll(pageRequest);
     }
 
 }
