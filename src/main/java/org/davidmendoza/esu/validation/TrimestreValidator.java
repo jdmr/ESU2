@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 J. David Mendoza.
+ * Copyright 2015 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package org.davidmendoza.esu.validation;
 
-package org.davidmendoza.esu.service;
-
-import java.util.Date;
+import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Trimestre;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  *
- * @author J. David Mendoza <jdmendozar@gmail.com>
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface TrimestreService {
+@Component
+public class TrimestreValidator implements Validator {
 
-    public Trimestre obtiene(Date fecha);
-    
-    public Trimestre obtiene(String nombre);
-    
-    public Trimestre obtiene(Long trimestreId);
+    @Override
+    public boolean supports(Class<?> type) {
+        return Trimestre.class.isAssignableFrom(type);
+    }
 
-    public Page<Trimestre> busca(String filtro, PageRequest pageRequest);
+    @Override
+    public void validate(Object o, Errors errors) {
+        Trimestre trimestre = (Trimestre) o;
+        if (StringUtils.isBlank(trimestre.getNombre())) {
+            errors.rejectValue("nombre", "NotBlank.trimestre.nombre");
+        }
+        if (trimestre.getInicia() == null) {
+            errors.rejectValue("inicia", "NotNull.trimestre.inicia");
+        }
+        if (trimestre.getTermina() == null) {
+            errors.rejectValue("termina", "NotNull.trimestre.termina");
+        }
+        if (trimestre.getPublicado() == null) {
+            errors.rejectValue("publicado", "NotNull.trimestre.publicado");
+        }
+    }
 
-    public Page<Trimestre> lista(PageRequest pageRequest);
-
-    public void crea(Trimestre trimestre);
-
-    public void actualiza(Trimestre trimestre);
-
-    public void elimina(Long trimestreId);
-    
 }

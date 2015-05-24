@@ -24,7 +24,7 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include='/layouts/main :: head(#{trimestres})'>
+    <head th:include="/layouts/main :: head(Trimestres)">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Inicio</title>
@@ -51,7 +51,7 @@ THE SOFTWARE.
         <div class="container">
 
             <div class="row">
-                <div class="col-md-3" th:replace="/layouts/main :: sidebar('trimestre')">
+                <div class="col-md-3" th:replace="/layouts/main :: sidebar('trimestres')">
                 </div>
                 <div class="col-md-9">
                     <h1>Trimestres</h1>

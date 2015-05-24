@@ -61,6 +61,7 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
         return trimestreDao.obtiene(nombre);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<Trimestre> busca(String filtro, PageRequest pageRequest) {
         StringBuilder sb = new StringBuilder();
@@ -70,9 +71,31 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
         return trimestreRepository.findByNombreLikeIgnoreCase(sb.toString(), pageRequest);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<Trimestre> lista(PageRequest pageRequest) {
         return trimestreRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public void crea(Trimestre trimestre) {
+        trimestreRepository.save(trimestre);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Trimestre obtiene(Long trimestreId) {
+        return trimestreRepository.findOne(trimestreId);
+    }
+
+    @Override
+    public void actualiza(Trimestre trimestre) {
+        trimestreRepository.save(trimestre);
+    }
+
+    @Override
+    public void elimina(Long trimestreId) {
+        trimestreRepository.delete(trimestreId);
     }
 
 }

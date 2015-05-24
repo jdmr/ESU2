@@ -43,6 +43,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -76,6 +77,7 @@ public class Trimestre implements Serializable {
     @NotNull
     @Column(name = "inicia", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date inicia;
     @Basic(optional = false)
     @NotNull
@@ -85,11 +87,12 @@ public class Trimestre implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "publicado", nullable = false)
-    private boolean publicado;
+    private Boolean publicado;
     @Basic(optional = false)
     @NotNull
     @Column(name = "termina", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date termina;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "padre")
     private List<Publicacion> publicaciones;
@@ -142,11 +145,11 @@ public class Trimestre implements Serializable {
         this.nombre = nombre;
     }
 
-    public boolean getPublicado() {
+    public Boolean getPublicado() {
         return publicado;
     }
 
-    public void setPublicado(boolean publicado) {
+    public void setPublicado(Boolean publicado) {
         this.publicado = publicado;
     }
 
