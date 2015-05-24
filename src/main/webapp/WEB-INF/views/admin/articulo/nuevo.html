@@ -57,9 +57,15 @@ THE SOFTWARE.
                 </div>
                 <div class="col-md-9">
                     <h1>Nuevo Artículo</h1>
-                    <form action="#" th:action="@{'/admin/articulo/editar/'+${articulo.id}}" method="POST" th:object="${articulo}">
+                    <form action="#" th:action="@{'/admin/articulo/nuevo'}" method="POST" th:object="${articulo}">
                         <input type="hidden" th:field="*{id}" />
                         <input type="hidden" th:field="*{version}" />
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                            <h4>Error</h4>
+                            <ul>
+                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Incorrect input</li>
+                            </ul>
+                        </div>
                         <div class="form-group" th:classappend="${#fields.hasErrors('titulo')}?'has-error'">
                             <label for="titulo">Título</label>
                             <input type="text" th:field="*{titulo}" id="titulo" class="form-control" autofocus="autofocus" />

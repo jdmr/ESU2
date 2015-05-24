@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.service.impl;
 
+import java.util.Date;
 import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.service.ArticuloService;
@@ -70,6 +71,25 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
         Articulo articulo = articuloRepository.findOne(articuloId);
         articuloRepository.delete(articulo);
         return articulo;
+    }
+
+    @Override
+    public void crea(Articulo articulo) {
+        Date date = new Date();
+        articulo.setDateCreated(date);
+        articulo.setLastUpdated(date);
+        articulo.setVistas(0);
+        articuloRepository.save(articulo);
+    }
+
+    @Override
+    public void actualiza(Articulo articulo) {
+        Articulo old = articuloRepository.dateCreated(articulo.getId());
+        Date date = new Date();
+        articulo.setDateCreated(old.getDateCreated());
+        articulo.setLastUpdated(date);
+        articulo.setVistas(old.getVistas());
+        articuloRepository.save(articulo);
     }
     
 }

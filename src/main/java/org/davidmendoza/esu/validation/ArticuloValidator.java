@@ -21,21 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
+package org.davidmendoza.esu.validation;
 
-import java.util.List;
-import org.davidmendoza.esu.model.Usuario;
+import org.apache.commons.lang.StringUtils;
+import org.davidmendoza.esu.model.Articulo;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface UsuarioService {
+@Component
+public class ArticuloValidator implements Validator {
 
-    public List<Usuario> busca(String filtro);
+    @Override
+    public boolean supports(Class<?> type) {
+        return Articulo.class.isAssignableFrom(type);
+    }
 
-    public Usuario obtiene(String username);
-    
-    public Usuario obtiene(Long usuarioId);
-    
+    @Override
+    public void validate(Object o, Errors errors) {
+        Articulo articulo = (Articulo) o;
+        if (StringUtils.isBlank(articulo.getTitulo())) {
+            errors.rejectValue("titulo", "NotBlank.articulo.titulo");
+        }
+        if (StringUtils.isBlank(articulo.getDescripcion())) {
+            errors.rejectValue("descripcion", "NotBlank.articulo.descripcion");
+        }
+        if (StringUtils.isBlank(articulo.getContenido())) {
+            errors.rejectValue("contenido", "NotBlank.articulo.contenido");
+        }
+        if (articulo.getAutor() == null || articulo.getAutor().getId() == null) {
+            errors.rejectValue("autor", "NotNull.articulo.autor");
+        }
+    }
+
 }

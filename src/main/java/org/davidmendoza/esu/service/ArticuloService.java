@@ -40,5 +40,9 @@ public interface ArticuloService {
     public Articulo obtiene(Long articuloId);
 
     public Articulo elimina(Long articuloId);
+
+    public void crea(Articulo articulo);
+
+    public void actualiza(Articulo articulo);
     
 }

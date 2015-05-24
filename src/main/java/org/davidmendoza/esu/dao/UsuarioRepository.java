@@ -21,21 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
+package org.davidmendoza.esu.dao;
 
-import java.util.List;
 import org.davidmendoza.esu.model.Usuario;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface UsuarioService {
+public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long> {
 
-    public List<Usuario> busca(String filtro);
-
-    public Usuario obtiene(String username);
-    
-    public Usuario obtiene(Long usuarioId);
-    
 }

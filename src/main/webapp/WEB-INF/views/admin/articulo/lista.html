@@ -58,7 +58,7 @@ THE SOFTWARE.
 
                     <hr/>
                     
-                    <div class="alert" th:classappend="${not #strings.isEmpty(message)} ? ${messageStyle}" th:unless="${#strings.isEmpty(message)}" th:utext="${message}">
+                    <div class="alert" th:classappend="${not #strings.isEmpty(messageStyle)} ? ${messageStyle} : 'alert-success'" th:unless="${#strings.isEmpty(message)}" th:utext="${message}">
                         Message
                     </div>
 

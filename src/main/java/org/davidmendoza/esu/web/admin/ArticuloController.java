@@ -33,12 +33,14 @@ import org.davidmendoza.esu.Constants;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Inicio;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.service.InicioService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.service.UsuarioService;
 import org.davidmendoza.esu.utils.LabelValueBean;
+import org.davidmendoza.esu.validation.ArticuloValidator;
 import org.davidmendoza.esu.validation.PublicacionValidator;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,8 @@ public class ArticuloController extends BaseController {
     private PublicacionValidator publicacionValidator;
     @Autowired
     private PublicacionService publicacionService;
+    @Autowired
+    private ArticuloValidator articuloValidator;
 
     @RequestMapping(value = {"", "/lista"}, method = RequestMethod.GET)
     public String lista(Model model,
@@ -114,11 +118,55 @@ public class ArticuloController extends BaseController {
         return "admin/articulo/nuevo";
     }
 
+    @RequestMapping(value = "/nuevo", method = RequestMethod.POST)
+    public String nuevo(@ModelAttribute("articulo") Articulo articulo, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        articuloValidator.validate(articulo, bindingResult);
+        if (bindingResult.hasErrors()) {
+            log.warn("No se pudo crear el articulo. {}", bindingResult.getAllErrors());
+            Usuario autor = usuarioService.obtiene(articulo.getAutor().getId());
+            articulo.setAutor(autor);
+            return "admin/articulo/nuevo";
+        }
+
+        try {
+            articuloService.crea(articulo);
+        } catch (Exception e) {
+            log.error("No se pudo crear el articulo", e);
+            bindingResult.reject("No se pudo crear el articulo. {}", e.getMessage());
+            Usuario autor = usuarioService.obtiene(articulo.getAutor().getId());
+            articulo.setAutor(autor);
+            return "admin/articulo/nuevo";
+        }
+        return "redirect:/admin/articulo/ver/" + articulo.getId();
+    }
+
     @RequestMapping(value = "/editar/{articuloId}", method = RequestMethod.GET)
     public String editar(@PathVariable Long articuloId, Model model) {
         Articulo articulo = articuloService.obtiene(articuloId);
         model.addAttribute("articulo", articulo);
         return "admin/articulo/editar";
+    }
+
+    @RequestMapping(value = "/editar", method = RequestMethod.POST)
+    public String editar(@ModelAttribute("articulo") Articulo articulo, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        articuloValidator.validate(articulo, bindingResult);
+        if (bindingResult.hasErrors()) {
+            log.warn("No se pudo editar el articulo. {}", bindingResult.getAllErrors());
+            Usuario autor = usuarioService.obtiene(articulo.getAutor().getId());
+            articulo.setAutor(autor);
+            return "admin/articulo/editar";
+        }
+
+        try {
+            articuloService.actualiza(articulo);
+        } catch (Exception e) {
+            log.error("No se pudo editar el articulo", e);
+            bindingResult.reject("No se pudo editar el articulo. {}", e.getMessage());
+            Usuario autor = usuarioService.obtiene(articulo.getAutor().getId());
+            articulo.setAutor(autor);
+            return "admin/articulo/editar";
+        }
+        return "redirect:/admin/articulo/ver/" + articulo.getId();
     }
 
     @RequestMapping(value = "/eliminar/{articuloId}", method = RequestMethod.GET)

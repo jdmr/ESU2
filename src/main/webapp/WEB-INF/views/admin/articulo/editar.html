@@ -57,7 +57,7 @@ THE SOFTWARE.
                 </div>
                 <div class="col-md-9">
                     <h1>Editar Artículo</h1>
-                    <form action="#" th:action="@{'/admin/articulo/editar/'+${articulo.id}}" method="POST" th:object="${articulo}">
+                    <form action="#" th:action="@{'/admin/articulo/editar'}" method="POST" th:object="${articulo}">
                         <input type="hidden" th:field="*{id}" />
                         <input type="hidden" th:field="*{version}" />
                         <div class="form-group" th:classappend="${#fields.hasErrors('titulo')}?'has-error'">

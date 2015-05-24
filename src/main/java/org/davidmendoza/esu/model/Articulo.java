@@ -100,7 +100,7 @@ public class Articulo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "vistas", nullable = false)
-    private int vistas;
+    private Integer vistas;
     @JoinColumn(name = "autor_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Usuario autor;
@@ -115,8 +115,13 @@ public class Articulo implements Serializable {
     public Articulo(Long id) {
         this.id = id;
     }
+    
+    public Articulo(Date dateCreated, Integer vistas) {
+        this.dateCreated = dateCreated;
+        this.vistas = vistas;
+    }
 
-    public Articulo(Long id, long version, String contenido, Date dateCreated, Date lastUpdated, String titulo, int vistas) {
+    public Articulo(Long id, long version, String contenido, Date dateCreated, Date lastUpdated, String titulo, Integer vistas) {
         this.id = id;
         this.version = version;
         this.contenido = contenido;
@@ -182,11 +187,11 @@ public class Articulo implements Serializable {
         this.titulo = titulo;
     }
 
-    public int getVistas() {
+    public Integer getVistas() {
         return vistas;
     }
 
-    public void setVistas(int vistas) {
+    public void setVistas(Integer vistas) {
         this.vistas = vistas;
     }
 

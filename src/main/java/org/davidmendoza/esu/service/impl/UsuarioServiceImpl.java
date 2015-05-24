@@ -25,6 +25,7 @@ package org.davidmendoza.esu.service.impl;
 
 import java.util.List;
 import org.davidmendoza.esu.dao.UsuarioDao;
+import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.UsuarioService;
@@ -42,6 +43,8 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
 
     @Autowired
     private UsuarioDao usuarioDao;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
     @Override
     public List<Usuario> busca(String filtro) {
@@ -51,6 +54,11 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     @Override
     public Usuario obtiene(String username) {
         return usuarioDao.obtiene(username);
+    }
+
+    @Override
+    public Usuario obtiene(Long usuarioId) {
+        return usuarioRepository.findOne(usuarioId);
     }
     
 }

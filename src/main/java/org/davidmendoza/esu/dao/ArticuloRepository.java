@@ -26,7 +26,9 @@ package org.davidmendoza.esu.dao;
 import org.davidmendoza.esu.model.Articulo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -35,5 +37,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ArticuloRepository extends PagingAndSortingRepository<Articulo, Long> {
 
     public Page<Articulo> findByTituloLikeIgnoreCaseOrDescripcionLikeIgnoreCaseOrAutor_ApellidoLikeIgnoreCaseOrAutor_NombreLikeIgnoreCase(String titulo, String descripcion, String apellido, String nombre, Pageable pageable);
+
+    @Query("select new Articulo(a.dateCreated, a.vistas) from Articulo a where a.id = :articuloId")
+    public Articulo dateCreated(@Param("articuloId") Long articuloId);
     
 }
