@@ -24,6 +24,7 @@
 
 package org.davidmendoza.esu.service;
 
+import java.util.Calendar;
 import org.davidmendoza.esu.model.Inicio;
 
 /**
@@ -33,6 +34,8 @@ import org.davidmendoza.esu.model.Inicio;
 public interface InicioService {
 
     public Inicio inicio();
+
+    public Inicio inicio(Calendar hoy);
 
     public Inicio inicio(Inicio inicio);
 

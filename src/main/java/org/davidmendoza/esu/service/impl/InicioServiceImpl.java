@@ -64,12 +64,18 @@ public class InicioServiceImpl extends BaseService implements InicioService {
     private TrimestreService trimestreService;
     @Autowired
     private PublicacionService publicacionService;
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Inicio inicio() {
+        Calendar calendar = new GregorianCalendar();
+        return inicio(calendar);
+    }
 
     @Cacheable(value = "diaCache")
     @Transactional(readOnly = true)
     @Override
-    public Inicio inicio() {
-        Calendar hoy = new GregorianCalendar(Locale.ENGLISH);
+    public Inicio inicio(Calendar hoy) {
         log.debug("Hoy: {}", hoy.getTime());
 
         Trimestre trimestre = trimestreService.obtiene(hoy.getTime());

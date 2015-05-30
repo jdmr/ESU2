@@ -24,19 +24,32 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include='/layouts/main :: head(#{estudia.leccion(${estudia.publicacion.articulo.titulo})})'>
-        <meta charset="utf-8" />
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>Inicio</title>
+        <title><th:block th:text="#{estudia.leccion(${estudia.publicacion.articulo.titulo})}">Titulo</th:block> | ESU</title>
         <meta name="description" content=""/>
         <meta name="author" content="J. David Mendoza"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="shortcut icon"                    href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" type="image/x-icon" />
-        <link rel="apple-touch-icon" sizes="144x144" href="../../../static/img/apple-touch-icon-144x144.png" th:href="@{/static/img/apple-touch-icon-144x144.png}" />
+        <link rel="shortcut icon" href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" />
+        <link rel="apple-touch-icon" sizes="57x57" href="../../../static/img/apple-touch-icon-57x57.png" th:href="@{/static/img/apple-touch-icon-57x57.png}" />
         <link rel="apple-touch-icon" sizes="114x114" href="../../../static/img/apple-touch-icon-114x114.png" th:href="@{/static/img/apple-touch-icon-114x114.png}" />
-        <link rel="apple-touch-icon" sizes="72x72"   href="../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
-        <link rel="apple-touch-icon"                 href="../../../static/img/apple-touch-icon.png" th:href="@{/static/img/apple-touch-icon.png}" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../../static/img/apple-touch-icon-144x144.png" th:href="@{/static/img/apple-touch-icon-144x144.png}" />
+        <link rel="apple-touch-icon" sizes="60x60" href="../../../static/img/apple-touch-icon-60x60.png" th:href="@{/static/img/apple-touch-icon-60x60.png}" />
+        <link rel="apple-touch-icon" sizes="120x120" href="../../../static/img/apple-touch-icon-120x120.png" th:href="@{/static/img/apple-touch-icon-120x120.png}" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../../../static/img/apple-touch-icon-76x76.png" th:href="@{/static/img/apple-touch-icon-76x76.png}" />
+        <link rel="apple-touch-icon" sizes="152x152" href="../../../static/img/apple-touch-icon-152x152.png" th:href="@{/static/img/apple-touch-icon-152x152.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-196x196.png" sizes="196x196" th:href="@{/static/img/favicon-196x196.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-160x160.png" sizes="160x160" th:href="@{/static/img/favicon-160x160.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-96x96.png" sizes="96x96" th:href="@{/static/img/favicon-96x96.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-16x16.png" sizes="16x16" th:href="@{/static/img/favicon-16x16.png}" />
+        <link rel="icon" type="image/png" href="../../../static/img/favicon-32x32.png" sizes="32x32" th:href="@{/static/img/favicon-32x32.png}" />
+        <meta name="msapplication-TileColor" content="#67b6ea" />
+        <meta name="msapplication-TileImage" content="../../../static/img/mstile-144x144.png" th:content="@{/static/img/mstile-144x144.png}" />
+        <meta name="msapplication-config" content="../../../static/img/browserconfig.xml" th:content="@{/static/img/browserconfig.xml}" />
 
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
@@ -65,7 +78,10 @@ THE SOFTWARE.
                             <a href="#" th:href="@{'/estudia/'+${ayer.anio}+'/'+${ayer.trimestre}+'/'+${ayer.leccion}+'/'+${ayer.dia}}"><i class="fa fa-chevron-left"></i><span class="hidden-xs"> Anterior</span></a>
                         </div>
                         <div class="col-xs-6 text-center">
-                            <th:block th:text="${estudia.hoyString}">Fecha</th:block>
+                            <a href="#" id="fechaLink" th:text="${estudia.hoyString}">Fecha</a>
+                            <form id="navegaForm" action="#" th:action="@{/estudia/dia}" method="post">
+                            <input type="text" id="fecha" name="fecha" th:value="${#dates.format(estudia.hoy,'dd/MM/yyyy')}" style="display: none;" class='form-control text-center'/>
+                            </form>
                         </div>
                         <div class="col-xs-3 text-right">
                             <a href="#" th:href="@{'/estudia/'+${manana.anio}+'/'+${manana.trimestre}+'/'+${manana.leccion}+'/'+${manana.dia}}"><span class="hidden-xs">Siguiente </span><i class="fa fa-chevron-right"></i></a>
@@ -112,15 +128,15 @@ THE SOFTWARE.
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-        <div th:replace="/layouts/main :: scripts" th:remove="tag">
-            <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-            <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-            <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
-        </div>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="../../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
         <script th:inline="javascript">
             /*<![CDATA[*/
             var bibliaUrl = /*[[@{/biblia}]]*/ '/biblia';
+            var date = /*[[${#dates.format(estudia.hoy, 'dd/MM/yyyy')}]]*/ '';
 
             $(function() {
                 $(".leccion a").click(function(e) {
@@ -145,6 +161,44 @@ THE SOFTWARE.
                         $("#bibliaModal").modal();
                     });
                 });
+                
+                $("#fechaLink").click(function(e) {
+                    e.preventDefault();
+                    $(this).hide();
+                    $('#fecha').show('slow', function() {
+                        $(this).focus();
+                    });
+                });
+                
+                $('#fecha').datepicker({
+                    altFormat:"dd/mm/yy",
+                    dateFormat:"dd/mm/yy",
+                    firstDay: 0,
+                    closeText: 'Cerrar',
+                    prevText: '&#x3c;Ant',
+                    nextText: 'Sig&#x3e;',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                    dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+                    dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Jue','Vie','S&aacute;b'],
+                    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+                    weekHeader: 'Sm',
+                    showButtonPanel: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    minDate: "26/03/2011",
+                    defaultDate: date,
+                    onSelect:function() {
+                        $("form#navegaForm").submit();
+                    },
+                    onClose:function() {
+                        $(this).hide(function() {
+                            $('#fechaLink').show();
+                        });
+                    }
+                });
+                
             });
             
             /*]]>*/            

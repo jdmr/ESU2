@@ -84,7 +84,7 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
             rolRepository.save(user);
         }
         
-        Usuario usuario = usuarioRepository.findByUsernameIgnoreCase("esu@um.edu.mx");
+        Usuario usuario = usuarioRepository.findByUsernameIgnoreCase("admin@um.edu.mx");
         if (usuario == null) {
             usuario = new Usuario();
             usuario.setUsername("admin@um.edu.mx");

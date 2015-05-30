@@ -33,7 +33,6 @@ import org.davidmendoza.esu.Constants;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Inicio;
 import org.davidmendoza.esu.model.Publicacion;
-import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.service.InicioService;

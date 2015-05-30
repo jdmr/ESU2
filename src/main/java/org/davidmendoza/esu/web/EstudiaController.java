@@ -23,6 +23,11 @@
  */
 package org.davidmendoza.esu.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
@@ -35,6 +40,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -89,14 +95,40 @@ public class EstudiaController extends BaseController {
         session.setAttribute("dia", inicio.getDia());
 
         inicio = inicioService.inicio(inicio);
-        
+
         Publicacion publicacion = inicio.getPublicacion();
-        publicacion.getArticulo().setVistas(publicacionService.agregarVista(publicacion.getArticulo()));
+        if (publicacion != null) {
+            publicacion.getArticulo().setVistas(publicacionService.agregarVista(publicacion.getArticulo()));
 
-        model.addAttribute("estudia", inicio);
-        model.addAttribute("ayer", inicioService.ayer(inicio));
-        model.addAttribute("manana", inicioService.manana(inicio));
+            model.addAttribute("estudia", inicio);
+            model.addAttribute("ayer", inicioService.ayer(inicio));
+            model.addAttribute("manana", inicioService.manana(inicio));
 
-        return "estudia/leccion";
+            return "estudia/leccion";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @RequestMapping(value = "/dia", method = RequestMethod.POST, params = {"fecha"})
+    public String dia(@RequestParam("fecha") String fecha) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = sdf.parse(fecha);
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(date);
+            cal.add(Calendar.SECOND, 1);
+            Inicio inicio = inicioService.inicio(cal);
+            StringBuilder url = new StringBuilder();
+            url.append("redirect:/estudia/");
+            url.append(inicio.getAnio()).append("/");
+            url.append(inicio.getTrimestre()).append("/");
+            url.append(inicio.getLeccion()).append("/");
+            url.append(inicio.getDia());
+            return url.toString();
+        } catch (ParseException e) {
+            log.error("Fecha invalida", e);
+            return null;
+        }
     }
 }

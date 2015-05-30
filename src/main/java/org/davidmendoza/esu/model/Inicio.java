@@ -32,6 +32,7 @@ import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -52,6 +53,7 @@ public class Inicio implements Serializable {
     private Publicacion podcast;
     private Publicacion versiculo;
     private Publicacion temaSeleccionado;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date hoy;
     private final SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MMM/yyyy", new Locale("es"));
 
