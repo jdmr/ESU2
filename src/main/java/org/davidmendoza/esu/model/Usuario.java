@@ -24,6 +24,7 @@
 package org.davidmendoza.esu.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -46,6 +47,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -88,15 +90,15 @@ public class Usuario implements Serializable, UserDetails  {
     @Basic(optional = false)
     @NotNull
     @Column(name = "version", nullable = false)
-    private long version;
+    private Long version = 0L;
     @Basic(optional = false)
     @NotNull
     @Column(name = "account_expired", nullable = false)
-    private boolean accountExpired;
+    private Boolean accountExpired = false;
     @Basic(optional = false)
     @NotNull
     @Column(name = "account_locked", nullable = false)
-    private boolean accountLocked;
+    private Boolean accountLocked = false;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -105,7 +107,7 @@ public class Usuario implements Serializable, UserDetails  {
     @Basic(optional = false)
     @NotNull
     @Column(name = "articulos", nullable = false)
-    private int totalArticulos;
+    private Integer totalArticulos = 0;
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_created", nullable = false)
@@ -114,7 +116,7 @@ public class Usuario implements Serializable, UserDetails  {
     @Basic(optional = false)
     @NotNull
     @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+    private Boolean enabled = true;
     @Basic(optional = false)
     @NotNull
     @Column(name = "last_updated", nullable = false)
@@ -133,11 +135,11 @@ public class Usuario implements Serializable, UserDetails  {
     @Basic(optional = false)
     @NotNull
     @Column(name = "password_expired", nullable = false)
-    private boolean passwordExpired;
+    private Boolean passwordExpired = false;
     @Basic(optional = false)
     @NotNull
     @Column(name = "publicaciones", nullable = false)
-    private int totalPublicaciones;
+    private Integer totalPublicaciones = 0;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -147,19 +149,32 @@ public class Usuario implements Serializable, UserDetails  {
     @JoinTable(name = "usuarios_roles", joinColumns = {
         @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "rol_id", referencedColumnName = "id", nullable = false)})
-    private List<Rol> roles;
+    private List<Rol> roles = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "autor")
     private List<Articulo> articulos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Perfil> perfiles;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "editor")
     private List<Publicacion> publicaciones;
+    @Transient
+    private Boolean admin = false;
+    @Transient
+    private Boolean editor = false;
+    @Transient
+    private Boolean autor = false;
+    @Transient
+    private Boolean user = true;
 
     public Usuario() {
     }
 
     public Usuario(Long id) {
         this.id = id;
+    }
+    
+    public Usuario(String password, Date dateCreated) {
+        this.password = password;
+        this.dateCreated = dateCreated;
     }
 
     /**
@@ -474,6 +489,62 @@ public class Usuario implements Serializable, UserDetails  {
     @Override
     public boolean isCredentialsNonExpired() {
         return !passwordExpired;
+    }
+
+    /**
+     * @return the admin
+     */
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
+    /**
+     * @return the editor
+     */
+    public Boolean getEditor() {
+        return editor;
+    }
+
+    /**
+     * @param editor the editor to set
+     */
+    public void setEditor(Boolean editor) {
+        this.editor = editor;
+    }
+
+    /**
+     * @return the autor
+     */
+    public Boolean getAutor() {
+        return autor;
+    }
+
+    /**
+     * @param autor the autor to set
+     */
+    public void setAutor(Boolean autor) {
+        this.autor = autor;
+    }
+
+    /**
+     * @return the user
+     */
+    public Boolean getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(Boolean user) {
+        this.user = user;
     }
     
 }

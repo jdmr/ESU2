@@ -21,34 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
+package org.davidmendoza.esu.validation;
 
-import java.util.List;
-import org.davidmendoza.esu.model.Trimestre;
+import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Usuario;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface UsuarioService {
+@Component
+public class UsuarioValidator implements Validator {
 
-    public List<Usuario> busca(String filtro);
+    @Override
+    public boolean supports(Class<?> type) {
+        return Usuario.class.isAssignableFrom(type);
+    }
 
-    public Usuario obtiene(String username);
-    
-    public Usuario obtiene(Long usuarioId);
+    @Override
+    public void validate(Object o, Errors errors) {
+        Usuario usuario = (Usuario) o;
+        if (StringUtils.isBlank(usuario.getNombre())) {
+            errors.rejectValue("nombre", "NotBlank.usuario.nombre");
+        }
+        if (StringUtils.isBlank(usuario.getApellido())) {
+            errors.rejectValue("apellido", "NotBlank.usuario.apellido");
+        }
+        if (StringUtils.isBlank(usuario.getUsername())) {
+            errors.rejectValue("username", "NotBlank.usuario.username");
+        }
+        if (StringUtils.isBlank(usuario.getPassword())) {
+            errors.rejectValue("password", "NotBlank.usuario.password");
+        }
+    }
 
-    public Page<Usuario> busca(String filtro, PageRequest pageRequest);
-
-    public Page<Usuario> lista(PageRequest pageRequest);
-
-    public void crea(Usuario usuario);
-
-    public void actualiza(Usuario usuario);
-
-    public void elimina(Long usuarioId);
-    
 }

@@ -26,7 +26,6 @@ package org.davidmendoza.esu.service.impl;
 import java.util.Date;
 import org.davidmendoza.esu.dao.TrimestreDao;
 import org.davidmendoza.esu.dao.TrimestreRepository;
-import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.TrimestreService;

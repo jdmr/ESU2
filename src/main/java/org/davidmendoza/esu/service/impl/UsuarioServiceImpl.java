@@ -23,13 +23,18 @@
  */
 package org.davidmendoza.esu.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import org.davidmendoza.esu.dao.RolRepository;
 import org.davidmendoza.esu.dao.UsuarioDao;
 import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +50,10 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     private UsuarioDao usuarioDao;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RolRepository rolRepository;
     
     @Override
     public List<Usuario> busca(String filtro) {
@@ -59,6 +68,75 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     @Override
     public Usuario obtiene(Long usuarioId) {
         return usuarioRepository.findOne(usuarioId);
+    }
+
+    @Override
+    public Page<Usuario> busca(String filtro, PageRequest pageRequest) {
+                StringBuilder sb = new StringBuilder();
+        sb.append("%");
+        sb.append(filtro);
+        sb.append("%");
+        return usuarioRepository.findByUsernameLikeOrNombreLikeOrApellidoLikeAllIgnoreCase(sb.toString(), sb.toString(), sb.toString(), pageRequest);
+
+    }
+
+    @Override
+    public Page<Usuario> lista(PageRequest pageRequest) {
+        return usuarioRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public void crea(Usuario usuario) {
+        Date date = new Date();
+        usuario.setDateCreated(date);
+        usuario.setLastUpdated(date);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        
+        if (usuario.getAdmin()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_ADMIN"));
+        }
+        if (usuario.getEditor()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_EDITOR"));
+        }
+        if (usuario.getAutor()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_AUTOR"));
+        }
+        if (usuario.getUser()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_USER"));
+        }
+        
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void actualiza(Usuario usuario) {
+        Usuario u = usuarioRepository.dateCreated(usuario.getId());
+        usuario.setDateCreated(u.getDateCreated());
+        usuario.setLastUpdated(new Date());
+        if (!usuario.getPassword().equals(u.getPassword())) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+
+        usuario.getRoles().clear();
+        if (usuario.getAdmin()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_ADMIN"));
+        }
+        if (usuario.getEditor()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_EDITOR"));
+        }
+        if (usuario.getAutor()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_AUTOR"));
+        }
+        if (usuario.getUser()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_USER"));
+        }
+        
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void elimina(Long usuarioId) {
+        usuarioRepository.delete(usuarioId);
     }
     
 }

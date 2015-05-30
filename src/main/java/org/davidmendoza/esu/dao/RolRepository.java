@@ -21,34 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
+package org.davidmendoza.esu.dao;
 
-import java.util.List;
-import org.davidmendoza.esu.model.Trimestre;
-import org.davidmendoza.esu.model.Usuario;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.davidmendoza.esu.model.Rol;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface UsuarioService {
+public interface RolRepository extends PagingAndSortingRepository<Rol, Long> {
 
-    public List<Usuario> busca(String filtro);
+    Rol findByAuthorityIgnoreCase(String authority);
 
-    public Usuario obtiene(String username);
-    
-    public Usuario obtiene(Long usuarioId);
-
-    public Page<Usuario> busca(String filtro, PageRequest pageRequest);
-
-    public Page<Usuario> lista(PageRequest pageRequest);
-
-    public void crea(Usuario usuario);
-
-    public void actualiza(Usuario usuario);
-
-    public void elimina(Long usuarioId);
-    
 }

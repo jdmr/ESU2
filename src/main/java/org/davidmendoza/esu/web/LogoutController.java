@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 J. David Mendoza.
+ * Copyright 2014 Southwestern Adventist University.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
 
-import java.util.List;
-import org.davidmendoza.esu.model.Trimestre;
-import org.davidmendoza.esu.model.Usuario;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+package org.davidmendoza.esu.web;
+
+import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface UsuarioService {
-
-    public List<Usuario> busca(String filtro);
-
-    public Usuario obtiene(String username);
+@Controller
+public class LogoutController extends BaseController {
     
-    public Usuario obtiene(Long usuarioId);
-
-    public Page<Usuario> busca(String filtro, PageRequest pageRequest);
-
-    public Page<Usuario> lista(PageRequest pageRequest);
-
-    public void crea(Usuario usuario);
-
-    public void actualiza(Usuario usuario);
-
-    public void elimina(Long usuarioId);
-    
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        log.debug("Logging out");
+        session.invalidate();
+        
+        return "redirect:/";
+    }
 }
