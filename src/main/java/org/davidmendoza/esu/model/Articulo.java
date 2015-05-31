@@ -43,11 +43,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.SnowballPorterFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 /**
  *
@@ -67,7 +75,16 @@ import org.hibernate.search.annotations.IndexedEmbedded;
     @NamedQuery(name = "Articulo.findByVistas", query = "SELECT a FROM Articulo a WHERE a.vistas = :vistas")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Indexed
+@AnalyzerDef(name = "customanalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+            @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+            @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                @Parameter(name = "language", value = "Spanish")
+            })
+        })
 public class Articulo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,6 +96,7 @@ public class Articulo implements Serializable {
     @Column(name = "version", nullable = false)
     private long version;
     @Field
+    @Analyzer(definition = "customanalyzer")
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1000000)
@@ -90,6 +108,7 @@ public class Articulo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
     @Field
+    @Analyzer(definition = "customanalyzer")
     @Size(max = 10000)
     @Column(name = "descripcion", length = 10000)
     private String descripcion;
@@ -99,6 +118,7 @@ public class Articulo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
     @Field
+    @Analyzer(definition = "customanalyzer")
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -124,7 +144,7 @@ public class Articulo implements Serializable {
     public Articulo(Long id) {
         this.id = id;
     }
-    
+
     public Articulo(Date dateCreated, Integer vistas) {
         this.dateCreated = dateCreated;
         this.vistas = vistas;
@@ -139,7 +159,7 @@ public class Articulo implements Serializable {
         this.titulo = titulo;
         this.vistas = vistas;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -252,5 +272,5 @@ public class Articulo implements Serializable {
     public String toString() {
         return "org.davidmendoza.esu.model.Articulo[ id=" + id + " ]";
     }
-    
+
 }
