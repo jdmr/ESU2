@@ -45,6 +45,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  *
@@ -63,6 +66,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @NamedQuery(name = "Articulo.findByTitulo", query = "SELECT a FROM Articulo a WHERE a.titulo = :titulo"),
     @NamedQuery(name = "Articulo.findByVistas", query = "SELECT a FROM Articulo a WHERE a.vistas = :vistas")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Indexed
 public class Articulo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,6 +78,7 @@ public class Articulo implements Serializable {
     @NotNull
     @Column(name = "version", nullable = false)
     private long version;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1000000)
@@ -84,6 +89,7 @@ public class Articulo implements Serializable {
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
+    @Field
     @Size(max = 10000)
     @Column(name = "descripcion", length = 10000)
     private String descripcion;
@@ -92,6 +98,7 @@ public class Articulo implements Serializable {
     @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -101,9 +108,11 @@ public class Articulo implements Serializable {
     @NotNull
     @Column(name = "vistas", nullable = false)
     private Integer vistas;
+    @IndexedEmbedded
     @JoinColumn(name = "autor_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Usuario autor;
+    @IndexedEmbedded
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo")
     private List<Publicacion> publicaciones;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo")

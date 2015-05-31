@@ -77,6 +77,11 @@
             <artifactId>ehcache-core</artifactId>
             <version>2.6.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>4.5.1.Final</version>
+        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>

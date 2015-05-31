@@ -42,6 +42,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Field;
 
 /**
  *
@@ -75,19 +76,22 @@ public class Publicacion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "version", nullable = false)
-    private long version;
+    private Long version;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Column(name = "anio", nullable = false)
-    private int anio;
+    private Integer anio;
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
+    @Field
     @Size(max = 10)
     @Column(name = "dia", length = 10)
     private String dia;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -103,19 +107,23 @@ public class Publicacion implements Serializable {
     @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "leccion", nullable = false, length = 3)
     private String leccion;
+    @Field
     @Size(max = 5)
     @Column(name = "tema", length = 5)
     private String tema;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "tipo", nullable = false, length = 10)
     private String tipo;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)

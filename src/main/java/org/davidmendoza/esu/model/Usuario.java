@@ -53,6 +53,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -99,6 +100,7 @@ public class Usuario implements Serializable, UserDetails  {
     @NotNull
     @Column(name = "account_locked", nullable = false)
     private Boolean accountLocked = false;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -122,6 +124,7 @@ public class Usuario implements Serializable, UserDetails  {
     @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -140,6 +143,7 @@ public class Usuario implements Serializable, UserDetails  {
     @NotNull
     @Column(name = "publicaciones", nullable = false)
     private Integer totalPublicaciones = 0;
+    @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
