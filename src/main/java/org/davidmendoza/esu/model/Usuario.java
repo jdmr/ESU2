@@ -53,6 +53,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,7 +82,8 @@ import org.springframework.security.core.userdetails.UserDetails;
     @NamedQuery(name = "Usuario.findByPublicaciones", query = "SELECT u FROM Usuario u WHERE u.publicaciones = :publicaciones"),
     @NamedQuery(name = "Usuario.findByUsername", query = "SELECT u FROM Usuario u WHERE u.username = :username")})
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Usuario implements Serializable, UserDetails  {
+public class Usuario implements Serializable, UserDetails {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,6 +103,7 @@ public class Usuario implements Serializable, UserDetails  {
     @Column(name = "account_locked", nullable = false)
     private Boolean accountLocked = false;
     @Field
+    @Analyzer(definition = "customanalyzer")
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -125,6 +128,7 @@ public class Usuario implements Serializable, UserDetails  {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
     @Field
+    @Analyzer(definition = "customanalyzer")
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -175,7 +179,7 @@ public class Usuario implements Serializable, UserDetails  {
     public Usuario(Long id) {
         this.id = id;
     }
-    
+
     public Usuario(String password, Date dateCreated) {
         this.password = password;
         this.dateCreated = dateCreated;
@@ -550,5 +554,5 @@ public class Usuario implements Serializable, UserDetails  {
     public void setUser(Boolean user) {
         this.user = user;
     }
-    
+
 }
