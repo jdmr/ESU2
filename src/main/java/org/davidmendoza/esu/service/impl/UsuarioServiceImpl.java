@@ -23,13 +23,16 @@
  */
 package org.davidmendoza.esu.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.davidmendoza.esu.dao.RolRepository;
 import org.davidmendoza.esu.dao.UsuarioDao;
 import org.davidmendoza.esu.dao.UsuarioRepository;
+import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.BaseService;
+import org.davidmendoza.esu.service.PerfilService;
 import org.davidmendoza.esu.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +57,8 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RolRepository rolRepository;
+    @Autowired
+    private PerfilService perfilService;
     
     @Override
     public List<Usuario> busca(String filtro) {
@@ -137,6 +142,16 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     @Override
     public void elimina(Long usuarioId) {
         usuarioRepository.delete(usuarioId);
+    }
+
+    @Override
+    public List<Perfil> buscaAutores(String filtro) {
+        List<Usuario> usuarios = usuarioDao.busca(filtro);
+        List<Perfil> perfiles = new ArrayList<>();
+        for(Usuario usuario : usuarios) {
+            perfiles.add(perfilService.obtienePorUsuario(usuario));
+        }
+        return perfiles;
     }
     
 }

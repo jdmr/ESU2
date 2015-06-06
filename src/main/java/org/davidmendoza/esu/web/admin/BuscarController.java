@@ -26,8 +26,10 @@ package org.davidmendoza.esu.web.admin;
 import java.util.ArrayList;
 import java.util.List;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.service.BusquedaService;
+import org.davidmendoza.esu.service.UsuarioService;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,10 +48,16 @@ public class BuscarController extends BaseController {
 
     @Autowired
     private BusquedaService busquedaService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @RequestMapping(method = RequestMethod.GET, params = {"filtro"})
     public String buscar(@RequestParam("filtro") String filtro, Model model) {
         log.debug("Buscando: {}", filtro);
+        
+        List<Perfil> perfiles = usuarioService.buscaAutores(filtro);
+        model.addAttribute("perfiles", perfiles);
+        
         List<Articulo> articulos = busquedaService.buscar(filtro);
         List<Publicacion> publicaciones = new ArrayList<>();
         for (Articulo articulo : articulos) {

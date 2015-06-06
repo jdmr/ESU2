@@ -55,6 +55,12 @@ THE SOFTWARE.
             </div>
 
             <div class="row">
+                <div class="col-md-12" th:each="perfil : ${perfiles}">
+                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${perfil.usuario.nombreCompleto}" style="float:left;width: 200px;" /></a>
+                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><h2 th:text="${perfil.usuario.nombreCompleto}">Nombre</h2></a>
+                    <p th:text="${perfil.texto}">Descripcion</p>
+                    <a href="#" th:href="@{'/perfil/'+${perfil.id}}">Artículos de <th:block th:text="${perfil.usuario.nombreCompleto}">Autor</th:block></a>
+                </div>
                 <div class="col-md-12" th:each="publicacion : ${publicaciones}">
                     <h3 th:if="${publicacion.tipo == 'leccion'}"><a href="#" th:href="@{'/estudia/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.dia}}" th:text="${publicacion.articulo.titulo}">Titulo</a></h3>
                     <h3 th:if="${publicacion.tipo == 'dialoga'}"><a href="#" th:href="@{'/profundiza/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:text="${publicacion.articulo.titulo}">Titulo</a></h3>

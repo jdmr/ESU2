@@ -56,9 +56,11 @@ THE SOFTWARE.
 
             <div class="row">
                 <div class="col-md-3">
-                    <div class="well">
-                        Navigation sidebar
-                    </div>
+                    <ul class="nav esu-sidenav">
+                        <li><a href="/conocenos/nosotros">Acerca de Nosotros</a></li>
+                        <li class="active"><a href="/conocenos/equipo">Equipo</a></li>
+                        <li><a href="/conocenos/contacto">Contacto</a></li>
+                    </ul>
                 </div>
                 <div class="col-md-9">
                     <img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${perfil.usuario.nombreCompleto}" style="float:right;width: 200px;" />

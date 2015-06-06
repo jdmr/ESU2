@@ -35,5 +35,5 @@ public interface UsuarioDao {
     public Usuario obtiene(String username);
 
     public List<Usuario> busca(String filtro);
-    
+
 }

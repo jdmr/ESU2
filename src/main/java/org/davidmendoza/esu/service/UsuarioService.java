@@ -24,7 +24,7 @@
 package org.davidmendoza.esu.service;
 
 import java.util.List;
-import org.davidmendoza.esu.model.Trimestre;
+import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,5 +50,7 @@ public interface UsuarioService {
     public void actualiza(Usuario usuario);
 
     public void elimina(Long usuarioId);
+
+    public List<Perfil> buscaAutores(String filtro);
     
 }
