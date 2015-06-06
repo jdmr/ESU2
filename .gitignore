@@ -14,3 +14,4 @@ esu-test.log**
 /src/main/resources/esu.properties
 Thumbs.db
 rebel.xml
+application*.properties
