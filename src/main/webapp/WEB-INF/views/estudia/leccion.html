@@ -72,7 +72,7 @@ THE SOFTWARE.
                     <div class="well versiculo" th:utext="${estudia.versiculo.articulo.contenido}" th:if="${estudia.versiculo != null}">
                         <p>Porque de tal manera amo Dios al mundo...</p>
                     </div>
-                    
+
                     <div class="row" style="padding-top: 20px;">
                         <div class="col-xs-3">
                             <a href="#" th:href="@{'/estudia/'+${ayer.anio}+'/'+${ayer.trimestre}+'/'+${ayer.leccion}+'/'+${ayer.dia}}"><i class="fa fa-chevron-left"></i><span class="hidden-xs"> Anterior</span></a>
@@ -80,17 +80,50 @@ THE SOFTWARE.
                         <div class="col-xs-6 text-center">
                             <a href="#" id="fechaLink" th:text="${estudia.hoyString}">Fecha</a>
                             <form id="navegaForm" action="#" th:action="@{/estudia/dia}" method="post">
-                            <input type="text" id="fecha" name="fecha" th:value="${#dates.format(estudia.hoy,'dd/MM/yyyy')}" style="display: none;" class='form-control text-center'/>
+                                <input type="text" id="fecha" name="fecha" th:value="${#dates.format(estudia.hoy,'dd/MM/yyyy')}" style="display: none;" class='form-control text-center'/>
                             </form>
                         </div>
                         <div class="col-xs-3 text-right">
                             <a href="#" th:href="@{'/estudia/'+${manana.anio}+'/'+${manana.trimestre}+'/'+${manana.leccion}+'/'+${manana.dia}}"><span class="hidden-xs">Siguiente </span><i class="fa fa-chevron-right"></i></a>
                         </div>
                     </div>
-                    
+
                     <h2 class="text-center" th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h2>
                     <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
                     <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style ">
+                        <a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:width="115"></a>
+                        <a class="addthis_button_tweet"></a>
+                        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+                        <a class="addthis_button_pinterest_pinit"></a>
+                        <a class="addthis_counter addthis_pill_style"></a>
+                    </div>
+                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87"></script>
+                    <!-- AddThis Button END -->
+                    <div id="disqus_thread"></div>
+                    <script type="text/javascript" th:inline="javascript">
+                        /*<![CDATA[*/
+                        var publicacionId = /*[[${estudia.publicacion.articulo.id}]]*/ 1;
+                        var title = /*[[${estudia.publicacion.articulo.titulo}]]*/ 'titulo';
+
+                        /* * * CONFIGURATION VARIABLES * * */
+                        var disqus_shortname = 'esuniversitaria';
+                        var disqus_identifier = publicacionId;
+                        var disqus_title = title;
+
+                        /* * * DON'T EDIT BELOW THIS LINE * * */
+                        (function () {
+                            var dsq = document.createElement('script');
+                            dsq.type = 'text/javascript';
+                            dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                        /*]]>*/
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <col-sm- class="logo-disqus">Disqus</col-sm-></a>
                 </div>
                 <div class="col-md-4">
                     <th:block th:each="dialoga : ${estudia.dialoga}">
@@ -133,75 +166,95 @@ THE SOFTWARE.
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="../../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            var bibliaUrl = /*[[@{/biblia}]]*/ '/biblia';
-            var date = /*[[${#dates.format(estudia.hoy, 'dd/MM/yyyy')}]]*/ '';
 
-            $(function() {
-                $(".leccion a").click(function(e) {
-                    e.preventDefault();
-                    
-                    var link = $(this).attr('href');
-                    
-                    $.getJSON(link, function(data) {
-                        $("#bibliaContenido").html(data.contenido);
-                        if (data.anterior !== null) {
-                            $("#anteriorBtn").show();
-                            $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
-                        } else {
-                            $("#anteriorBtn").hide();
-                        }
-                        if (data.siguiente !== null) {
-                            $("#siguienteBtn").show();
-                            $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
-                        } else {
-                            $("#siguienteBtn").hide();
-                        }
-                        $("#bibliaModal").modal();
-                    });
-                });
-                
-                $("#fechaLink").click(function(e) {
-                    e.preventDefault();
-                    $(this).hide();
-                    $('#fecha').show('slow', function() {
-                        $(this).focus();
-                    });
-                });
-                
-                $('#fecha').datepicker({
-                    altFormat:"dd/mm/yy",
-                    dateFormat:"dd/mm/yy",
-                    firstDay: 0,
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-                    monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-                    dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-                    dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Jue','Vie','S&aacute;b'],
-                    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-                    weekHeader: 'Sm',
-                    showButtonPanel: true,
-                    showOtherMonths: true,
-                    selectOtherMonths: true,
-                    minDate: "26/03/2011",
-                    defaultDate: date,
-                    onSelect:function() {
-                        $("form#navegaForm").submit();
-                    },
-                    onClose:function() {
-                        $(this).hide(function() {
-                            $('#fechaLink').show();
+        <script th:inline="javascript">
+                        /*<![CDATA[*/
+                        var bibliaUrl = /*[[@{/biblia}]]*/ '/biblia';
+                        var date = /*[[${#dates.format(estudia.hoy, 'dd/MM/yyyy')}]]*/ '';
+
+                        $(function () {
+                            $(".leccion a").click(function (e) {
+                                e.preventDefault();
+
+                                var link = $(this).attr('href');
+
+                                $.getJSON(link, function (data) {
+                                    $("#bibliaContenido").html(data.contenido);
+                                    if (data.anterior !== null) {
+                                        $("#anteriorBtn").show();
+                                        $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
+                                    } else {
+                                        $("#anteriorBtn").hide();
+                                    }
+                                    if (data.siguiente !== null) {
+                                        $("#siguienteBtn").show();
+                                        $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
+                                    } else {
+                                        $("#siguienteBtn").hide();
+                                    }
+                                    $("#bibliaModal").modal();
+                                });
+                            });
+
+                            $("#fechaLink").click(function (e) {
+                                e.preventDefault();
+                                $(this).hide();
+                                $('#fecha').show('slow', function () {
+                                    $(this).focus();
+                                });
+                            });
+
+                            $('#fecha').datepicker({
+                                altFormat: "dd/mm/yy",
+                                dateFormat: "dd/mm/yy",
+                                firstDay: 0,
+                                closeText: 'Cerrar',
+                                prevText: '&#x3c;Ant',
+                                nextText: 'Sig&#x3e;',
+                                currentText: 'Hoy',
+                                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Jue', 'Vie', 'S&aacute;b'],
+                                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                                weekHeader: 'Sm',
+                                showButtonPanel: true,
+                                showOtherMonths: true,
+                                selectOtherMonths: true,
+                                minDate: "26/03/2011",
+                                defaultDate: date,
+                                onSelect: function () {
+                                    $("form#navegaForm").submit();
+                                },
+                                onClose: function () {
+                                    $(this).hide(function () {
+                                        $('#fechaLink').show();
+                                    });
+                                }
+                            });
+
                         });
-                    }
-                });
-                
-            });
-            
-            /*]]>*/            
+
+                        /*]]>*/
         </script>
+
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-19803340-3', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
     </body>
 </html>

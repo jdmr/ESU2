@@ -60,6 +60,17 @@ THE SOFTWARE.
                     <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
                     <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style ">
+                        <a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:width="115"></a>
+                        <a class="addthis_button_tweet"></a>
+                        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+                        <a class="addthis_button_pinterest_pinit"></a>
+                        <a class="addthis_counter addthis_pill_style"></a>
+                    </div>
+                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87"></script>
+                    <!-- AddThis Button END -->
+
                     <div th:if="${perfil != null}">
                         <h3>Acerca del Autor</h3>
                         <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${tema.articulo.autor.nombreCompleto}" style="float:left;width: 200px;" /></a>
@@ -67,6 +78,29 @@ THE SOFTWARE.
                         <p th:text="${perfil.texto}">Descripcion</p>
                         <a href="#" th:href="@{'/perfil/'+${perfil.id}}">Artículos de <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></a>
                     </div>
+                    <div id="disqus_thread"></div>
+                    <script type="text/javascript" th:inline="javascript">
+                        /*<![CDATA[*/
+                        var publicacionId = /*[[${tema.articulo.id}]]*/ 1;
+                        var title = /*[[${tema.articulo.titulo}]]*/ 'titulo';
+
+                        /* * * CONFIGURATION VARIABLES * * */
+                        var disqus_shortname = 'esuniversitaria';
+                        var disqus_identifier = publicacionId;
+                        var disqus_title = title;
+
+                        /* * * DON'T EDIT BELOW THIS LINE * * */
+                        (function () {
+                            var dsq = document.createElement('script');
+                            dsq.type = 'text/javascript';
+                            dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                        /*]]>*/
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <col-sm- class="logo-disqus">Disqus</col-sm-></a>
                 </div>
                 <div class="col-md-4">
                     <th:block th:if="${comparte.publicacion != null}">

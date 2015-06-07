@@ -94,7 +94,7 @@ THE SOFTWARE.
                     </form>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-3" th:fragment="sidebar(activeMenu)">
                     <ul class="nav nav-pills nav-stacked" style="background-color: #dfdfdf">
@@ -129,9 +129,9 @@ THE SOFTWARE.
                         <p><a href="#" th:href="@{/profundiza}" th:text="#{profundiza}">Profundiza</a></p>
 
                         <p><a href="#" th:href="@{/comparte}" th:text="#{comparte}">Comparte</a></p>
-                        
+
                         <p><a href="#" th:href="@{/conocenos}" th:text="#{conocenos}">Conocenos</a></p>
-                        
+
                         <p><a href="#" th:href="@{/foro}" th:text="#{foro}" target="_blank">Foro</a></p>
                     </div>
 
@@ -160,6 +160,23 @@ THE SOFTWARE.
             <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
             <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
+            <script>
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-19803340-3', 'auto');
+                ga('send', 'pageview');
+
+            </script>
         </div>
     </body>
 </html>
