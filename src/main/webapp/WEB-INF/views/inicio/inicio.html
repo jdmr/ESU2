@@ -66,7 +66,7 @@ THE SOFTWARE.
                         <h2><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${inicio.publicacion.articulo.titulo}">Titulo Leccion</a></h2>
                         <h4 th:text="${inicio.hoyString}">Domingo 20/Jul/2014</h4>
                         <p th:utext="${inicio.publicacion.articulo.descripcion}">Texto de la leccion</p>
-                        <p><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:text="#{estudia}" class="btn btn-primary btn-lg">Estudia</a></p>
+                        <p><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" class="btn btn-primary btn-lg btn-block">Leer más...</a></p>
                     </th:block>
                 </div>
             </div>
@@ -114,6 +114,7 @@ THE SOFTWARE.
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
             <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
         </div>
-
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
+        
     </body>
 </html>

@@ -60,16 +60,10 @@ THE SOFTWARE.
                     <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
                     <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
-                    <!-- AddThis Button BEGIN -->
-                    <div class="addthis_toolbox addthis_default_style ">
-                        <a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:width="115"></a>
-                        <a class="addthis_button_tweet"></a>
-                        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-                        <a class="addthis_button_pinterest_pinit"></a>
-                        <a class="addthis_counter addthis_pill_style"></a>
-                    </div>
-                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87"></script>
-                    <!-- AddThis Button END -->
+                    
+                    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                    <div class="addthis_sharing_toolbox"></div>
+                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
 
                     <div th:if="${perfil != null}">
                         <h3>Acerca del Autor</h3>
