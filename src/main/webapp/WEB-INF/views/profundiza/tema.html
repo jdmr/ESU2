@@ -61,9 +61,8 @@ THE SOFTWARE.
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
                     <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
                     
-                    <!-- Go to www.addthis.com/dashboard to customize your tools -->
                     <div class="addthis_sharing_toolbox"></div>
-                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
+                    <div class="addthis_recommended_horizontal"></div>
 
                     <div th:if="${perfil != null}">
                         <h3>Acerca del Autor</h3>
@@ -112,6 +111,8 @@ THE SOFTWARE.
                         <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h5>
                         <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
+                    
+                    <div class="addthis_recommended_vertical"></div>
                 </div>
             </div>
 

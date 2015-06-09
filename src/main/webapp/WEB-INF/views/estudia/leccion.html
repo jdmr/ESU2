@@ -92,9 +92,9 @@ THE SOFTWARE.
                     <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
                     <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
                     
-                    <!-- Go to www.addthis.com/dashboard to customize your tools -->
                     <div class="addthis_sharing_toolbox"></div>
-                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
+                    
+                    <div class="addthis_recommended_horizontal"></div>
                     
                     <div id="disqus_thread"></div>
                     <script type="text/javascript" th:inline="javascript">
@@ -131,6 +131,9 @@ THE SOFTWARE.
                         <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h5>
                         <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
+                    
+                    <div class="addthis_recommended_vertical"></div>
+                    
                 </div>
             </div>
 
@@ -161,6 +164,7 @@ THE SOFTWARE.
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="../../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
 
         <script th:inline="javascript">
                         /*<![CDATA[*/
