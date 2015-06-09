@@ -189,7 +189,7 @@ public class RSSController extends BaseController {
                     .toString());
             entry.setPublishedDate(inicio.getHoy());
             description = new SyndContentImpl();
-            description.setType("text/html");
+            description.setType("text/plain");
             description.setValue(inicio.getPublicacion().getArticulo().getDescripcion());
             entry.setDescription(description);
             entries.add(entry);
@@ -209,8 +209,9 @@ public class RSSController extends BaseController {
                     .append(publicacion.getTema())
                     .toString());
             entry.setPublishedDate(inicio.getHoy());
+            entry.setAuthor(publicacion.getArticulo().getAutor().getNombreCompleto());
             description = new SyndContentImpl();
-            description.setType("text/html");
+            description.setType("text/plain");
             description.setValue(publicacion.getArticulo().getDescripcion());
             entry.setDescription(description);
             entries.add(entry);
@@ -230,8 +231,9 @@ public class RSSController extends BaseController {
                     .append(publicacion.getTema())
                     .toString());
             entry.setPublishedDate(inicio.getHoy());
+            entry.setAuthor(publicacion.getArticulo().getAutor().getNombreCompleto());
             description = new SyndContentImpl();
-            description.setType("text/html");
+            description.setType("text/plain");
             description.setValue(publicacion.getArticulo().getDescripcion());
             entry.setDescription(description);
             entries.add(entry);
