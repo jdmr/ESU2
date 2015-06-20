@@ -195,48 +195,52 @@ public class RSSController extends BaseController {
             entries.add(entry);
         }
 
-        for (Publicacion publicacion : inicio.getDialoga()) {
-            entry = new SyndEntryImpl();
-            entry.setTitle(publicacion.getArticulo().getTitulo());
-            entry.setLink(request.getRequestURL()
-                    .append("/profundiza/")
-                    .append(publicacion.getAnio())
-                    .append("/")
-                    .append(publicacion.getTrimestre())
-                    .append("/")
-                    .append(publicacion.getLeccion())
-                    .append("/")
-                    .append(publicacion.getTema())
-                    .toString());
-            entry.setPublishedDate(inicio.getHoy());
-            entry.setAuthor(publicacion.getArticulo().getAutor().getNombreCompleto());
-            description = new SyndContentImpl();
-            description.setType("text/plain");
-            description.setValue(publicacion.getArticulo().getDescripcion());
-            entry.setDescription(description);
-            entries.add(entry);
+        if (inicio.getDialoga() != null) {
+            for (Publicacion publicacion : inicio.getDialoga()) {
+                entry = new SyndEntryImpl();
+                entry.setTitle(publicacion.getArticulo().getTitulo());
+                entry.setLink(request.getRequestURL()
+                        .append("/profundiza/")
+                        .append(publicacion.getAnio())
+                        .append("/")
+                        .append(publicacion.getTrimestre())
+                        .append("/")
+                        .append(publicacion.getLeccion())
+                        .append("/")
+                        .append(publicacion.getTema())
+                        .toString());
+                entry.setPublishedDate(inicio.getHoy());
+                entry.setAuthor(publicacion.getArticulo().getAutor().getNombreCompleto());
+                description = new SyndContentImpl();
+                description.setType("text/plain");
+                description.setValue(publicacion.getArticulo().getDescripcion());
+                entry.setDescription(description);
+                entries.add(entry);
+            }
         }
 
-        for (Publicacion publicacion : inicio.getComunica()) {
-            entry = new SyndEntryImpl();
-            entry.setTitle(publicacion.getArticulo().getTitulo());
-            entry.setLink(request.getRequestURL()
-                    .append("/comunica/")
-                    .append(publicacion.getAnio())
-                    .append("/")
-                    .append(publicacion.getTrimestre())
-                    .append("/")
-                    .append(publicacion.getLeccion())
-                    .append("/")
-                    .append(publicacion.getTema())
-                    .toString());
-            entry.setPublishedDate(inicio.getHoy());
-            entry.setAuthor(publicacion.getArticulo().getAutor().getNombreCompleto());
-            description = new SyndContentImpl();
-            description.setType("text/plain");
-            description.setValue(publicacion.getArticulo().getDescripcion());
-            entry.setDescription(description);
-            entries.add(entry);
+        if (inicio.getComunica() != null) {
+            for (Publicacion publicacion : inicio.getComunica()) {
+                entry = new SyndEntryImpl();
+                entry.setTitle(publicacion.getArticulo().getTitulo());
+                entry.setLink(request.getRequestURL()
+                        .append("/comunica/")
+                        .append(publicacion.getAnio())
+                        .append("/")
+                        .append(publicacion.getTrimestre())
+                        .append("/")
+                        .append(publicacion.getLeccion())
+                        .append("/")
+                        .append(publicacion.getTema())
+                        .toString());
+                entry.setPublishedDate(inicio.getHoy());
+                entry.setAuthor(publicacion.getArticulo().getAutor().getNombreCompleto());
+                description = new SyndContentImpl();
+                description.setType("text/plain");
+                description.setValue(publicacion.getArticulo().getDescripcion());
+                entry.setDescription(description);
+                entries.add(entry);
+            }
         }
 
         feed.setEntries(entries);
