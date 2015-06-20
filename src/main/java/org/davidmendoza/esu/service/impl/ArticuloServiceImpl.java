@@ -29,6 +29,7 @@ import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -62,11 +63,13 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public Articulo obtiene(Long articuloId) {
         return articuloRepository.findOne(articuloId);
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public Articulo elimina(Long articuloId) {
         Articulo articulo = articuloRepository.findOne(articuloId);
         articuloRepository.delete(articulo);
@@ -74,6 +77,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public void crea(Articulo articulo) {
         Date date = new Date();
         articulo.setDateCreated(date);
@@ -83,6 +87,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public void actualiza(Articulo articulo) {
         Articulo old = articuloRepository.dateCreated(articulo.getId());
         Date date = new Date();

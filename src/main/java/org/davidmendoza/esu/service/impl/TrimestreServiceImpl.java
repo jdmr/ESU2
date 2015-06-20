@@ -30,6 +30,7 @@ import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.TrimestreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,7 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public void crea(Trimestre trimestre) {
         trimestreRepository.save(trimestre);
     }
@@ -93,6 +95,7 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public void elimina(Long trimestreId) {
         trimestreRepository.delete(trimestreId);
     }

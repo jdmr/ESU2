@@ -33,6 +33,7 @@ import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.service.TrimestreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,12 +85,14 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public void nueva(Publicacion publicacion) {
         publicacion.setPadre(trimestreService.obtiene(publicacion.getAnio()+publicacion.getTrimestre()));
         publicacionDao.nueva(publicacion);
     }
 
     @Override
+    @CacheEvict(value = {"diaCache", "inicioCache"})
     public Long elimina(Long publicacionId) {
         return publicacionDao.elimina(publicacionId);
     }
