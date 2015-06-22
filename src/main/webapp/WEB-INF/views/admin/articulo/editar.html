@@ -77,8 +77,8 @@ THE SOFTWARE.
                             <input type="text" th:value="*{autor.nombreCompleto}" id="autorNombre" name="autorNombre" class="form-control" />
                             <input type="hidden" th:field="*{autor.id}" id="autorId" />
                         </div>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Actualizar</button>
-                        <a href="#" th:href="@{'/admin/articulo/ver/'+${articulo.id}}" class="btn btn-default"><i class="fa fa-undo"></i> Cancelar</a>
+                        <button type="submit" class="btn btn-primary"><span class="fa fa-floppy-o"></span> Actualizar</button>
+                        <a href="#" th:href="@{'/admin/articulo/ver/'+${articulo.id}}" class="btn btn-default"><span class="fa fa-undo"></span> Cancelar</a>
                     </form>
                 </div>
             </div>

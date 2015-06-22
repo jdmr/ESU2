@@ -24,7 +24,7 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include='/layouts/main :: head(#{profundiza.tema(${tema.articulo.titulo})})'>
+    <head th:include='/layouts/main :: head(#{profundiza.tema(${tema.articulo.titulo})}, ${tema.articulo.descripcion})'>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Inicio</title>
@@ -56,10 +56,10 @@ THE SOFTWARE.
 
             <div class="row">
                 <div class="col-md-8">
-                    <h2 th:utext="${tema.articulo.titulo}">Titulo Leccion</h2>
-                    <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h4>
+                    <h1 th:utext="${tema.articulo.titulo}">Titulo Leccion</h1>
+                    <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></h3>
                     <th:block th:utext="${tema.articulo.contenido}">Texto de la leccion</th:block>
-                    <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
+                    <p><th:block th:text="#{visitas(${tema.articulo.vistas})}">0 Visitas</th:block> <span class="fa fa-eye"></span></p>
                     
                     <div class="addthis_sharing_toolbox"></div>
                     <div class="addthis_recommended_horizontal"></div>
@@ -93,22 +93,22 @@ THE SOFTWARE.
                         /*]]>*/
                     </script>
                     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <col-sm- class="logo-disqus">Disqus</col-sm-></a>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <div class="logo-disqus">Disqus</div></a>
                 </div>
                 <div class="col-md-4">
                     <th:block th:if="${profundiza.publicacion != null}">
-                        <h3><a href="#" th:href="@{'/estudia/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${profundiza.dia}}" th:utext="${profundiza.publicacion.articulo.titulo}">Leccion</a></h3>
-                        <h5 th:text="${profundiza.hoyString}">Domingo 20/Jul/2014</h5>
+                        <h2><a href="#" th:href="@{'/estudia/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${profundiza.dia}}" th:utext="${profundiza.publicacion.articulo.titulo}">Leccion</a></h2>
+                        <h4 th:text="${profundiza.hoyString}">Domingo 20/Jul/2014</h4>
                         <p><th:block th:utext="${profundiza.publicacion.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/estudia/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${profundiza.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     <th:block th:each="dialoga : ${profundiza.dialoga}" th:if="${dialoga.id != tema.id}">
-                        <h3><a href="#" th:href="@{'/profundiza/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h3>
-                        <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h5>
+                        <h2><a href="#" th:href="@{'/profundiza/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h2>
+                        <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                         <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/profundiza/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${profundiza.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     <th:block th:each="comunica : ${profundiza.comunica}">
-                        <h3><a href="#" th:href="@{'/comparte/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h3>
-                        <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h5>
+                        <h2><a href="#" th:href="@{'/comparte/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h2>
+                        <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                         <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${profundiza.anio}+'/'+${profundiza.trimestre}+'/'+${profundiza.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     

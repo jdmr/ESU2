@@ -28,7 +28,7 @@ THE SOFTWARE.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title><th:block th:text="#{estudia.leccion(${estudia.publicacion.articulo.titulo})}">Titulo</th:block> | ESU</title>
-        <meta name="description" content=""/>
+        <meta name="description" content="" th:content="${estudia.publicacion.articulo.descripcion}"/>
         <meta name="author" content="J. David Mendoza"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="shortcut icon" href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" />
@@ -75,7 +75,7 @@ THE SOFTWARE.
 
                     <div class="row" style="padding-top: 20px;">
                         <div class="col-xs-3">
-                            <a href="#" th:href="@{'/estudia/'+${ayer.anio}+'/'+${ayer.trimestre}+'/'+${ayer.leccion}+'/'+${ayer.dia}}"><i class="fa fa-chevron-left"></i><span class="hidden-xs"> Anterior</span></a>
+                            <a href="#" th:href="@{'/estudia/'+${ayer.anio}+'/'+${ayer.trimestre}+'/'+${ayer.leccion}+'/'+${ayer.dia}}"><span class="fa fa-chevron-left"></span><span class="hidden-xs"> Anterior</span></a>
                         </div>
                         <div class="col-xs-6 text-center">
                             <a href="#" id="fechaLink" th:text="${estudia.hoyString}">Fecha</a>
@@ -84,13 +84,13 @@ THE SOFTWARE.
                             </form>
                         </div>
                         <div class="col-xs-3 text-right">
-                            <a href="#" th:href="@{'/estudia/'+${manana.anio}+'/'+${manana.trimestre}+'/'+${manana.leccion}+'/'+${manana.dia}}"><span class="hidden-xs">Siguiente </span><i class="fa fa-chevron-right"></i></a>
+                            <a href="#" th:href="@{'/estudia/'+${manana.anio}+'/'+${manana.trimestre}+'/'+${manana.leccion}+'/'+${manana.dia}}"><span class="hidden-xs">Siguiente </span><span class="fa fa-chevron-right"></span></a>
                         </div>
                     </div>
 
-                    <h2 class="text-center" th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h2>
+                    <h1 class="text-center" th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h1>
                     <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
-                    <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <i class="fa fa-eye"></i></p>
+                    <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <span class="fa fa-eye"></span></p>
                     
                     <div class="addthis_sharing_toolbox"></div>
                     
@@ -118,17 +118,17 @@ THE SOFTWARE.
                         /*]]>*/
                     </script>
                     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <col-sm- class="logo-disqus">Disqus</col-sm-></a>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <div class="logo-disqus">Disqus</div></a>
                 </div>
                 <div class="col-md-4">
                     <th:block th:each="dialoga : ${estudia.dialoga}">
-                        <h3><a href="#" th:href="@{'/profundiza/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h3>
-                        <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h5>
+                        <h2><a href="#" th:href="@{'/profundiza/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h2>
+                        <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                         <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/profundiza/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${dialoga.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     <th:block th:each="comunica : ${estudia.comunica}">
-                        <h3><a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h3>
-                        <h5><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h5>
+                        <h2><a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h2>
+                        <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h4>
                         <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
                     </th:block>
                     

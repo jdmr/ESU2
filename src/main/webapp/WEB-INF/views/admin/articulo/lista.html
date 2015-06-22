@@ -24,9 +24,9 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include='/layouts/main :: head(#{articulos})'>
+    <head th:include="/layouts/main :: head(#{articulos}, 'Lista de Artículos')">
         <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title>Inicio</title>
         <meta name="description" content=""/>
         <meta name="author" content="J. David Mendoza"/>
@@ -69,8 +69,8 @@ THE SOFTWARE.
                         <div class="form-group">
                             <input type="text" name="filtro" id="articuloFiltro" value="" class="form-control" th:value="${filtro}"/>
                         </div>
-                        <button type="submit" name="searchBtn" id="searchBtn" class="btn btn-default"><i class="fa fa-search"></i> Buscar Artículo</button>
-                        <a href="#" th:href="@{/admin/articulo/nuevo}" class="btn btn-primary"><i class="fa fa-plus"></i> Nuevo</a>
+                        <button type="submit" name="searchBtn" id="searchBtn" class="btn btn-default"><span class="fa fa-search"></span> Buscar Artículo</button>
+                        <a href="#" th:href="@{/admin/articulo/nuevo}" class="btn btn-primary"><span class="fa fa-plus"></span> Nuevo</a>
                     </form>
 
                     <div class="table-responsive">
@@ -80,31 +80,31 @@ THE SOFTWARE.
                                     <th>
                                         <a href="#" th:href="@{/admin/articulo(pagina=${paginaActual}, ordena='titulo', direccion=${direccionContraria})}" >
                                             Título
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'titulo'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'titulo'}"></span>
                                         </a>
                                     </th>
                                     <th>
                                         <a href="#" th:href="@{/admin/articulo(pagina=${paginaActual}, ordena='descripcion', direccion=${direccionContraria})}" >
                                             Descripción
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'descripcion'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'descripcion'}"></span>
                                         </a>
                                     </th>
                                     <th class="text-center">
                                         <a href="#" th:href="@{/admin/articulo(pagina=${paginaActual}, ordena='autor', direccion=${direccionContraria})}" >
                                             Autor
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'autor'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'autor'}"></span>
                                         </a>
                                     </th>
                                     <th class="text-center">
                                         <a href="#" th:href="@{/admin/articulo(pagina=${paginaActual}, ordena='dateCreated', direccion=${direccionContraria})}" >
                                             Creado
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'dateCreated'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'dateCreated'}"></span>
                                         </a>
                                     </th>
                                     <th class="text-center">
                                         <a href="#" th:href="@{/admin/articulo(pagina=${paginaActual}, ordena='lastUpdated', direccion=${direccionContraria})}" >
                                             Modificado
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'lastUpdated'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'lastUpdated'}"></span>
                                         </a>
                                     </th>
                                 </tr>

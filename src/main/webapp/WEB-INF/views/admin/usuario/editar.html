@@ -24,9 +24,9 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include="/layouts/main :: head('Editar Usuario')">
+    <head th:include="/layouts/main :: head('Editar Usuario', 'Editar Usuario')">
         <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title>Nuevo Usuario | ESU</title>
         <meta name="description" content=""/>
         <meta name="author" content="J. David Mendoza"/>
@@ -99,8 +99,8 @@ THE SOFTWARE.
                                 USUARIO
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-floppy-o"></i> Actualizar</button>
-                        <a href="#" th:href="@{'/admin/usuario'}" class="btn btn-default btn-lg"><i class="fa fa-undo"></i> Cancelar</a>
+                        <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-floppy-o"></span> Actualizar</button>
+                        <a href="#" th:href="@{'/admin/usuario'}" class="btn btn-default btn-lg"><span class="fa fa-undo"></span> Cancelar</a>
                     </form>
                 </div>
             </div>

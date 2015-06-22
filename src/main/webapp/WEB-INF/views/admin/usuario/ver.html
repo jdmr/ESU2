@@ -24,9 +24,9 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include="/layouts/main :: head('Ver Usuario')">
+    <head th:include="/layouts/main :: head('Ver Usuario', 'Ver Usuario')">
         <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title>Inicio</title>
         <meta name="description" content=""/>
         <meta name="author" content="J. David Mendoza"/>
@@ -64,9 +64,9 @@ THE SOFTWARE.
                     <ul>
                         <li th:each="rol : ${usuario.roles}" th:text="${rol.authority}">Rol</li>
                     </ul>
-                    <a href="#" th:href="@{'/admin/usuario'}" class="btn btn-default"><i class="fa fa-undo"></i> Regresar</a>
-                    <a href="#" th:href="@{'/admin/usuario/editar/'+${usuario.id}}" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</a>
-                    <a href="#" th:href="@{'/admin/usuario/eliminar/'+${usuario.id}}" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este usuario?');"><i class="fa fa-trash-o"></i> Eliminar</a>
+                    <a href="#" th:href="@{'/admin/usuario'}" class="btn btn-default"><span class="fa fa-undo"></span> Regresar</a>
+                    <a href="#" th:href="@{'/admin/usuario/editar/'+${usuario.id}}" class="btn btn-primary"><span class="fa fa-edit"></span> Editar</a>
+                    <a href="#" th:href="@{'/admin/usuario/eliminar/'+${usuario.id}}" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este usuario?');"><span class="fa fa-trash-o"></span> Eliminar</a>
                 </div>
             </div>
 

@@ -154,7 +154,7 @@ a.navbar-brand {
 }
 
 .centerfooter {
-    text-align: center;
+    //    text-align: center;
 }
 
 .rightfooter {
@@ -163,6 +163,10 @@ a.navbar-brand {
 
 #anuncio {
     height: 100px;
+}
+
+#powered-by {
+    padding-top: 97px;
 }
 
 /* Desktop large
@@ -244,6 +248,16 @@ a.navbar-brand {
 
     #searchDiv {
         margin-bottom: 15px;
+    }
+
+    .centerfooter {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    #powered-by {
+        padding-top: 0;
+        padding: 10px 0;
     }
 
 }

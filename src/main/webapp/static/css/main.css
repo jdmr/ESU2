@@ -121,14 +121,14 @@ a.navbar-brand {
 .leftfooter {
   text-align: left; }
 
-.centerfooter {
-  text-align: center; }
-
 .rightfooter {
   text-align: right; }
 
 #anuncio {
   height: 100px; }
+
+#powered-by {
+  padding-top: 97px; }
 
 /* Desktop large
 ------------------------- */
@@ -182,7 +182,15 @@ a.navbar-brand {
     display: none; }
 
   #searchDiv {
-    margin-bottom: 15px; } }
+    margin-bottom: 15px; }
+
+  .centerfooter {
+    text-align: center;
+    padding: 10px 0; }
+
+  #powered-by {
+    padding-top: 0;
+    padding: 10px 0; } }
 /* Landscape phones
 ------------------------- */
 @media (max-width: 480px) {

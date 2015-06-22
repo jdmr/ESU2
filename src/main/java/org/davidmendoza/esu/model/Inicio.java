@@ -284,4 +284,12 @@ public class Inicio implements Serializable {
         return "Inicio{" + "anio=" + anio + ", trimestre=" + trimestre + ", leccion=" + leccion + ", dia=" + dia + ", hoy=" + hoy + '}';
     }
 
+    public String getDescripcion() {
+        if (publicacion != null && publicacion.getArticulo() != null && StringUtils.isNotBlank(publicacion.getArticulo().getDescripcion())) {
+            return publicacion.getArticulo().getDescripcion();
+        } else {
+            return StringUtils.EMPTY;
+        }
+    }
+
 }

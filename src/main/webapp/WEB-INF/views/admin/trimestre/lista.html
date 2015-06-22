@@ -24,9 +24,9 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include="/layouts/main :: head(Trimestres)">
+    <head th:include="/layouts/main :: head('Trimestres', 'Trimestres')">
         <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title>Inicio</title>
         <meta name="description" content=""/>
         <meta name="author" content="J. David Mendoza"/>
@@ -69,8 +69,8 @@ THE SOFTWARE.
                         <div class="form-group">
                             <input type="text" name="filtro" id="trimestreFiltro" value="" class="form-control" th:value="${filtro}"/>
                         </div>
-                        <button type="submit" name="searchBtn" id="searchBtn" class="btn btn-default"><i class="fa fa-search"></i> Buscar Trimestre</button>
-                        <a href="#" th:href="@{/admin/trimestre/nuevo}" class="btn btn-primary"><i class="fa fa-plus"></i> Nuevo</a>
+                        <button type="submit" name="searchBtn" id="searchBtn" class="btn btn-default"><span class="fa fa-search"></span> Buscar Trimestre</button>
+                        <a href="#" th:href="@{/admin/trimestre/nuevo}" class="btn btn-primary"><span class="fa fa-plus"></span> Nuevo</a>
                     </form>
 
                     <div class="table-responsive">
@@ -80,25 +80,25 @@ THE SOFTWARE.
                                     <th>
                                         <a href="#" th:href="@{/admin/trimestre(pagina=${paginaActual}, ordena='nombre', direccion=${direccionContraria})}" >
                                             Nombre
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'nombre'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'nombre'}"></span>
                                         </a>
                                     </th>
                                     <th class="text-center">
                                         <a href="#" th:href="@{/admin/trimestre(pagina=${paginaActual}, ordena='inicia', direccion=${direccionContraria})}" >
                                             Inicia
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'inicia'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'inicia'}"></span>
                                         </a>
                                     </th>
                                     <th class="text-center">
                                         <a href="#" th:href="@{/admin/trimestre(pagina=${paginaActual}, ordena='termina', direccion=${direccionContraria})}" >
                                             Termina
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'termina'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'termina'}"></span>
                                         </a>
                                     </th>
                                     <th class="text-center">
                                         <a href="#" th:href="@{/admin/trimestre(pagina=${paginaActual}, ordena='publicado', direccion=${direccionContraria})}" >
                                             Publicado
-                                            <i class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'publicado'}"></i>
+                                            <span class="fa fa-caret-down" th:class="${direccion == 'desc'}?'fa fa-caret-down':'fa fa-caret-up'" th:if="${ordena == 'publicado'}"></span>
                                         </a>
                                     </th>
                                 </tr>

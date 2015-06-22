@@ -24,11 +24,11 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:fragment='head(title)'>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <head th:fragment='head(title, description)'>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title th:text="|${title} - #{project.name}|">Main</title>
-        <meta name="description" content=""/>
+        <meta name="description" content="" th:content="${description}"/>
         <meta name="author" content="J. David Mendoza"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="shortcut icon" href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" />
@@ -122,36 +122,34 @@ THE SOFTWARE.
                     <div class="col-sm-5 leftfooter">
                         <h4><a href="#" th:href="@{/conocenos}" th:text="#{acerca.de.esu}">Acerca de Escuela Sabática Universitaria</a></h4>
 
-                        <p><a href="#" th:href="@{/inicio}" th:text="#{inicio}">Inicio</a></p>
-
-                        <p><a href="#" th:href="@{/estudia}" th:text="#{estudia}">Estudia</a></p>
-
-                        <p><a href="#" th:href="@{/profundiza}" th:text="#{profundiza}">Profundiza</a></p>
-
-                        <p><a href="#" th:href="@{/comparte}" th:text="#{comparte}">Comparte</a></p>
-
-                        <p><a href="#" th:href="@{/conocenos}" th:text="#{conocenos}">Conocenos</a></p>
-
-                        <p><a href="#" th:href="@{/foro}" th:text="#{foro}" target="_blank">Foro</a></p>
+                        <p>
+                            <a href="#" th:href="@{/inicio}" th:text="#{inicio}">Inicio</a><br/>
+                            <a href="#" th:href="@{/estudia}" th:text="#{estudia}">Estudia</a><br/>
+                            <a href="#" th:href="@{/profundiza}" th:text="#{profundiza}">Profundiza</a><br/>
+                            <a href="#" th:href="@{/comparte}" th:text="#{comparte}">Comparte</a><br/>
+                            <a href="#" th:href="@{/foro}" th:text="#{foro}" target="_blank">Foro</a>
+                        </p>
                     </div>
 
                     <div class="col-sm-2 centerfooter">
                         <h4 th:text="#{redes.sociales}">Redes Sociales</h4>
-                        
-                        <p style="font-size: 2em;">
-                            <a href="http://www.facebook.com/EscuelaSabaticaUniversitaria" target="_blank" ><i class="fa fa-facebook-square"></i></a>
-                            <a href="http://twitter.com/esuniversitaria" target="_blank" ><i class="fa fa-twitter-square"></i></a>
-                            <a href="https://vimeo.com/sabbathschool" target="_blank" ><i class="fa fa-vimeo-square"></i></a>
-                            <a href="#" th:href="@{/rss}"><i class="fa fa-rss-square"></i></a>
+
+                        <p>
+                            <a href="http://www.facebook.com/EscuelaSabaticaUniversitaria" target="_blank" ><span class="fa fa-facebook-square"></span> Facebook</a><br/>
+                            <a href="http://twitter.com/esuniversitaria" target="_blank" ><span class="fa fa-twitter-square"></span> Twitter</a><br/>
+                            <a href="https://vimeo.com/sabbathschool" target="_blank" ><span class="fa fa-vimeo-square"></span> Vimeo</a><br/>
+                            <a href="https://plus.google.com/u/0/b/104251222608729023325/+EscuelaSabaticaUniversitariaOrgUM" target="_blank" ><span class="fa fa-google-plus-square"></span> Google+</a><br/>
+                            <a href="#" th:href="@{/rss}"><span class="fa fa-rss-square"></span> RSS</a>
                         </p>
 
                     </div>
 
                     <div class="col-sm-5 rightfooter">
                         <h4>"Profundiza en la palabra… Cambia tu mundo"</h4>
-                        <p>&nbsp;</p>
-                        <h4>Powered by <a href="http://www.um.edu.mx" target="_blank">Universidad de Montemorelos</a></h4>
-                        <a href="#" th:href="@{/admin}"><i class="fa fa-cogs"></i></a>
+                        <div id="powered-by">
+                            <h4>Powered by <a href="http://www.um.edu.mx" target="_blank">Universidad de Montemorelos</a></h4>
+                            <a href="#" th:href="@{/admin}"><span class="fa fa-cogs"></span></a>
+                        </div>
                     </div>
                 </div>                
             </div>
