@@ -39,7 +39,7 @@ public class ComunicaController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public String comunica(HttpServletRequest request) {
         log.info("Redirecting: /comunica?{}", request.getQueryString());
-        return "redirect:/comunica";
+        return "redirect:/comparte";
     }
     
 }
