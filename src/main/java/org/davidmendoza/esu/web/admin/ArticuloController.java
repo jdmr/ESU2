@@ -198,6 +198,7 @@ public class ArticuloController extends BaseController {
         Integer anio = new Integer(inicio.getAnio());
 
         Publicacion publicacion = new Publicacion();
+        publicacion.setVersion(0);
         publicacion.setArticulo(articulo);
         publicacion.setAnio(anio);
         publicacion.setTrimestre(inicio.getTrimestre());

@@ -34,6 +34,7 @@
                     <h1>Nueva Publicación</h1>
                     <form action="#" th:action="@{'/admin/articulo/publicacion/'}" th:object="${publicacion}" method="POST">
                         <input type="hidden" th:field="*{articulo.id}" />
+                        <input type="hidden" th:field="*{version}" />
                         <div class="row" th:if="${#fields.hasErrors('*')}">
                             <div class="col-sm-12">
                                 <div class="alert alert-danger">
