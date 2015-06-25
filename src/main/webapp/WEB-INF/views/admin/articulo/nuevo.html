@@ -81,7 +81,11 @@
             /*<![CDATA[*/
             var autoresUrl = /*[[@{/admin/articulo/autores}]]*/ '/admin/articulo/autores';
             $(document).ready(function() {
-                $('#contenido').summernote();
+                $('#contenido').summernote({
+                    oninit: function() {
+                        $('.note-editable').css('min-height', '200px');
+                    }
+                });
                 
                 $('input#autorNombre').autocomplete({
                     source: autoresUrl,
