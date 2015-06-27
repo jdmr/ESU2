@@ -56,6 +56,8 @@ public class Inicio implements Serializable {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date hoy;
     private final SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MMM/yyyy", new Locale("es"));
+    private String hoyLiga;
+    private Boolean esHoy = Boolean.FALSE;
 
     public Inicio() {
     }
@@ -290,6 +292,34 @@ public class Inicio implements Serializable {
         } else {
             return StringUtils.EMPTY;
         }
+    }
+
+    /**
+     * @return the hoyLiga
+     */
+    public String getHoyLiga() {
+        return hoyLiga;
+    }
+
+    /**
+     * @param hoyLiga the hoyLiga to set
+     */
+    public void setHoyLiga(String hoyLiga) {
+        this.hoyLiga = hoyLiga;
+    }
+
+    /**
+     * @return the esHoy
+     */
+    public Boolean getEsHoy() {
+        return esHoy;
+    }
+
+    /**
+     * @param esHoy the esHoy to set
+     */
+    public void setEsHoy(Boolean esHoy) {
+        this.esHoy = esHoy;
     }
 
 }

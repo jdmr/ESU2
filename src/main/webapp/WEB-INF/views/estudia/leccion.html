@@ -55,7 +55,8 @@
                             <a href="#" th:href="@{'/estudia/'+${ayer.anio}+'/'+${ayer.trimestre}+'/'+${ayer.leccion}+'/'+${ayer.dia}}"><span class="fa fa-chevron-left"></span><span class="hidden-xs"> Anterior</span></a>
                         </div>
                         <div class="col-xs-6 text-center">
-                            <a href="#" id="fechaLink" th:text="${estudia.hoyString}">Fecha</a>
+                            <a href="#" id="fechaLink" th:text="${estudia.hoyString}">Fecha</a><br/>
+                            <a href="#" th:href="@{${estudia.hoyLiga}}" th:unless="${estudia.esHoy}">Hoy</a>
                             <form id="navegaForm" action="#" th:action="@{/estudia/dia}" method="post">
                                 <input type="text" id="fecha" name="fecha" th:value="${#dates.format(estudia.hoy,'dd/MM/yyyy')}" style="display: none;" class='form-control text-center'/>
                             </form>
