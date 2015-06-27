@@ -63,13 +63,13 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
-    @CacheEvict(value = {"diaCache", "inicioCache"})
+    @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public Articulo obtiene(Long articuloId) {
         return articuloRepository.findOne(articuloId);
     }
 
     @Override
-    @CacheEvict(value = {"diaCache", "inicioCache"})
+    @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public Articulo elimina(Long articuloId) {
         Articulo articulo = articuloRepository.findOne(articuloId);
         articuloRepository.delete(articulo);
@@ -77,7 +77,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
-    @CacheEvict(value = {"diaCache", "inicioCache"})
+    @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public void crea(Articulo articulo) {
         Date date = new Date();
         articulo.setDateCreated(date);
@@ -87,7 +87,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
-    @CacheEvict(value = {"diaCache", "inicioCache"})
+    @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public void actualiza(Articulo articulo) {
         Articulo old = articuloRepository.dateCreated(articulo.getId());
         Date date = new Date();

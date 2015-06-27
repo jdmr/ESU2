@@ -85,14 +85,14 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     }
 
     @Override
-    @CacheEvict(value = {"diaCache", "inicioCache"})
+    @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public void nueva(Publicacion publicacion) {
         publicacion.setPadre(trimestreService.obtiene(publicacion.getAnio()+publicacion.getTrimestre()));
         publicacionDao.nueva(publicacion);
     }
 
     @Override
-    @CacheEvict(value = {"diaCache", "inicioCache"})
+    @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public Long elimina(Long publicacionId) {
         return publicacionDao.elimina(publicacionId);
     }
