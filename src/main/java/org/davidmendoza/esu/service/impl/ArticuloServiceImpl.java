@@ -32,21 +32,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.dao.PublicacionDao;
+import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.ReporteArticulo;
+import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +64,8 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     private PublicacionDao publicacionDao;
     @Autowired
     private SendGrid sendgrid;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -199,6 +199,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         StringBuilder sb = new StringBuilder();
         sb.append("<h1>Vista de articulos hasta el ").append(sdf.format(date)).append("</h1>");
+        sb.append("<p>Si no desea recibir estos correos, al final del correo hay una liga para ser eliminado de la lista.</p>");
         sb.append("<table>");
         sb.append("<thead>");
         sb.append("<tr>");
@@ -229,6 +230,17 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             log.debug("Creando correo");
             SendGrid.Email email = new SendGrid.Email();
 
+            for (Usuario usuario : usuarioRepository.findAll()) {
+                if (usuario.getUsername().equals("editor@um.edu.mx")
+                        || usuario.getUsername().equals("autor@um.edu.mx")
+                        || usuario.getUsername().equals("usuario@um.edu.mx")
+                        || usuario.getUsername().equals("admin@um.edu.mx")
+                        ) {
+                    continue;
+                }
+                email.addTo(usuario.getUsername());
+            }
+            
             email.addTo("jdmr@swau.edu");
             email.setFrom("contactoesu@um.edu.mx");
             email.setSubject("ESU:Vista de artículos hasta el " + sdf.format(date));
