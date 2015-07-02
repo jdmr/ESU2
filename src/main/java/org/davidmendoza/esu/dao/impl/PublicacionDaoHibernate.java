@@ -34,7 +34,6 @@ import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.model.Vista;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,7 +121,6 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         return vistas;
     }
 
-    @Async
     @Scheduled(cron = "0 0 2 * * ?")
     @Override
     public void actualizaVistasDelDia() {
@@ -174,6 +172,12 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         Long articuloId = articulo.getId();
         em.remove(publicacion);
         return articuloId;
+    }
+
+    @Override
+    public List todas() {
+        Query query = em.createQuery("select new map(p.id as publicacionId, p.tipo as tipo, p.estatus as estatus, p.articulo.id as articuloId) from Publicacion p order by p.articulo");
+        return query.getResultList();
     }
 
 }

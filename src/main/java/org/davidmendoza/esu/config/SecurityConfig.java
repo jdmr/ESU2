@@ -128,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
         WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
         webExpressionVoter.setExpressionHandler(defaultWebSecurityExpressionHandler);
-        List<AccessDecisionVoter> voters = new ArrayList<>();
+        List voters = new ArrayList<>();
         voters.add(webExpressionVoter);
         AccessDecisionManager result = new AffirmativeBased(voters);
         return result;

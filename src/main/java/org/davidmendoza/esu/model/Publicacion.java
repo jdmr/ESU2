@@ -159,6 +159,14 @@ public class Publicacion implements Serializable {
         this.trimestre = trimestre;
     }
 
+    public Publicacion(Long id, String tipo, String estatus, Articulo articulo) {
+        this.id = id;
+        this.estatus = estatus;
+        this.tipo = tipo;
+        this.articulo = articulo;
+    }
+    
+
     public Long getId() {
         return id;
     }

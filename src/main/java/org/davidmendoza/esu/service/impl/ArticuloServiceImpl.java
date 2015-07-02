@@ -23,15 +23,30 @@
  */
 package org.davidmendoza.esu.service.impl;
 
+import com.sendgrid.SendGrid;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.ArticuloRepository;
+import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.model.ReporteArticulo;
 import org.davidmendoza.esu.service.ArticuloService;
 import org.davidmendoza.esu.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,9 +57,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ArticuloServiceImpl extends BaseService implements ArticuloService {
-    
+
     @Autowired
     private ArticuloRepository articuloRepository;
+    @Autowired
+    private ArticuloDao articuloDao;
+    @Autowired
+    private PublicacionDao publicacionDao;
+    @Autowired
+    private SendGrid sendgrid;
 
     @Override
     @Transactional(readOnly = true)
@@ -96,5 +117,130 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
         articulo.setVistas(old.getVistas());
         articuloRepository.save(articulo);
     }
-    
+
+    @Override
+    public List<ReporteArticulo> articulosDelMes(Date date) {
+        List<Map<String, Object>> x = publicacionDao.todas();
+        Map<Long, Object> publicaciones = new HashMap<>();
+        Long articuloId = 0l;
+        for (Map<String, Object> a : x) {
+            if (!Objects.equals(articuloId, a.get("articuloId"))) {
+                articuloId = (Long) a.get("articuloId");
+                if (a.get("estatus").equals("PUBLICADO") && (a.get("tipo").equals("dialoga") || a.get("tipo").equals("comunica"))) {
+                    publicaciones.put(articuloId, a);
+                }
+            }
+        }
+
+        List<Map<String, Object>> lista = articuloDao.articulosDelDia(date);
+
+        log.debug("Lista: {}", lista.size());
+        List<ReporteArticulo> articulos = new ArrayList<>();
+        Map<Long, ReporteArticulo> mapa = new HashMap<>();
+        for (Map<String, Object> a : lista) {
+            log.debug("Agregando {}", a.get("articulo"));
+            if (publicaciones.get((Long) a.get("articuloId")) != null) {
+                ReporteArticulo b = new ReporteArticulo(
+                        (Long) a.get("articuloId"),
+                        (String) a.get("articulo"),
+                        (String) a.get("nombre") + " "
+                        + (String) a.get("apellido"),
+                        (Integer) a.get("vistas")
+                );
+
+                articulos.add(b);
+                mapa.put(b.getArticuloId(), b);
+            }
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, -1);
+
+        lista = articuloDao.articulosDelDia(cal.getTime());
+        for (Map<String, Object> a : lista) {
+            if (publicaciones.get((Long) a.get("articuloId")) != null) {
+                ReporteArticulo b = mapa.get((Long) a.get("articuloId"));
+                if (b != null) {
+                    b.setVistas2((Integer) a.get("vistas"));
+                }
+            }
+        }
+
+        cal.add(Calendar.MONTH, -1);
+
+        lista = articuloDao.articulosDelDia(cal.getTime());
+        for (Map<String, Object> a : lista) {
+            if (publicaciones.get((Long) a.get("articuloId")) != null) {
+                ReporteArticulo b = mapa.get((Long) a.get("articuloId"));
+                if (b != null) {
+                    b.setVistas3((Integer) a.get("vistas"));
+                }
+            }
+        }
+
+        cal.add(Calendar.MONTH, -1);
+
+        lista = articuloDao.articulosDelDia(cal.getTime());
+        for (Map<String, Object> a : lista) {
+            if (publicaciones.get((Long) a.get("articuloId")) != null) {
+                ReporteArticulo b = mapa.get((Long) a.get("articuloId"));
+                if (b != null) {
+                    b.setVistas4((Integer) a.get("vistas"));
+                }
+            }
+        }
+
+        return articulos;
+    }
+
+    @Override
+    public void enviarArticulosDelMes(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        StringBuilder sb = new StringBuilder();
+        sb.append("<h1>Vista de articulos hasta el ").append(sdf.format(date)).append("</h1>");
+        sb.append("<table>");
+        sb.append("<thead>");
+        sb.append("<tr>");
+        sb.append("<th style='text-align:left;'>").append("Artículo").append("</th>");
+        sb.append("<th style='text-align:left;'>").append("Autor").append("</th>");
+        sb.append("<th style='text-align:left;'>").append("Vistas").append("</th>");
+        sb.append("<th style='text-align:left;'>").append("Hace 1 mes").append("</th>");
+        sb.append("<th style='text-align:left;'>").append("Hace 2 meses").append("</th>");
+        sb.append("<th style='text-align:left;'>").append("Hace 3 meses").append("</th>");
+        sb.append("</tr>");
+        sb.append("</thead>");
+        sb.append("<tbody>");
+        List<ReporteArticulo> articulos = this.articulosDelMes(date);
+        for (ReporteArticulo a : articulos) {
+            sb.append("<tr>");
+            sb.append("<td>").append(a.getNombre()).append("</td>");
+            sb.append("<td>").append(a.getAutor()).append("</td>");
+            sb.append("<td>").append(a.getVistas1()).append("</td>");
+            sb.append("<td>").append(a.getVistas2()).append("</td>");
+            sb.append("<td>").append(a.getVistas3()).append("</td>");
+            sb.append("<td>").append(a.getVistas4()).append("</td>");
+            sb.append("</tr>");
+        }
+        sb.append("</tbody>");
+        sb.append("</table>");
+
+        try {
+            log.debug("Creando correo");
+            SendGrid.Email email = new SendGrid.Email();
+
+            email.addTo("jdmr@swau.edu");
+            email.setFrom("contactoesu@um.edu.mx");
+            email.setSubject("ESU:Vista de artículos hasta el " + sdf.format(date));
+            email.setHtml(sb.toString());
+
+            SendGrid.Response response = sendgrid.send(email);
+            log.debug("Resultado de enviar correo: " + response);
+        } catch (Exception e) {
+            log.error("No se pudo enviar correo", e);
+            throw new RuntimeException("No se pudo enviar el correo: " + e.getMessage(), e);
+        }
+
+    }
+
 }

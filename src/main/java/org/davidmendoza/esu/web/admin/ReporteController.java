@@ -21,35 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.davidmendoza.esu.service;
+package org.davidmendoza.esu.web.admin;
 
 import java.util.Date;
 import java.util.List;
-import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.ReporteArticulo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.davidmendoza.esu.service.ArticuloService;
+import org.davidmendoza.esu.web.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface ArticuloService {
-
-    public Page<Articulo> lista(PageRequest pageRequest);
-
-    public Page<Articulo> busca(String filtro, PageRequest pageRequest);
-
-    public Articulo obtiene(Long articuloId);
-
-    public Articulo elimina(Long articuloId);
-
-    public void crea(Articulo articulo);
-
-    public void actualiza(Articulo articulo);
-
-    public List<ReporteArticulo> articulosDelMes(Date date);
-
-    public void enviarArticulosDelMes(Date date);
+@Controller
+@RequestMapping("/admin/reporte")
+public class ReporteController extends BaseController {
     
+    @Autowired
+    private ArticuloService articuloService;
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String index() {
+        return "redirect:/admin/reporte/articulos";
+    }
+    
+    @RequestMapping(value = "/articulos", method = RequestMethod.GET)
+    public String articulos(Model model) {
+        List<ReporteArticulo> articulos = articuloService.articulosDelMes(new Date());
+        model.addAttribute("articulos", articulos);
+        
+        return "admin/reporte/articulos";
+    }
+    
+    @RequestMapping(value = "/articulos/enviar", method = RequestMethod.GET)
+    public String articulosEnviar() {
+        articuloService.enviarArticulosDelMes(new Date());
+        return "admin/reporte/articulos-enviar";
+    }
 }

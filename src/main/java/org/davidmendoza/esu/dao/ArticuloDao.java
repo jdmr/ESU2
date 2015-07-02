@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 J. David Mendoza.
+ * Copyright 2015 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package org.davidmendoza.esu.dao;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import org.davidmendoza.esu.model.Articulo;
-import org.davidmendoza.esu.model.Publicacion;
-import org.davidmendoza.esu.model.Usuario;
 
 /**
  *
- * @author J. David Mendoza <jdmendozar@gmail.com>
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface PublicacionDao {
+public interface ArticuloDao {
 
-    public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo);
-
-    public List<Publicacion> obtiene(Integer anio, String trimestre, String leccion, String tipo);
-
-    public Integer agregarVista(Articulo articulo);
+    public List articulosDelDia(Date date);
     
-    public void actualizaVistasDelDia();
-
-    public List<Publicacion> publicaciones(Usuario autor);
-
-    public List<Publicacion> publicacionesUnicasDeArticulos(Usuario usuario);
-
-    public void nueva(Publicacion publicacion);
-
-    public Long elimina(Long publicacionId);
-
-    public List todas();
 }
