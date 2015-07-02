@@ -23,6 +23,8 @@
  */
 package org.davidmendoza.esu.dao.impl;
 
+import com.sendgrid.SendGrid;
+import com.sendgrid.SendGridException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,7 @@ import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.model.Vista;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +48,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
+
+    @Autowired
+    private SendGrid sendgrid;
 
     @Transactional(readOnly = true)
     @Override
@@ -133,7 +139,23 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
             Vista vista = new Vista((Integer) result.get("vistas"), fecha, articulo);
             em.persist(vista);
         }
+
         log.info("Finalizo proceso de actualizacion de vistas del dia de {} articulos.", results.size());
+
+        SendGrid.Email email = new SendGrid.Email();
+
+        email.addTo("jdmr@swau.edu");
+        email.setFrom("contactoesu@um.edu.mx");
+        email.setSubject("ESU:Finalizo proceso de actualizacion de vistas del dia de " + results.size() + " articulos");
+        email.setHtml("<p>Finalizo proceso de actualizacion de vistas del dia de <strong>" + results.size() + "</strong> articulos</p>");
+
+        try {
+            SendGrid.Response response = sendgrid.send(email);
+            log.debug("Resultado de enviar correo: " + response);
+        } catch (SendGridException e) {
+            log.error("No se pudo enviar correo: " + e.getMessage(), e);
+        }
+
     }
 
     @Transactional(readOnly = true)
