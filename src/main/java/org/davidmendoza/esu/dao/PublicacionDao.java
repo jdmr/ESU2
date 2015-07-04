@@ -53,4 +53,6 @@ public interface PublicacionDao {
     public Long elimina(Long publicacionId);
 
     public List todas();
+
+    public List<Publicacion> publicaciones(Articulo articulo);
 }

@@ -196,9 +196,18 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         return articuloId;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List todas() {
         Query query = em.createQuery("select new map(p.id as publicacionId, p.tipo as tipo, p.estatus as estatus, p.articulo.id as articuloId) from Publicacion p order by p.articulo");
+        return query.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Publicacion> publicaciones(Articulo articulo) {
+        Query query = em.createQuery("select p from Publicacion p where p.estatus = 'PUBLICADO' and p.articulo.id = :articuloId");
+        query.setParameter("articuloId", articulo.getId());
         return query.getResultList();
     }
 

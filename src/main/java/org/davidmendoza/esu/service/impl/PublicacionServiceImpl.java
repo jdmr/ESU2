@@ -25,6 +25,7 @@
 package org.davidmendoza.esu.service.impl;
 
 import java.util.List;
+import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
@@ -49,11 +50,28 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     private PublicacionDao publicacionDao;
     @Autowired
     private TrimestreService trimestreService;
+    @Autowired
+    private ArticuloDao articuloDao;
 
     @Transactional(readOnly = true)
     @Override
     public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo) {
         return publicacionDao.obtiene(anio, trimestre, leccion, dia, tipo);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Publicacion obtiene(String titulo) {
+        log.debug("Buscando por {}", titulo);
+        List<Articulo> articulos = articuloDao.buscarPorTitulo(titulo);
+        if (!articulos.isEmpty()) {
+            Articulo articulo = articulos.get(0);
+            List<Publicacion> publicaciones = publicacionDao.publicaciones(articulo);
+            if (!publicaciones.isEmpty()) {
+                return publicaciones.get(0);
+            }
+        }
+        return null;
     }
 
     @Transactional(readOnly = true)

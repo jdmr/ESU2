@@ -29,6 +29,7 @@ import java.util.List;
 import javax.persistence.Query;
 import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.BaseDao;
+import org.davidmendoza.esu.model.Articulo;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +54,13 @@ public class ArticuloDaoHibernate extends BaseDao implements ArticuloDao {
         query.setParameter("fecha1", fecha1);
         query.setParameter("fecha2", date);
         
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Articulo> buscarPorTitulo(String titulo) {
+        Query query = em.createNamedQuery("Articulo.findByTitulo");
+        query.setParameter("titulo", titulo);
         return query.getResultList();
     }
     

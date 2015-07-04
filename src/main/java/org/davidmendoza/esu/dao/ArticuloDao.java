@@ -25,6 +25,7 @@ package org.davidmendoza.esu.dao;
 
 import java.util.Date;
 import java.util.List;
+import org.davidmendoza.esu.model.Articulo;
 
 /**
  *
@@ -33,5 +34,7 @@ import java.util.List;
 public interface ArticuloDao {
 
     public List articulosDelDia(Date date);
+
+    public List<Articulo> buscarPorTitulo(String titulo);
     
 }

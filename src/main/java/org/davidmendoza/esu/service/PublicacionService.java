@@ -36,9 +36,11 @@ import org.davidmendoza.esu.model.Usuario;
 public interface PublicacionService {
 
     public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo);
+    
+    public Publicacion obtiene(String nombre);
 
     public List<Publicacion> obtiene(Integer anio, String trimestre, String leccion, String tipo);
-
+    
     public Integer agregarVista(Articulo articulo);
     
     public void actualizaVistasDelDia();

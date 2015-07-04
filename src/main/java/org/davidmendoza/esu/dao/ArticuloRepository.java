@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.dao;
 
+import java.util.List;
 import org.davidmendoza.esu.model.Articulo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,5 +41,7 @@ public interface ArticuloRepository extends PagingAndSortingRepository<Articulo,
 
     @Query("select new Articulo(a.dateCreated, a.vistas) from Articulo a where a.id = :articuloId")
     public Articulo dateCreated(@Param("articuloId") Long articuloId);
+    
+    public List<Articulo> findByTitulo(String titulo);
     
 }
