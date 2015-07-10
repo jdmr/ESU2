@@ -256,15 +256,15 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             log.debug("Creando correo");
             SendGrid.Email email = new SendGrid.Email();
 
-//            for (Usuario usuario : usuarioRepository.findAll()) {
-//                if (usuario.getUsername().equals("editor@um.edu.mx")
-//                        || usuario.getUsername().equals("autor@um.edu.mx")
-//                        || usuario.getUsername().equals("usuario@um.edu.mx")
-//                        || usuario.getUsername().equals("admin@um.edu.mx")) {
-//                    continue;
-//                }
-//                email.addTo(usuario.getUsername());
-//            }
+            for (Usuario usuario : usuarioRepository.findAll()) {
+                if (usuario.getUsername().equals("editor@um.edu.mx")
+                        || usuario.getUsername().equals("autor@um.edu.mx")
+                        || usuario.getUsername().equals("usuario@um.edu.mx")
+                        || usuario.getUsername().equals("admin@um.edu.mx")) {
+                    continue;
+                }
+                email.addTo(usuario.getUsername());
+            }
             email.addTo("jdmr@swau.edu");
             email.setFrom("contactoesu@um.edu.mx");
             email.setSubject("ESU:Vista de artículos hasta el " + sdf.format(date));
