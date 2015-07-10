@@ -199,7 +199,7 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
     @Transactional(readOnly = true)
     @Override
     public List todas() {
-        Query query = em.createQuery("select new map(p.id as publicacionId, p.tipo as tipo, p.estatus as estatus, p.articulo.id as articuloId) from Publicacion p order by p.articulo");
+        Query query = em.createQuery("select new map(p.id as publicacionId, p.tipo as tipo, p.estatus as estatus, p.articulo.id as articuloId, p.anio as anio, p.trimestre as trimestre, p.leccion as leccion, p.tema as tema) from Publicacion p order by p.articulo");
         return query.getResultList();
     }
 

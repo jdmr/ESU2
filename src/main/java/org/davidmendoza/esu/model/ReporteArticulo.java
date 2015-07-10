@@ -37,6 +37,7 @@ public class ReporteArticulo implements Serializable {
     private Integer vistas2 = 0;
     private Integer vistas3 = 0;
     private Integer vistas4 = 0;
+    private String url;
 
     public ReporteArticulo() {
     }
@@ -144,5 +145,19 @@ public class ReporteArticulo implements Serializable {
      */
     public void setVistas4(Integer vistas4) {
         this.vistas4 = vistas4;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

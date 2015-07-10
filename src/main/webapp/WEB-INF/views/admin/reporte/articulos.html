@@ -54,7 +54,7 @@
                             </thead>
                             <tbody>
                                 <tr th:each="articulo : ${articulos}">
-                                    <td th:text='${articulo.nombre}'></td>
+                                    <td><a href="#" th:href="${articulo.url}" th:text='${articulo.nombre}' target="_blank">Título</a></td>
                                     <td th:text="${articulo.autor}">Descripción</td>
                                     <td th:text="${articulo.vistas1}">Descripción</td>
                                     <td th:text="${articulo.vistas2}">Descripción</td>

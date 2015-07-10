@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.dao.PublicacionDao;
@@ -139,7 +140,8 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
         Map<Long, ReporteArticulo> mapa = new HashMap<>();
         for (Map<String, Object> a : lista) {
             log.debug("Agregando {}", a.get("articulo"));
-            if (publicaciones.get((Long) a.get("articuloId")) != null) {
+            Map<String, Object> c = (Map) publicaciones.get((Long) a.get("articuloId"));
+            if (c != null) {
                 ReporteArticulo b = new ReporteArticulo(
                         (Long) a.get("articuloId"),
                         (String) a.get("articulo"),
@@ -147,6 +149,12 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
                         + (String) a.get("apellido"),
                         (Integer) a.get("vistas")
                 );
+                b.setUrl("http://escuelasabaticauniversitaria.org/"
+                        + (c.get("tipo").equals("dialoga") ? "profundiza/" : "comparte/")
+                        + c.get("anio")
+                        + "/" + c.get("trimestre")
+                        + "/" + c.get("leccion")
+                        + "/" + c.get("tema"));
 
                 articulos.add(b);
                 mapa.put(b.getArticuloId(), b);
@@ -197,30 +205,48 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     @Override
     public void enviarArticulosDelMes(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        List<ReporteArticulo> articulos = this.articulosDelMes(date);
+
         StringBuilder sb = new StringBuilder();
+        sb.append("<style>");
+        sb.append("@import url(http://fonts.googleapis.com/css?family=Ubuntu);");
+        sb.append("body {");
+        sb.append("font: 16px/1.625em 'Ubuntu',Tahoma,sans-serif;");
+        sb.append("font-size-adjust:none;");
+        sb.append("font-style:normal;");
+        sb.append("font-variant:normal;");
+        sb.append("font-weight:normal;");
+        sb.append("text-rendering: optimizeLegibility;");
+        sb.append("}");
+        sb.append("tbody tr:nth-child(odd) {background-color: #f9f9f9;}");
+        sb.append("thead tr th, tbody tr td {padding: 8px;}");
+        sb.append("tbody tr td{border-top: 1px solid #ddd;}");
+        sb.append("</style>");
         sb.append("<h1>Vista de articulos hasta el ").append(sdf.format(date)).append("</h1>");
+        sb.append("<p>Gracias por contribuir con uno o algunos de los ").append(articulos.size()).append(" artículos. Debajo encontrará una lista de cada artículo con cuántas vistas del mismo tenemos registradas a la fecha y 3 meses anteriores para que pueda ver el comportamiento que ha tenido últimamente su artículo.</p>");
+        sb.append("<p>Los instamos a seguir contribuyendo con nuevos artículos, promocionar los artículos ya existentes en facebook, twitter, instagram, etc. y, con la ayuda del Espíritu Santo, estos seguirán ayudando a difundir el mensaje de la Segunda Venida de nuestro Señor Jesucristo.</p>");
         sb.append("<p>Si no desea recibir estos correos, al final del correo hay una liga para ser eliminado de la lista.</p>");
         sb.append("<table>");
         sb.append("<thead>");
         sb.append("<tr>");
         sb.append("<th style='text-align:left;'>").append("Artículo").append("</th>");
         sb.append("<th style='text-align:left;'>").append("Autor").append("</th>");
-        sb.append("<th style='text-align:left;'>").append("Vistas").append("</th>");
-        sb.append("<th style='text-align:left;'>").append("Hace 1 mes").append("</th>");
-        sb.append("<th style='text-align:left;'>").append("Hace 2 meses").append("</th>");
-        sb.append("<th style='text-align:left;'>").append("Hace 3 meses").append("</th>");
+        sb.append("<th style='text-align:right;'>").append("Vistas").append("</th>");
+        sb.append("<th style='text-align:right;'>").append("Hace 1 mes").append("</th>");
+        sb.append("<th style='text-align:right;'>").append("Hace 2 meses").append("</th>");
+        sb.append("<th style='text-align:right;'>").append("Hace 3 meses").append("</th>");
         sb.append("</tr>");
         sb.append("</thead>");
         sb.append("<tbody>");
-        List<ReporteArticulo> articulos = this.articulosDelMes(date);
         for (ReporteArticulo a : articulos) {
+            String nombre = StringUtils.abbreviate(a.getNombre(), 40);
             sb.append("<tr>");
-            sb.append("<td>").append(a.getNombre()).append("</td>");
+            sb.append("<td>").append("<a href='").append(a.getUrl()).append("'>").append(nombre).append("</a></td>");
             sb.append("<td>").append(a.getAutor()).append("</td>");
-            sb.append("<td>").append(a.getVistas1()).append("</td>");
-            sb.append("<td>").append(a.getVistas2()).append("</td>");
-            sb.append("<td>").append(a.getVistas3()).append("</td>");
-            sb.append("<td>").append(a.getVistas4()).append("</td>");
+            sb.append("<td style='text-align:right;'>").append(a.getVistas1()).append("</td>");
+            sb.append("<td style='text-align:right;'>").append(a.getVistas2()).append("</td>");
+            sb.append("<td style='text-align:right;'>").append(a.getVistas3()).append("</td>");
+            sb.append("<td style='text-align:right;'>").append(a.getVistas4()).append("</td>");
             sb.append("</tr>");
         }
         sb.append("</tbody>");
@@ -230,17 +256,15 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             log.debug("Creando correo");
             SendGrid.Email email = new SendGrid.Email();
 
-            for (Usuario usuario : usuarioRepository.findAll()) {
-                if (usuario.getUsername().equals("editor@um.edu.mx")
-                        || usuario.getUsername().equals("autor@um.edu.mx")
-                        || usuario.getUsername().equals("usuario@um.edu.mx")
-                        || usuario.getUsername().equals("admin@um.edu.mx")
-                        ) {
-                    continue;
-                }
-                email.addTo(usuario.getUsername());
-            }
-            
+//            for (Usuario usuario : usuarioRepository.findAll()) {
+//                if (usuario.getUsername().equals("editor@um.edu.mx")
+//                        || usuario.getUsername().equals("autor@um.edu.mx")
+//                        || usuario.getUsername().equals("usuario@um.edu.mx")
+//                        || usuario.getUsername().equals("admin@um.edu.mx")) {
+//                    continue;
+//                }
+//                email.addTo(usuario.getUsername());
+//            }
             email.addTo("jdmr@swau.edu");
             email.setFrom("contactoesu@um.edu.mx");
             email.setSubject("ESU:Vista de artículos hasta el " + sdf.format(date));
