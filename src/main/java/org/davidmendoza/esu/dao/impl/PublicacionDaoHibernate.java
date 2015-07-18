@@ -144,9 +144,9 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
 
         SendGrid.Email email = new SendGrid.Email();
 
-        email.addTo("jdmr@swau.edu");
+        email.addTo("jdmendozar@gmail.com");
         email.setFrom("contactoesu@um.edu.mx");
-        email.setSubject("ESU:Finalizo proceso de actualizacion de vistas del dia de " + results.size() + " articulos");
+        email.setSubject("ESU:Finalizo proceso de actualizacion de vistas del dia");
         email.setHtml("<p>Finalizo proceso de actualizacion de vistas del dia de <strong>" + results.size() + "</strong> articulos</p>");
 
         try {

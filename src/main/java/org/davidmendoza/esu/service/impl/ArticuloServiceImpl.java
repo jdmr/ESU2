@@ -254,7 +254,6 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
 
         try {
             log.debug("Creando correo");
-            SendGrid.Email email = new SendGrid.Email();
 
             for (Usuario usuario : usuarioRepository.findAll()) {
                 if (usuario.getUsername().equals("editor@um.edu.mx")
@@ -263,15 +262,14 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
                         || usuario.getUsername().equals("admin@um.edu.mx")) {
                     continue;
                 }
+                SendGrid.Email email = new SendGrid.Email();
                 email.addTo(usuario.getUsername());
-            }
-            email.addTo("jdmr@swau.edu");
-            email.setFrom("contactoesu@um.edu.mx");
-            email.setSubject("ESU:Vista de artículos hasta el " + sdf.format(date));
-            email.setHtml(sb.toString());
+                email.setFrom("contactoesu@um.edu.mx");
+                email.setSubject("ESU:Vista de artículos hasta el " + sdf.format(date));
+                email.setHtml(sb.toString());
 
-            SendGrid.Response response = sendgrid.send(email);
-            log.debug("Resultado de enviar correo: " + response);
+                sendgrid.send(email);
+            }
         } catch (Exception e) {
             log.error("No se pudo enviar correo", e);
             throw new RuntimeException("No se pudo enviar el correo: " + e.getMessage(), e);
