@@ -130,6 +130,13 @@ a.navbar-brand {
 #powered-by {
   padding-top: 97px; }
 
+#rssLink {
+  font-size: 1.2em;
+  vertical-align: top; }
+
+#rssLogo {
+  font-size: 2em; }
+
 /* Desktop large
 ------------------------- */
 /* Desktop
