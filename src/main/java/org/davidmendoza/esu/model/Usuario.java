@@ -34,6 +34,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -153,7 +155,7 @@ public class Usuario implements Serializable, UserDetails {
     @Size(min = 1, max = 255)
     @Column(name = "username", nullable = false, length = 255)
     private String username;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "usuarios_roles", joinColumns = {
         @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "rol_id", referencedColumnName = "id", nullable = false)})
@@ -172,6 +174,11 @@ public class Usuario implements Serializable, UserDetails {
     private Boolean autor = false;
     @Transient
     private Boolean user = true;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private SocialMediaService signInProvider;
+    @Transient
+    private String passwordVerification;
 
     public Usuario() {
     }
@@ -553,6 +560,34 @@ public class Usuario implements Serializable, UserDetails {
      */
     public void setUser(Boolean user) {
         this.user = user;
+    }
+
+    /**
+     * @return the signInProvider
+     */
+    public SocialMediaService getSignInProvider() {
+        return signInProvider;
+    }
+
+    /**
+     * @param signInProvider the signInProvider to set
+     */
+    public void setSignInProvider(SocialMediaService signInProvider) {
+        this.signInProvider = signInProvider;
+    }
+
+    /**
+     * @return the passwordVerification
+     */
+    public String getPasswordVerification() {
+        return passwordVerification;
+    }
+
+    /**
+     * @param passwordVerification the passwordVerification to set
+     */
+    public void setPasswordVerification(String passwordVerification) {
+        this.passwordVerification = passwordVerification;
     }
 
 }

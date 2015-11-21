@@ -68,7 +68,7 @@ public class BusquedaDaoHibernate extends BaseDao implements BusquedaDao {
         org.apache.lucene.search.Query query
                 = queryBuilder
                 .keyword()
-                .onFields("titulo", "descripcion", "contenido")
+                .onFields("titulo", "descripcion", "contenido", "usuario.apellido", "usuario.nombre")
                 .matching(filtro)
                 .createQuery();
 
