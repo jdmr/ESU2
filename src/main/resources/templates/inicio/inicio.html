@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:include='/layouts/main :: head(#{inicio}, ${inicio.descripcion})'>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Inicio</title>
+        <meta name="description" content="" th:content="${description}"/>
+        <meta name="author" content="J. David Mendoza"/>
+        <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}" />
+        <link rel="apple-touch-icon" sizes="57x57" href="../../static/apple-touch-icon-57x57.png" th:href="@{/apple-touch-icon-57x57.png}" />
+        <link rel="apple-touch-icon" sizes="114x114" href="../../static/apple-touch-icon-114x114.png" th:href="@{/apple-touch-icon-114x114.png}" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../static/apple-touch-icon-72x72.png" th:href="@{/apple-touch-icon-72x72.png}" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../static/apple-touch-icon-144x144.png" th:href="@{/apple-touch-icon-144x144.png}" />
+        <link rel="apple-touch-icon" sizes="60x60" href="../../static/apple-touch-icon-60x60.png" th:href="@{/apple-touch-icon-60x60.png}" />
+        <link rel="apple-touch-icon" sizes="120x120" href="../../static/apple-touch-icon-120x120.png" th:href="@{/apple-touch-icon-120x120.png}" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../../static/apple-touch-icon-76x76.png" th:href="@{/apple-touch-icon-76x76.png}" />
+        <link rel="apple-touch-icon" sizes="152x152" href="../../static/apple-touch-icon-152x152.png" th:href="@{/apple-touch-icon-152x152.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-196x196.png" sizes="196x196" th:href="@{/favicon-196x196.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-160x160.png" sizes="160x160" th:href="@{/favicon-160x160.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-96x96.png" sizes="96x96" th:href="@{/favicon-96x96.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-16x16.png" sizes="16x16" th:href="@{/favicon-16x16.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-32x32.png" sizes="32x32" th:href="@{/favicon-32x32.png}" />
+        <meta name="msapplication-TileColor" content="#67b6ea" />
+        <meta name="msapplication-TileImage" content="../../static/mstile-144x144.png" th:content="@{/mstile-144x144.png}" />
+        <meta name="msapplication-config" content="../../static/browserconfig.xml" th:content="@{/browserconfig.xml}" />
+
+        <link rel="stylesheet" href="../../static/styles/vendor.css" th:href="@{/styles/vendor.css}" />
+        <link rel="stylesheet" href="../../static/styles/main.css" th:href="@{/styles/main.css}" />
+        <script src="../../static/scripts/vendor/modernizr.js" th:src="@{/scripts/vendor/modernizr.js}"></script>
+
+    </head>
+    <body>
+
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('inicio')">
+        </header>
+
+        <div class="container">
+
+            <div class="row" id="searchDiv" th:replace="/layouts/main :: searchDiv">
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div th:if="${inicio.video != null}" class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="http://www.google.com" th:src="${inicio.video.articulo.contenido}" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <th:block th:if="${inicio.publicacion != null}">
+                        <h1><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" th:utext="${inicio.publicacion.articulo.titulo}">Titulo Leccion</a></h1>
+                        <h3 th:text="${inicio.hoyString}">Domingo 20/Jul/2014</h3>
+                        <p th:utext="${inicio.publicacion.articulo.descripcion}">Texto de la leccion</p>
+                        <p><a href="#" th:href="@{'/estudia/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${inicio.dia}}" class="btn btn-primary btn-lg btn-block btn-cta">Leer más...</a></p>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="row" th:if="${inicio.podcast != null}">
+                <div class="col-md-12">
+                    <th:block th:text="#{podcast}">Podcast</th:block>: <audio controls="controls" style="width: 80%;">
+                        <source src="#" th:src="@{inicio.podcast.articulo.contenido}" type="audio/mpeg" th:text="#{navegador.no.podcast}">Tu navegador no nos permite reproducir audio.</source>
+                    </audio>
+                </div>
+            </div>
+
+            <div class="row" th:if="${inicio.versiculo != null}">
+                <div class="col-md-12">
+                    <div class="well versiculo" th:utext="${inicio.versiculo.articulo.contenido}">
+                        <p>Porque de tal manera amo Dios al mundo...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <th:block th:each="dialoga : ${inicio.dialoga}">
+                        <h1><a href="#" th:href="@{'/profundiza/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h1>
+                        <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h3>
+                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/profundiza/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${dialoga.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
+                    </th:block>
+                </div>
+                <div class="col-md-6">
+                    <th:block th:each="comunica : ${inicio.comunica}">
+                        <h1><a href="#" th:href="@{'/comparte/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h1>
+                        <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h3>
+                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/comparte/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
+                    </th:block>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="addthis_recommended_horizontal"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        </footer>
+
+        <div th:replace="/layouts/main :: scripts" th:remove="tag">
+            <script src="../../static/scripts/vendor.js" th:src="@{/scripts/vendor.js}"></script>
+            <script src="../../static/scripts/plugins.js" th:src="@{/scripts/plugins.js}"></script>
+            <script src="../../static/scripts/main.js" th:src="@{/scripts/main.js}"></script>
+        </div>
+        
+        
+    </body>
+</html>

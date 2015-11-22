@@ -3,33 +3,31 @@
       xmlns:th="http://www.thymeleaf.org">
     <head th:fragment='head(title, description)'>
         <meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title th:text="|${title} - #{project.name}|">Main</title>
         <meta name="description" content="" th:content="${description}"/>
         <meta name="author" content="J. David Mendoza"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="shortcut icon" href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" />
-        <link rel="apple-touch-icon" sizes="57x57" href="../../../static/img/apple-touch-icon-57x57.png" th:href="@{/static/img/apple-touch-icon-57x57.png}" />
-        <link rel="apple-touch-icon" sizes="114x114" href="../../../static/img/apple-touch-icon-114x114.png" th:href="@{/static/img/apple-touch-icon-114x114.png}" />
-        <link rel="apple-touch-icon" sizes="72x72" href="../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
-        <link rel="apple-touch-icon" sizes="144x144" href="../../../static/img/apple-touch-icon-144x144.png" th:href="@{/static/img/apple-touch-icon-144x144.png}" />
-        <link rel="apple-touch-icon" sizes="60x60" href="../../../static/img/apple-touch-icon-60x60.png" th:href="@{/static/img/apple-touch-icon-60x60.png}" />
-        <link rel="apple-touch-icon" sizes="120x120" href="../../../static/img/apple-touch-icon-120x120.png" th:href="@{/static/img/apple-touch-icon-120x120.png}" />
-        <link rel="apple-touch-icon" sizes="76x76" href="../../../static/img/apple-touch-icon-76x76.png" th:href="@{/static/img/apple-touch-icon-76x76.png}" />
-        <link rel="apple-touch-icon" sizes="152x152" href="../../../static/img/apple-touch-icon-152x152.png" th:href="@{/static/img/apple-touch-icon-152x152.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-196x196.png" sizes="196x196" th:href="@{/static/img/favicon-196x196.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-160x160.png" sizes="160x160" th:href="@{/static/img/favicon-160x160.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-96x96.png" sizes="96x96" th:href="@{/static/img/favicon-96x96.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-16x16.png" sizes="16x16" th:href="@{/static/img/favicon-16x16.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-32x32.png" sizes="32x32" th:href="@{/static/img/favicon-32x32.png}" />
+        <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}" />
+        <link rel="apple-touch-icon" sizes="57x57" href="../../static/apple-touch-icon-57x57.png" th:href="@{/apple-touch-icon-57x57.png}" />
+        <link rel="apple-touch-icon" sizes="114x114" href="../../static/apple-touch-icon-114x114.png" th:href="@{/apple-touch-icon-114x114.png}" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../static/apple-touch-icon-72x72.png" th:href="@{/apple-touch-icon-72x72.png}" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../static/apple-touch-icon-144x144.png" th:href="@{/apple-touch-icon-144x144.png}" />
+        <link rel="apple-touch-icon" sizes="60x60" href="../../static/apple-touch-icon-60x60.png" th:href="@{/apple-touch-icon-60x60.png}" />
+        <link rel="apple-touch-icon" sizes="120x120" href="../../static/apple-touch-icon-120x120.png" th:href="@{/apple-touch-icon-120x120.png}" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../../static/apple-touch-icon-76x76.png" th:href="@{/apple-touch-icon-76x76.png}" />
+        <link rel="apple-touch-icon" sizes="152x152" href="../../static/apple-touch-icon-152x152.png" th:href="@{/apple-touch-icon-152x152.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-196x196.png" sizes="196x196" th:href="@{/favicon-196x196.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-160x160.png" sizes="160x160" th:href="@{/favicon-160x160.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-96x96.png" sizes="96x96" th:href="@{/favicon-96x96.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-16x16.png" sizes="16x16" th:href="@{/favicon-16x16.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-32x32.png" sizes="32x32" th:href="@{/favicon-32x32.png}" />
         <meta name="msapplication-TileColor" content="#67b6ea" />
-        <meta name="msapplication-TileImage" content="../../../static/img/mstile-144x144.png" th:content="@{/static/img/mstile-144x144.png}" />
-        <meta name="msapplication-config" content="../../../static/img/browserconfig.xml" th:content="@{/static/img/browserconfig.xml}" />
+        <meta name="msapplication-TileImage" content="../../static/mstile-144x144.png" th:content="@{/mstile-144x144.png}" />
+        <meta name="msapplication-config" content="../../static/browserconfig.xml" th:content="@{/browserconfig.xml}" />
 
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="../../../static/css/main.css" th:href="@{/static/css/main.css}" />
+        <link rel="stylesheet" href="../../static/styles/vendor.css" th:href="@{/styles/vendor.css}" />
+        <link rel="stylesheet" href="../../static/styles/main.css" th:href="@{/styles/main.css}" />
+        <script src="../../static/scripts/vendor/modernizr.js" th:src="@{/scripts/vendor/modernizr.js}"></script>
 
     </head>
     <body>
@@ -43,8 +41,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <a id="mainLogo" href="#" th:href="@{/inicio}" class="navbar-brand"><img src="../../static/images/logo.jpg" th:src="@{/images/logo.jpg}" alt="Escuela Sabática Universitaria" th:alt="#{escuela.sabatica.universitaria}" /></a>
                 </div>
-                <a id="mainLogo" href="#" th:href="@{/inicio}" class="navbar-brand"><img src="../../../static/img/logo.jpg" th:src="@{/static/img/logo.jpg}" alt="Escuela Sabática Universitaria" th:alt="#{escuela.sabatica.universitaria}" /></a>
+                
                 <nav id="mainMenu" class="collapse navbar-collapse" role="navigation">
                     <ul class="nav navbar-nav">
                         <li th:class="${activeMenu} == 'inicio' ? 'active'"><a href="#" th:href="@{/}" th:text="#{inicio}">Inicio</a></li>
@@ -130,11 +129,6 @@
         </footer>
 
         <div th:fragment="scripts" th:remove="tag">
-            <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-            <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-            <script src="../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
-            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
             <script>
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;
@@ -152,6 +146,10 @@
                 ga('send', 'pageview');
 
             </script>
+            <script src="../../static/scripts/vendor.js" th:src="@{/scripts/vendor.js}"></script>
+            <script src="../../static/scripts/plugins.js" th:src="@{/scripts/plugins.js}"></script>
+            <script src="../../static/scripts/main.js" th:src="@{/scripts/main.js}"></script>
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
         </div>
     </body>
 </html>

@@ -1,0 +1,1 @@
+$("body").flowtype({minimum:500,maximum:940,minFont:14,maxFont:40,fontRatio:40});

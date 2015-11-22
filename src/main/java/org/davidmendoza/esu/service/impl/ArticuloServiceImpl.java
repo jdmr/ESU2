@@ -120,6 +120,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ReporteArticulo> articulosDelMes(Date date) {
         List<Map<String, Object>> x = publicacionDao.todas();
         Map<Long, Object> publicaciones = new HashMap<>();

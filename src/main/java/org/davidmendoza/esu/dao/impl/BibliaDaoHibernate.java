@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BibliaDaoHibernate extends BaseDao implements BibliaDao {
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Rv2000> biblia(Integer libro, Integer capitulo, Integer versiculo, Integer versiculos) {
         try {
             Query query = em.createQuery("select v.id from Rv2000 v where v.libro.id = :libro and v.capitulo = :capitulo and v.versiculo = :versiculo");
