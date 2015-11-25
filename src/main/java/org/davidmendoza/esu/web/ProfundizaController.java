@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.web;
 
+import java.util.Calendar;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
@@ -102,6 +103,23 @@ public class ProfundizaController extends BaseController {
 
         if (notFound) {
             return "redirect:/inicio";
+        }
+
+        Inicio hoy = inicioService.inicio(Calendar.getInstance());
+        if (inicio.getAnio().equals(hoy.getAnio())
+                && inicio.getTrimestre().equals(hoy.getTrimestre())
+                && inicio.getLeccion().equals(hoy.getLeccion())
+                && inicio.getDia().equals(hoy.getDia())) {
+            inicio.setEsHoy(Boolean.TRUE);
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("/estudia");
+            sb.append("/").append(hoy.getAnio());
+            sb.append("/").append(hoy.getTrimestre());
+            sb.append("/").append(hoy.getLeccion());
+            sb.append("/").append(hoy.getDia());
+            inicio.setHoyLiga(sb.toString());
+            inicio.setEsHoy(Boolean.FALSE);
         }
 
         model.addAttribute("profundiza", inicio);

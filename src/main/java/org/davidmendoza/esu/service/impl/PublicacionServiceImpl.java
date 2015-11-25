@@ -21,10 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package org.davidmendoza.esu.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
@@ -45,7 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PublicacionServiceImpl extends BaseService implements PublicacionService {
-    
+
     @Autowired
     private PublicacionDao publicacionDao;
     @Autowired
@@ -105,7 +108,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     @Override
     @CacheEvict(value = {"diaCache", "inicioCache"}, allEntries = true)
     public void nueva(Publicacion publicacion) {
-        publicacion.setPadre(trimestreService.obtiene(publicacion.getAnio()+publicacion.getTrimestre()));
+        publicacion.setPadre(trimestreService.obtiene(publicacion.getAnio() + publicacion.getTrimestre()));
         publicacionDao.nueva(publicacion);
     }
 
@@ -114,5 +117,41 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     public Long elimina(Long publicacionId) {
         return publicacionDao.elimina(publicacionId);
     }
-    
+
+    @Override
+    public List<Publicacion> populares(Integer anio, String trimestre, String leccion, Integer posicion) {
+        List<Publicacion> articulos = new ArrayList<>();
+        List<Publicacion> a = this.obtiene(anio, trimestre, leccion, "dialoga");
+        List<Publicacion> b = this.obtiene(anio, trimestre, leccion, "comunica");
+
+        List<Long> vistas = publicacionDao.vistasPopulares(posicion);
+        List<Publicacion> c = publicacionDao.publicaciones(vistas);
+
+        int max = Math.max(a.size(), b.size());
+
+        for (int i = 0; i < max; i++) {
+            if (a.size() > i) {
+                articulos.add(a.get(i));
+            }
+            if (b.size() > i) {
+                articulos.add(b.get(i));
+            }
+        }
+        articulos.addAll(c);
+        List<Publicacion> publicaciones = new ArrayList<>();
+        Set<Long> ids = new HashSet<>();
+        for (Publicacion publicacion : articulos) {
+            if (!ids.contains(publicacion.getArticulo().getId())) {
+                publicaciones.add(publicacion);
+                ids.add(publicacion.getArticulo().getId());
+            }
+        }
+
+        publicaciones.stream().forEach((x) -> {
+            log.debug("{} : {} : {} : {} : {} : {}", x.getAnio(), x.getTrimestre(), x.getLeccion(), x.getTipo(), x.getDia(), x.getTema());
+            x.getArticulo().setDescripcion(StringUtils.abbreviate(x.getArticulo().getDescripcion(), 280));
+        });
+        return publicaciones;
+    }
+
 }

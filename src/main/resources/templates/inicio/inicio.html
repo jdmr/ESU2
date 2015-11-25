@@ -76,26 +76,24 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <th:block th:each="dialoga : ${inicio.dialoga}">
-                        <h1><a href="#" th:href="@{'/profundiza/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h1>
-                        <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h3>
-                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block></p>
-                        <p><a href="#" th:href="@{'/profundiza/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${dialoga.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
+                <div class="col-md-6" th:each="publicacion : ${inicio.articulos}">
+                    <th:block th:if="${publicacion.tipo == 'dialoga'}">
+                        <h1><a href="#" th:href="@{'/profundiza/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:utext="${publicacion.articulo.titulo}">Dialoga</a></h1>
+                        <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${publicacion.articulo.autor.nombreCompleto}">Autor</th:block></h3>
+                        <p><th:block th:utext="${publicacion.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/profundiza/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
                     </th:block>
-                </div>
-                <div class="col-md-6">
-                    <th:block th:each="comunica : ${inicio.comunica}">
-                        <h1><a href="#" th:href="@{'/comparte/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h1>
-                        <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h3>
-                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block></p>
-                        <p><a href="#" th:href="@{'/comparte/'+${inicio.anio}+'/'+${inicio.trimestre}+'/'+${inicio.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
+                    <th:block th:if="${publicacion.tipo == 'comunica'}">
+                        <h1><a href="#" th:href="@{'/comparte/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:utext="${publicacion.articulo.titulo}">Comunica</a></h1>
+                        <h3><th:block th:text="#{por}">Por</th:block> <th:block th:text="${publicacion.articulo.autor.nombreCompleto}">Autor</th:block></h3>
+                        <p><th:block th:utext="${publicacion.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/comparte/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
                     </th:block>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="addthis_recommended_horizontal"></div>
+                    <th:block th:if="${publicacion.tipo == 'leccion'}">
+                        <h1><a href="#" th:href="@{'/estudia/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.dia}}" th:utext="${publicacion.articulo.titulo}">Leccion</a></h1>
+                        <p><th:block th:utext="${publicacion.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/estudia/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.dia}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
+                    </th:block>
                 </div>
             </div>
         </div>

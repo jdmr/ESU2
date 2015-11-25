@@ -184,6 +184,11 @@ public class Usuario implements Serializable, UserDetails {
         this.password = password;
         this.dateCreated = dateCreated;
     }
+    
+    public Usuario(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
 
     /**
      * @return the serialVersionUID

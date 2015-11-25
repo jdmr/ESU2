@@ -97,19 +97,19 @@ public class EstudiaController extends BaseController {
         inicio = inicioService.inicio(inicio);
         
         Inicio hoy = inicioService.inicio(Calendar.getInstance());
-        StringBuilder sb = new StringBuilder();
-        sb.append("/estudia");
-        sb.append("/").append(hoy.getAnio());
-        sb.append("/").append(hoy.getTrimestre());
-        sb.append("/").append(hoy.getLeccion());
-        sb.append("/").append(hoy.getDia());
-        inicio.setHoyLiga(sb.toString());
         if (inicio.getAnio().equals(hoy.getAnio()) 
                 && inicio.getTrimestre().equals(hoy.getTrimestre())
                 && inicio.getLeccion().equals(hoy.getLeccion())
                 && inicio.getDia().equals(hoy.getDia())) {
             inicio.setEsHoy(Boolean.TRUE);
         } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("/estudia");
+            sb.append("/").append(hoy.getAnio());
+            sb.append("/").append(hoy.getTrimestre());
+            sb.append("/").append(hoy.getLeccion());
+            sb.append("/").append(hoy.getDia());
+            inicio.setHoyLiga(sb.toString());
             inicio.setEsHoy(Boolean.FALSE);
         }
 

@@ -96,6 +96,11 @@ public class Vista implements Serializable {
         this.articulo = articulo;
     }
     
+    public Vista(int cantidad, Long articuloId) {
+        this.cantidad = cantidad;
+        this.articulo = new Articulo(articuloId);
+    }
+    
     public Long getId() {
         return id;
     }

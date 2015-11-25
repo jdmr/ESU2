@@ -52,4 +52,6 @@ public interface PublicacionService {
     public void nueva(Publicacion publicacion);
 
     public Long elimina(Long publicacionId);
+
+    public List<Publicacion> populares(Integer anio, String trimestre, String leccion, Integer posicion);
 }

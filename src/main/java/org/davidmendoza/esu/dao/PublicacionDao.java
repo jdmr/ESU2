@@ -25,7 +25,6 @@
 package org.davidmendoza.esu.dao;
 
 import java.util.List;
-import java.util.Map;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
@@ -55,4 +54,8 @@ public interface PublicacionDao {
     public List todas();
 
     public List<Publicacion> publicaciones(Articulo articulo);
+
+    public List<Publicacion> publicaciones(List<Long> articulos);
+
+    public List<Long> vistasPopulares(Integer posicion);
 }

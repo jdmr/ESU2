@@ -3,34 +3,31 @@
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title><th:block th:text="#{estudia.leccion(${estudia.publicacion.articulo.titulo})}">Titulo</th:block> | ESU</title>
         <meta name="description" content="" th:content="${estudia.publicacion.articulo.descripcion}"/>
         <meta name="author" content="J. David Mendoza"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="shortcut icon" href="../../../static/img/favicon.ico" th:href="@{/static/img/favicon.ico}" />
-        <link rel="apple-touch-icon" sizes="57x57" href="../../../static/img/apple-touch-icon-57x57.png" th:href="@{/static/img/apple-touch-icon-57x57.png}" />
-        <link rel="apple-touch-icon" sizes="114x114" href="../../../static/img/apple-touch-icon-114x114.png" th:href="@{/static/img/apple-touch-icon-114x114.png}" />
-        <link rel="apple-touch-icon" sizes="72x72" href="../../../static/img/apple-touch-icon-72x72.png" th:href="@{/static/img/apple-touch-icon-72x72.png}" />
-        <link rel="apple-touch-icon" sizes="144x144" href="../../../static/img/apple-touch-icon-144x144.png" th:href="@{/static/img/apple-touch-icon-144x144.png}" />
-        <link rel="apple-touch-icon" sizes="60x60" href="../../../static/img/apple-touch-icon-60x60.png" th:href="@{/static/img/apple-touch-icon-60x60.png}" />
-        <link rel="apple-touch-icon" sizes="120x120" href="../../../static/img/apple-touch-icon-120x120.png" th:href="@{/static/img/apple-touch-icon-120x120.png}" />
-        <link rel="apple-touch-icon" sizes="76x76" href="../../../static/img/apple-touch-icon-76x76.png" th:href="@{/static/img/apple-touch-icon-76x76.png}" />
-        <link rel="apple-touch-icon" sizes="152x152" href="../../../static/img/apple-touch-icon-152x152.png" th:href="@{/static/img/apple-touch-icon-152x152.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-196x196.png" sizes="196x196" th:href="@{/static/img/favicon-196x196.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-160x160.png" sizes="160x160" th:href="@{/static/img/favicon-160x160.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-96x96.png" sizes="96x96" th:href="@{/static/img/favicon-96x96.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-16x16.png" sizes="16x16" th:href="@{/static/img/favicon-16x16.png}" />
-        <link rel="icon" type="image/png" href="../../../static/img/favicon-32x32.png" sizes="32x32" th:href="@{/static/img/favicon-32x32.png}" />
+        <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}" />
+        <link rel="apple-touch-icon" sizes="57x57" href="../../static/apple-touch-icon-57x57.png" th:href="@{/apple-touch-icon-57x57.png}" />
+        <link rel="apple-touch-icon" sizes="114x114" href="../../static/apple-touch-icon-114x114.png" th:href="@{/apple-touch-icon-114x114.png}" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../../static/apple-touch-icon-72x72.png" th:href="@{/apple-touch-icon-72x72.png}" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../../static/apple-touch-icon-144x144.png" th:href="@{/apple-touch-icon-144x144.png}" />
+        <link rel="apple-touch-icon" sizes="60x60" href="../../static/apple-touch-icon-60x60.png" th:href="@{/apple-touch-icon-60x60.png}" />
+        <link rel="apple-touch-icon" sizes="120x120" href="../../static/apple-touch-icon-120x120.png" th:href="@{/apple-touch-icon-120x120.png}" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../../static/apple-touch-icon-76x76.png" th:href="@{/apple-touch-icon-76x76.png}" />
+        <link rel="apple-touch-icon" sizes="152x152" href="../../static/apple-touch-icon-152x152.png" th:href="@{/apple-touch-icon-152x152.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-196x196.png" sizes="196x196" th:href="@{/favicon-196x196.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-160x160.png" sizes="160x160" th:href="@{/favicon-160x160.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-96x96.png" sizes="96x96" th:href="@{/favicon-96x96.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-16x16.png" sizes="16x16" th:href="@{/favicon-16x16.png}" />
+        <link rel="icon" type="image/png" href="../../static/favicon-32x32.png" sizes="32x32" th:href="@{/favicon-32x32.png}" />
         <meta name="msapplication-TileColor" content="#67b6ea" />
-        <meta name="msapplication-TileImage" content="../../../static/img/mstile-144x144.png" th:content="@{/static/img/mstile-144x144.png}" />
-        <meta name="msapplication-config" content="../../../static/img/browserconfig.xml" th:content="@{/static/img/browserconfig.xml}" />
+        <meta name="msapplication-TileImage" content="../../static/mstile-144x144.png" th:content="@{/mstile-144x144.png}" />
+        <meta name="msapplication-config" content="../../static/browserconfig.xml" th:content="@{/browserconfig.xml}" />
 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="../../../static/css/main.css" th:href="@{/static/css/main.css}" />
+        <link rel="stylesheet" href="../../static/styles/vendor.css" th:href="@{/styles/vendor.css}" />
+        <link rel="stylesheet" href="../../static/styles/main.css" th:href="@{/styles/main.css}" />
+        <script src="../../static/scripts/vendor/modernizr.js" th:src="@{/scripts/vendor/modernizr.js}"></script>
 
     </head>
     <body>
@@ -56,7 +53,7 @@
                         </div>
                         <div class="col-xs-6 text-center">
                             <a href="#" id="fechaLink" th:text="${estudia.hoyString}">Fecha</a><br/>
-                            <a href="#" th:href="@{${estudia.hoyLiga}}" th:unless="${estudia.esHoy}">Hoy</a>
+                            <a href="#" th:href="@{${estudia.hoyLiga}}" th:unless="${estudia.esHoy}">Lección de Hoy</a>
                             <form id="navegaForm" action="#" th:action="@{/estudia/dia}" method="post">
                                 <input type="text" id="fecha" name="fecha" th:value="${#dates.format(estudia.hoy,'dd/MM/yyyy')}" style="display: none;" class='form-control text-center'/>
                             </form>
@@ -69,11 +66,11 @@
                     <h1 class="text-center" th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h1>
                     <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
                     <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <span class="fa fa-eye"></span></p>
-                    
+
                     <div class="addthis_sharing_toolbox"></div>
-                    
+
                     <div class="addthis_recommended_horizontal"></div>
-                    
+
                     <div id="disqus_thread"></div>
                     <script type="text/javascript" th:inline="javascript">
                         /*<![CDATA[*/
@@ -99,18 +96,19 @@
                     <a href="http://disqus.com" class="dsq-brlink">comments powered by <div class="logo-disqus">Disqus</div></a>
                 </div>
                 <div class="col-md-4">
+                    <a href="#" th:href="@{${estudia.hoyLiga}}" th:unless="${estudia.esHoy}" class="btn btn-primary btn-lg btn-block btn-cta">Lección de Hoy</a>
                     <th:block th:each="dialoga : ${estudia.dialoga}">
                         <h2><a href="#" th:href="@{'/profundiza/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${dialoga.tema}}" th:utext="${dialoga.articulo.titulo}">Dialoga</a></h2>
                         <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${dialoga.articulo.autor.nombreCompleto}">Autor</th:block></h4>
-                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/profundiza/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${dialoga.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
+                        <p><th:block th:utext="${dialoga.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/profundiza/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${estudia.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
                     </th:block>
                     <th:block th:each="comunica : ${estudia.comunica}">
                         <h2><a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:utext="${comunica.articulo.titulo}">Dialoga</a></h2>
                         <h4><th:block th:text="#{por}">Por</th:block> <th:block th:text="${comunica.articulo.autor.nombreCompleto}">Autor</th:block></h4>
-                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block> <a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}">Leer mas...</a></p>
+                        <p><th:block th:utext="${comunica.articulo.descripcion}">Descripcion</th:block></p>
+                        <p><a href="#" th:href="@{'/comparte/'+${estudia.anio}+'/'+${estudia.trimestre}+'/'+${estudia.leccion}+'/'+${comunica.tema}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
                     </th:block>
-                    
-                    <div class="addthis_recommended_vertical"></div>
                     
                 </div>
             </div>
@@ -137,84 +135,6 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <script src="../../../../static/js/main.js" th:src="@{/static/js/main.js}"></script>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
-
-        <script th:inline="javascript">
-                        /*<![CDATA[*/
-                        var bibliaUrl = /*[[@{/biblia}]]*/ '/biblia';
-                        var date = /*[[${#dates.format(estudia.hoy, 'dd/MM/yyyy')}]]*/ '';
-
-                        $(function () {
-                            $(".leccion a").click(function (e) {
-                                e.preventDefault();
-
-                                var link = $(this).attr('href');
-
-                                $.getJSON(link, function (data) {
-                                    $("#bibliaContenido").html(data.contenido);
-                                    if (data.anterior !== null) {
-                                        $("#anteriorBtn").show();
-                                        $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
-                                    } else {
-                                        $("#anteriorBtn").hide();
-                                    }
-                                    if (data.siguiente !== null) {
-                                        $("#siguienteBtn").show();
-                                        $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
-                                    } else {
-                                        $("#siguienteBtn").hide();
-                                    }
-                                    $("#bibliaModal").modal();
-                                });
-                            });
-
-                            $("#fechaLink").click(function (e) {
-                                e.preventDefault();
-                                $(this).hide();
-                                $('#fecha').show('slow', function () {
-                                    $(this).focus();
-                                });
-                            });
-
-                            $('#fecha').datepicker({
-                                altFormat: "dd/mm/yy",
-                                dateFormat: "dd/mm/yy",
-                                firstDay: 0,
-                                closeText: 'Cerrar',
-                                prevText: '&#x3c;Ant',
-                                nextText: 'Sig&#x3e;',
-                                currentText: 'Hoy',
-                                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                                dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Jue', 'Vie', 'S&aacute;b'],
-                                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                                weekHeader: 'Sm',
-                                showButtonPanel: true,
-                                showOtherMonths: true,
-                                selectOtherMonths: true,
-                                minDate: "26/03/2011",
-                                defaultDate: date,
-                                onSelect: function () {
-                                    $("form#navegaForm").submit();
-                                },
-                                onClose: function () {
-                                    $(this).hide(function () {
-                                        $('#fechaLink').show();
-                                    });
-                                }
-                            });
-
-                        });
-
-                        /*]]>*/
-        </script>
-
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;
@@ -231,6 +151,82 @@
             ga('create', 'UA-19803340-3', 'auto');
             ga('send', 'pageview');
 
+        </script>
+        <script src="../../static/scripts/vendor.js" th:src="@{/scripts/vendor.js}"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="../../static/scripts/plugins.js" th:src="@{/scripts/plugins.js}"></script>
+        <script src="../../static/scripts/main.js" th:src="@{/scripts/main.js}"></script>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4d8a78014d97ad87" async="async"></script>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var bibliaUrl = /*[[@{/biblia}]]*/ '/biblia';
+            var date = /*[[${#dates.format(estudia.hoy, 'dd/MM/yyyy')}]]*/ '';
+
+            $(function () {
+                $(".leccion a").click(function (e) {
+                    e.preventDefault();
+
+                    var link = $(this).attr('href');
+
+                    $.getJSON(link, function (data) {
+                        $("#bibliaContenido").html(data.contenido);
+                        if (data.anterior !== null) {
+                            $("#anteriorBtn").show();
+                            $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
+                        } else {
+                            $("#anteriorBtn").hide();
+                        }
+                        if (data.siguiente !== null) {
+                            $("#siguienteBtn").show();
+                            $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
+                        } else {
+                            $("#siguienteBtn").hide();
+                        }
+                        $("#bibliaModal").modal();
+                    });
+                });
+
+                $("#fechaLink").click(function (e) {
+                    e.preventDefault();
+                    $(this).hide();
+                    $('#fecha').show('slow', function () {
+                        $(this).focus();
+                    });
+                });
+
+                $('#fecha').datepicker({
+                    altFormat: "dd/mm/yy",
+                    dateFormat: "dd/mm/yy",
+                    firstDay: 0,
+                    closeText: 'Cerrar',
+                    prevText: '&#x3c;Ant',
+                    nextText: 'Sig&#x3e;',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Jue', 'Vie', 'S&aacute;b'],
+                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                    weekHeader: 'Sm',
+                    showButtonPanel: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    minDate: "26/03/2011",
+                    defaultDate: date,
+                    onSelect: function () {
+                        $("form#navegaForm").submit();
+                    },
+                    onClose: function () {
+                        $(this).hide(function () {
+                            $('#fechaLink').show();
+                        });
+                    }
+                });
+
+            });
+
+            /*]]>*/
         </script>
 
     </body>

@@ -126,7 +126,9 @@ public class InicioServiceImpl extends BaseService implements InicioService {
         List<Publicacion> dialoga = publicacionService.obtiene(anio, trimestre, leccion, "dialoga");
 
         List<Publicacion> comunica = publicacionService.obtiene(anio, trimestre, leccion, "comunica");
-
+        
+        List<Publicacion> populares = publicacionService.populares(anio, trimestre, leccion, 0);
+        
         Trimestre t = trimestreService.obtiene(anio + trimestre);
         if (t != null) {
             try {
@@ -148,6 +150,7 @@ public class InicioServiceImpl extends BaseService implements InicioService {
                 inicio.setPodcast(podcast);
                 inicio.setVersiculo(versiculo);
                 inicio.setHoy(hoy);
+                inicio.setArticulos(populares);
 
                 return inicio;
             } catch (ParseException e) {

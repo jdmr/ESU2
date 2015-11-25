@@ -159,6 +159,13 @@ public class Articulo implements Serializable {
         this.titulo = titulo;
         this.vistas = vistas;
     }
+    
+    public Articulo(Long articuloId, String titulo, String descripcion, String nombre, String apellido) {
+        this.id = articuloId;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.autor = new Usuario(nombre, apellido);
+    }
 
     public Long getId() {
         return id;

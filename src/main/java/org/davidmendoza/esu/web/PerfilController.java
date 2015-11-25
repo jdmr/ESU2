@@ -97,7 +97,7 @@ public class PerfilController extends BaseController {
 
         try {
             response.sendRedirect(request.getContextPath()
-                    + "/static/img/sin-foto.jpg");
+                    + "/images/sin-foto.jpg");
         } catch (IOException e) {
             log.error("No se pudo obtener la imagen", e);
         }

@@ -166,6 +166,17 @@ public class Publicacion implements Serializable {
         this.articulo = articulo;
     }
     
+    public Publicacion(Long id, Integer anio, String trimestre, String leccion, String tipo, String dia, String tema, Long articuloId, String titulo, String descripcion, String nombre, String apellido) {
+        this.id = id;
+        this.anio = anio;
+        this.trimestre = trimestre;
+        this.leccion = leccion;
+        this.tipo = tipo;
+        this.dia = dia;
+        this.tema = tema;
+        this.articulo = new Articulo(articuloId, titulo, descripcion, nombre, apellido);
+    }
+    
 
     public Long getId() {
         return id;

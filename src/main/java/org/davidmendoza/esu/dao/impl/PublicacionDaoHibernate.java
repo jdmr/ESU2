@@ -25,9 +25,15 @@ package org.davidmendoza.esu.dao.impl;
 
 import com.sendgrid.SendGrid;
 import com.sendgrid.SendGridException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.davidmendoza.esu.dao.BaseDao;
@@ -209,6 +215,96 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
         Query query = em.createQuery("select p from Publicacion p where p.estatus = 'PUBLICADO' and p.articulo.id = :articuloId");
         query.setParameter("articuloId", articulo.getId());
         return query.getResultList();
+    }
+
+    @Override
+    public List<Publicacion> publicaciones(List<Long> articulos) {
+        if (!articulos.isEmpty()) {
+            Query query = em.createQuery("select new Publicacion("
+                    + "p.id, "
+                    + "p.anio, "
+                    + "p.trimestre, "
+                    + "p.leccion, "
+                    + "p.tipo, "
+                    + "p.dia, "
+                    + "p.tema, "
+                    + "p.articulo.id, "
+                    + "p.articulo.titulo, "
+                    + "p.articulo.descripcion, "
+                    + "p.articulo.autor.nombre, "
+                    + "p.articulo.autor.apellido) "
+                    + "from Publicacion p where p.articulo.id in :articulos");
+            query.setParameter("articulos", articulos);
+            return query.getResultList();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Long> vistasPopulares(Integer posicion) {
+        Calendar cal = Calendar.getInstance();
+        Date date1 = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        Date date2 = cal.getTime();
+
+        Query query = em.createQuery("select new Vista(v.cantidad, v.articulo.id) from Vista v where v.fecha between :fecha1 and :fecha2 order by v.articulo.id");
+        query.setParameter("fecha1", date2);
+        query.setParameter("fecha2", date1);
+        List<Vista> dia1 = query.getResultList();
+        log.debug("Dia1: {} : {} : {}", date2, date1, dia1.size());
+
+        date1 = date2;
+        cal.add(Calendar.DAY_OF_YEAR, -2);
+        date2 = cal.getTime();
+        query.setParameter("fecha1", date2);
+        query.setParameter("fecha2", date1);
+        List<Vista> dia2 = query.getResultList();
+        log.debug("Dia2: {} : {} : {}", date2, date1, dia2.size());
+
+        Map<Long, Vista> x = new HashMap<>();
+        dia2.stream().forEach((vista) -> {
+            x.put(vista.getArticulo().getId(), vista);
+        });
+
+        Map<Integer, List<Long>> map = new TreeMap<>();
+
+        for (Vista vista : dia1) {
+            Integer vistas;
+            Vista y = x.get(vista.getArticulo().getId());
+            if (y != null) {
+                vistas = vista.getCantidad() - y.getCantidad();
+            } else {
+                vistas = vista.getCantidad();
+            }
+            List<Long> articulos = map.get(vistas);
+            if (articulos == null) {
+                articulos = new ArrayList<>();
+            }
+            articulos.add(vista.getArticulo().getId());
+            map.put(vistas, articulos);
+        }
+        List<Integer> keys = new ArrayList<>(map.keySet());
+        log.debug("Keys: {}", keys.size());
+        List<Long> articulos = new ArrayList<>();
+        if (!keys.isEmpty()) {
+            posicion = keys.size() - 1 - posicion;
+            int a = posicion - 10;
+            if (a < 0) {
+                a = 0;
+            }
+            for (Integer key : keys.subList(a, posicion)) {
+                List<Long> b = map.get(key);
+                for (Long c : b) {
+                    if (articulos.size() < 10 && !articulos.contains(c)) {
+                        articulos.add(c);
+                    }
+                }
+            }
+        }
+        log.debug("Articulos: {}", articulos.size());
+
+        return articulos;
     }
 
 }

@@ -49,6 +49,7 @@ public class Inicio implements Serializable {
     private Publicacion publicacion;
     private List<Publicacion> dialoga;
     private List<Publicacion> comunica;
+    private List<Publicacion> articulos;
     private Publicacion video;
     private Publicacion podcast;
     private Publicacion versiculo;
@@ -172,6 +173,20 @@ public class Inicio implements Serializable {
      */
     public void setComunica(List<Publicacion> comunica) {
         this.comunica = comunica;
+    }
+
+    /**
+     * @return the articulos
+     */
+    public List<Publicacion> getArticulos() {
+        return articulos;
+    }
+
+    /**
+     * @param articulos the articulos to set
+     */
+    public void setArticulos(List<Publicacion> articulos) {
+        this.articulos = articulos;
     }
 
     /**
