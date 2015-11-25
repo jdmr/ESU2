@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include='/layouts/main :: head(#{inicio}, ${inicio.descripcion})'>
+    <head th:include='layouts/main :: head(#{inicio}, ${inicio.descripcion})'>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Inicio</title>
@@ -32,12 +32,12 @@
     </head>
     <body>
 
-        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('inicio')">
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="layouts/main :: navigation('inicio')">
         </header>
 
         <div class="container">
 
-            <div class="row" id="searchDiv" th:replace="/layouts/main :: searchDiv">
+            <div class="row" id="searchDiv" th:replace="layouts/main :: searchDiv">
 
             </div>
 
@@ -98,10 +98,10 @@
             </div>
         </div>
 
-        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        <footer role="contentinfo" th:replace="layouts/main :: footer">
         </footer>
 
-        <div th:replace="/layouts/main :: scripts" th:remove="tag">
+        <div th:replace="layouts/main :: scripts" th:remove="tag">
             <script src="../../static/scripts/vendor.js" th:src="@{/scripts/vendor.js}"></script>
             <script src="../../static/scripts/plugins.js" th:src="@{/scripts/plugins.js}"></script>
             <script src="../../static/scripts/main.js" th:src="@{/scripts/main.js}"></script>

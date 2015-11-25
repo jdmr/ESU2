@@ -24,13 +24,13 @@
     </head>
     <body>
 
-        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('admin')">
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="layouts/main :: navigation('admin')">
         </header>
 
         <div class="container">
 
             <div class="row">
-                <div class="col-md-3" th:replace="/layouts/main :: sidebar('articulos')">
+                <div class="col-md-3" th:replace="layouts/main :: sidebar('articulos')">
                 </div>
                 <div class="col-md-9">
                     <h1>Nuevo Artículo</h1>
@@ -68,7 +68,7 @@
 
         </div>
 
-        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        <footer role="contentinfo" th:replace="layouts/main :: footer">
         </footer>
 
         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>

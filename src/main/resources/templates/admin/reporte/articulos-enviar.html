@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include="/layouts/main :: head('Reporte de Artículos', 'Reporte de Artículos')">
+    <head th:include="layouts/main :: head('Reporte de Artículos', 'Reporte de Artículos')">
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <title>Inicio</title>
@@ -22,13 +22,13 @@
     </head>
     <body>
 
-        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('admin')">
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="layouts/main :: navigation('admin')">
         </header>
 
         <div class="container">
 
             <div class="row">
-                <div class="col-md-3" th:replace="/layouts/main :: sidebar('reportes')">
+                <div class="col-md-3" th:replace="layouts/main :: sidebar('reportes')">
                 </div>
                 <div class="col-md-9">
                     <h1>Artículos</h1>
@@ -49,10 +49,10 @@
 
         </div>
 
-        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        <footer role="contentinfo" th:replace="layouts/main :: footer">
         </footer>
 
-        <div th:replace="/layouts/main :: scripts" th:remove="tag">
+        <div th:replace="layouts/main :: scripts" th:remove="tag">
             <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:include="/layouts/main :: head(#{login.label}, 'Favor de identificarse')">
+    <head th:include="layouts/main :: head(#{login.label}, 'Favor de identificarse')">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title th:text="#{login.title}">Login</title>
@@ -22,7 +22,7 @@
     </head>
     <body>
 
-        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('inicio')">
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="layouts/main :: navigation('inicio')">
         </header>
 
         <div class="container">
@@ -53,10 +53,10 @@
             </div>
         </div>
 
-        <footer class="footer" role="contentinfo" th:replace="/layouts/main :: footer">
+        <footer class="footer" role="contentinfo" th:replace="layouts/main :: footer">
         </footer>
 
-        <div th:replace="/layouts/main :: scripts" th:remove="tag">
+        <div th:replace="layouts/main :: scripts" th:remove="tag">
             <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

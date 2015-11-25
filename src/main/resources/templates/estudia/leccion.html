@@ -32,12 +32,12 @@
     </head>
     <body>
 
-        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="/layouts/main :: navigation('estudia')">
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner" th:replace="layouts/main :: navigation('estudia')">
         </header>
 
         <div class="container">
 
-            <div class="row" id="searchDiv" th:replace="/layouts/main :: searchDiv">
+            <div class="row" id="searchDiv" th:replace="layouts/main :: searchDiv">
 
             </div>
 
@@ -123,7 +123,7 @@
 
         </div>
 
-        <footer role="contentinfo" th:replace="/layouts/main :: footer">
+        <footer role="contentinfo" th:replace="layouts/main :: footer">
         </footer>
 
         <div class="modal fade" id="bibliaModal">
