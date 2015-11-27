@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
@@ -56,7 +57,7 @@ public class EstudiaController extends BaseController {
     private PublicacionService publicacionService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String estudia(HttpSession session) {
+    public String estudia(HttpSession session, TimeZone timeZone) {
         String anio = (String) session.getAttribute("anio");
         if (StringUtils.isNotEmpty(anio)) {
             String trimestre = (String) session.getAttribute("trimestre");
@@ -71,7 +72,7 @@ public class EstudiaController extends BaseController {
             url.append(dia);
             return url.toString();
         } else {
-            Inicio inicio = inicioService.inicio();
+            Inicio inicio = inicioService.inicio(timeZone);
             if (inicio != null) {
                 StringBuilder url = new StringBuilder();
                 url.append("redirect:/estudia/");

@@ -25,6 +25,7 @@
 package org.davidmendoza.esu.service;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 import org.davidmendoza.esu.model.Inicio;
 
 /**
@@ -33,7 +34,7 @@ import org.davidmendoza.esu.model.Inicio;
  */
 public interface InicioService {
 
-    public Inicio inicio();
+    public Inicio inicio(TimeZone timeZone);
 
     public Inicio inicio(Calendar hoy);
 

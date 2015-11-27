@@ -26,6 +26,8 @@ package org.davidmendoza.esu.web.admin;
 import java.security.Principal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -194,7 +196,8 @@ public class ArticuloController extends BaseController {
         Articulo articulo = new Articulo();
         articulo.setId(articuloId);
 
-        Inicio inicio = inicioService.inicio();
+        Calendar cal = new GregorianCalendar();
+        Inicio inicio = inicioService.inicio(cal);
         Integer anio = new Integer(inicio.getAnio());
 
         Publicacion publicacion = new Publicacion();

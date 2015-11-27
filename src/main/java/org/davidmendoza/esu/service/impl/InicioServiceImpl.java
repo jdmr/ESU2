@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
 import org.davidmendoza.esu.model.Publicacion;
@@ -67,8 +68,8 @@ public class InicioServiceImpl extends BaseService implements InicioService {
     
     @Override
     @Transactional(readOnly = true)
-    public Inicio inicio() {
-        Calendar calendar = new GregorianCalendar();
+    public Inicio inicio(TimeZone timeZone) {
+        Calendar calendar = new GregorianCalendar(timeZone);
         return inicio(calendar);
     }
 

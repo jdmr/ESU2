@@ -24,6 +24,7 @@
 package org.davidmendoza.esu.web;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
@@ -54,7 +55,7 @@ public class ComparteController extends BaseController {
     private PerfilService perfilService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String comparte(HttpSession session) {
+    public String comparte(HttpSession session, TimeZone timeZone) {
         String anio = (String) session.getAttribute("anio");
         if (StringUtils.isNotEmpty(anio)) {
             String trimestre = (String) session.getAttribute("trimestre");
@@ -68,7 +69,7 @@ public class ComparteController extends BaseController {
             url.append("tema1");
             return url.toString();
         } else {
-            Inicio inicio = inicioService.inicio();
+            Inicio inicio = inicioService.inicio(timeZone);
             if (inicio != null) {
                 StringBuilder url = new StringBuilder();
                 url.append("redirect:/comparte/");

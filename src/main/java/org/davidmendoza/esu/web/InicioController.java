@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.web;
 
+import java.util.TimeZone;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
@@ -46,7 +47,7 @@ public class InicioController extends BaseController {
     private InicioService inicioService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String inicio(HttpSession session) {
+    public String inicio(HttpSession session, TimeZone timeZone) {
         log.debug("Mostrando inicio");
         String anio = (String) session.getAttribute("anio");
         if (StringUtils.isNotEmpty(anio)) {
@@ -62,7 +63,7 @@ public class InicioController extends BaseController {
             return url.toString();
         }
 
-        Inicio inicio = inicioService.inicio();
+        Inicio inicio = inicioService.inicio(timeZone);
         if (inicio != null) {
             StringBuilder url = new StringBuilder();
             url.append("redirect:/inicio/");
