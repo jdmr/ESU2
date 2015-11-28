@@ -69,6 +69,7 @@ public class InicioServiceImpl extends BaseService implements InicioService {
     @Override
     @Transactional(readOnly = true)
     public Inicio inicio(TimeZone timeZone) {
+        log.debug("Obteniendo dia");
         Calendar calendar = new GregorianCalendar(timeZone);
         return inicio(calendar);
     }
@@ -78,6 +79,11 @@ public class InicioServiceImpl extends BaseService implements InicioService {
     @Override
     public Inicio inicio(Calendar hoy) {
         log.debug("Hoy: {}", hoy.getTime());
+        
+        if (hoy.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY &&
+                hoy.get(Calendar.HOUR_OF_DAY) < 12) {
+            hoy.add(Calendar.DAY_OF_WEEK, -1);
+        }
 
         Trimestre trimestre = trimestreService.obtiene(hoy.getTime());
 
