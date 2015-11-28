@@ -151,6 +151,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <executable>true</executable>
                     <!--<jvmArguments>-agentpath:/opt/tools/jrebel/lib/libjrebel64.dylib -Dspring.profiles.active=dev</jvmArguments>-->
                     <jvmArguments>-Dspring.profiles.active=dev</jvmArguments>
                 </configuration>
