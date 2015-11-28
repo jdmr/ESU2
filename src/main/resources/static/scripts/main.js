@@ -1,1 +1,1 @@
-$("body").flowtype({minimum:500,maximum:940,minFont:14,maxFont:40,fontRatio:40});
+$("body").flowtype({minimum:500,maximum:940,minFont:14,maxFont:40,fontRatio:40}),$(function(){"use strict";$("iframe").each(function(){var e=$(this);e.hasClass("embed-responsive-item")||(e.addClass("embed-responsive-item"),e.removeAttr("width"),e.removeAttr("height"))})});

@@ -53,7 +53,7 @@
                         <li th:class="${activeMenu} == 'conocenos' ? 'active'"><a href="#" th:href="@{/conocenos}" th:text="#{conocenos}">Conocenos</a></li>
                         <li th:class="${activeMenu} == 'foro' ? 'active'"><a href="#" th:href="@{/foro}" th:text="#{foro}" target="_blank">Foro</a></li>
                     </ul>
-                    <form action="#" th:action="@{/buscar}" method="GET" class="navbar-form navbar-right" name="buscarForm" id="buscarForm" role="search">
+                    <form action="#" th:action="@{/buscar}" method="GET" class="navbar-form navbar-right" name="searchForm" id="searchForm" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search" th:placeholder="#{buscar}" id="filtro" name="filtro" />
                         </div>

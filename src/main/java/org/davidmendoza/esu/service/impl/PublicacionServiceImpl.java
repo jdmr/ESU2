@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.dao.ArticuloDao;
+import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
@@ -36,6 +37,8 @@ import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.service.TrimestreService;
+import org.jsoup.Jsoup;
+import org.jsoup.examples.HtmlToPlainText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -55,6 +58,8 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     private TrimestreService trimestreService;
     @Autowired
     private ArticuloDao articuloDao;
+    @Autowired
+    private ArticuloRepository articuloRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -149,7 +154,32 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
 
         publicaciones.stream().forEach((x) -> {
             log.debug("{} : {} : {} : {} : {} : {}", x.getAnio(), x.getTrimestre(), x.getLeccion(), x.getTipo(), x.getDia(), x.getTema());
-            x.getArticulo().setDescripcion(StringUtils.abbreviate(x.getArticulo().getDescripcion(), 280));
+            if (StringUtils.isNotBlank(x.getArticulo().getDescripcion())) {
+                String descripcion = x.getArticulo().getDescripcion();
+                if (StringUtils.isNotBlank(descripcion) && !StringUtils.contains(descripcion, "iframe")) {
+                    descripcion = new HtmlToPlainText().getPlainText(Jsoup.parse(descripcion));
+                    x.getArticulo().setDescripcion(StringUtils.abbreviate(descripcion, 280));
+                } else if (StringUtils.isNotBlank(descripcion)) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("<div class='embed-responsive embed-responsive-16by9'>");
+                    sb.append(descripcion);
+                    sb.append("</div>");
+                    x.getArticulo().setDescripcion(sb.toString());
+                }
+            } else {
+                Articulo articulo = articuloRepository.findOne(x.getArticulo().getId());
+                String contenido = articulo.getContenido();
+                if (StringUtils.isNotBlank(contenido) && !StringUtils.contains(contenido, "iframe")) {
+                    contenido = new HtmlToPlainText().getPlainText(Jsoup.parse(contenido));
+                    x.getArticulo().setDescripcion(StringUtils.abbreviate(contenido, 280));
+                } else if (StringUtils.isNotBlank(contenido)) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("<div class='embed-responsive embed-responsive-16by9'>");
+                    sb.append(contenido);
+                    sb.append("</div>");
+                    x.getArticulo().setDescripcion(sb.toString());
+                }
+            }
         });
         return publicaciones;
     }

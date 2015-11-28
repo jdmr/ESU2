@@ -23,7 +23,9 @@
  */
 package org.davidmendoza.esu.web.admin;
 
+import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.web.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,8 +38,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/admin")
 public class AdminController extends BaseController {
     
+    @Autowired
+    private PublicacionService publicacionService;
+    
     @RequestMapping(method = RequestMethod.GET)
     public String admin() {
+        return "redirect:/admin/articulo";
+    }
+    
+    @RequestMapping(value = "/vistas/actualizar", method = RequestMethod.GET)
+    public String actualizaVistas() {
+        log.info("Actualizando vistas del dia");
+        publicacionService.actualizaVistasDelDia();
         return "redirect:/admin/articulo";
     }
 }
