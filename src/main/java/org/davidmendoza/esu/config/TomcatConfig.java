@@ -44,12 +44,14 @@ public class TomcatConfig {
     
     @Value("${server.use-forward-headers}")
     private Boolean forwardHeaders = Boolean.TRUE;
+    @Value("${server.tomcat.ajp.port}")
+    private Integer ajpPort;
 
     @Bean
     @SuppressWarnings("static-method")
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-        tomcat.addAdditionalTomcatConnectors(createConnector());
+        tomcat.addAdditionalTomcatConnectors(createConnector(ajpPort));
         if (forwardHeaders) {
             log.info("Forwarding headers");
             tomcat.addContextValves(createRemoteIpValves());
@@ -64,9 +66,9 @@ public class TomcatConfig {
         return remoteIpValve;
     }
 
-    private static Connector createConnector() {
+    private static Connector createConnector(int port) {
         Connector connector = new Connector("AJP/1.3");
-        connector.setPort(8009);
+        connector.setPort(port);
         return connector;
     }
 }
