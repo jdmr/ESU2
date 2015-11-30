@@ -86,7 +86,8 @@ public class ComparteController extends BaseController {
 
     @RequestMapping(value = "/{anio}/{trimestre}/{leccion}/{tema}")
     public String tema(@ModelAttribute Inicio inicio, Model model, HttpSession session) {
-
+        log.info("Comparte: {} : {} : {} : {}", inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getTema());
+                
         String tema = inicio.getTema();
         
         inicio = inicioService.inicio(inicio);

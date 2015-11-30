@@ -58,6 +58,7 @@ public class PerfilController extends BaseController {
 
     @RequestMapping(value = "/{perfilId}", method = RequestMethod.GET)
     public String perfil(@PathVariable Long perfilId, Model model) {
+        log.info("Perfil: {}", perfilId);
         Perfil perfil = perfilService.obtiene(perfilId);
         if (perfil != null) {
             model.addAttribute("perfil", perfil);
@@ -79,6 +80,7 @@ public class PerfilController extends BaseController {
 
     @RequestMapping(value = "/imagen/{perfilId}", method = RequestMethod.GET)
     public void obtieneImagen(@PathVariable Long perfilId, HttpServletRequest request, HttpServletResponse response) {
+        log.info("Imagen Perfil: {}", perfilId);
         Perfil perfil = perfilService.obtiene(perfilId);
         if (perfil != null) {
             if (StringUtils.isNotBlank(perfil.getNombreImagen())) {

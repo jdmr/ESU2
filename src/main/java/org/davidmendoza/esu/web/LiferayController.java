@@ -37,13 +37,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
 @Controller
-public class LiferayController {
+public class LiferayController extends BaseController {
 
     @Autowired
     private PublicacionService publicacionService;
 
     @RequestMapping(value = "/articulo/{nombre}", method = RequestMethod.GET)
     public String articulo(@PathVariable("nombre") String nombre) {
+        log.info("Cargando articulo de liferay: {}", nombre);
         if (StringUtils.isNotBlank(nombre)) {
             Publicacion publicacion = publicacionService.obtiene(nombre);
             if (publicacion != null) {

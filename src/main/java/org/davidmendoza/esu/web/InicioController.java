@@ -48,7 +48,7 @@ public class InicioController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String inicio(HttpSession session, TimeZone timeZone) {
-        log.debug("Mostrando inicio");
+        log.info("Mostrando inicio");
         String anio = (String) session.getAttribute("anio");
         if (StringUtils.isNotEmpty(anio)) {
             String trimestre = (String) session.getAttribute("trimestre");
@@ -85,7 +85,7 @@ public class InicioController extends BaseController {
         session.setAttribute("leccion", inicio.getLeccion());
         session.setAttribute("dia", inicio.getDia());
 
-        log.debug("Anio: {} | Trimestre: {} | Leccion: {} | Dia: {}", new Object[]{inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getDia()});
+        log.info("Anio: {} | Trimestre: {} | Leccion: {} | Dia: {}", new Object[]{inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getDia()});
 
         inicio = inicioService.inicio(inicio);
 

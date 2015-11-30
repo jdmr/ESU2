@@ -39,7 +39,7 @@ public class ForoController extends BaseController {
     
     @RequestMapping(method = RequestMethod.GET)
     public void foro(HttpServletResponse response) throws IOException {
-        log.debug("Reenviando a foro");
+        log.info("Reenviando a foro");
         response.sendRedirect("http://foro.escuelasabaticauniversitaria.org");
     }
     

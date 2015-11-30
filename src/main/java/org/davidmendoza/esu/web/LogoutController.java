@@ -38,7 +38,7 @@ public class LogoutController extends BaseController {
     
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
-        log.debug("Logging out");
+        log.info("Logging out");
         session.invalidate();
         
         return "redirect:/";

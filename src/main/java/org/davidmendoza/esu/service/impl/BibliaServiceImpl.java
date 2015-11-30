@@ -23,10 +23,8 @@
  */
 package org.davidmendoza.esu.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.davidmendoza.esu.dao.BibliaDao;
-import org.davidmendoza.esu.model.Biblia;
 import org.davidmendoza.esu.model.Rv2000;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.BibliaService;
@@ -47,6 +45,7 @@ public class BibliaServiceImpl extends BaseService implements BibliaService {
 
     @Override
     public List<Rv2000> biblia(Integer libro, Integer capitulo, Integer versiculo, Integer versiculos) {
+        log.info("Biblia: {} : {} : {} : {}", libro, capitulo, versiculo, versiculos);
         return bibliaDao.biblia(libro, capitulo, versiculo, versiculos);
     }
 }

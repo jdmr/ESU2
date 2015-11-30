@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String login(Model model) {
-        log.debug("Showing login page");
+        log.info("Showing login page");
         Usuario usuario = new Usuario();
         model.addAttribute("usuario", usuario);
         return "login/login";

@@ -89,7 +89,8 @@ public class EstudiaController extends BaseController {
 
     @RequestMapping(value = "/{anio}/{trimestre}/{leccion}/{dia}")
     public String leccion(@ModelAttribute Inicio inicio, Model model, HttpSession session) {
-
+        log.info("Estudia: {} : {} : {} : {}", inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getDia());
+        
         session.setAttribute("anio", inicio.getAnio());
         session.setAttribute("trimestre", inicio.getTrimestre());
         session.setAttribute("leccion", inicio.getLeccion());
@@ -130,6 +131,7 @@ public class EstudiaController extends BaseController {
 
     @RequestMapping(value = "/dia", method = RequestMethod.POST, params = {"fecha"})
     public String dia(@RequestParam("fecha") String fecha) {
+        log.info("Dia: {}", fecha);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date date = sdf.parse(fecha);
