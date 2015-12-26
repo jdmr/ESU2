@@ -57,7 +57,25 @@ public class BibliaDaoHibernate extends BaseDao implements BibliaDao {
             query.setParameter("inicio", versiculoId);
             query.setParameter("fin", versiculoId + versiculos);
             return query.getResultList();
-        } catch(NoResultException e) {
+        } catch (NoResultException e) {
+            log.error("No encontre ningun versiculo", e);
+            throw new RuntimeException("No encontre ningun versiculo", e);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Rv2000> biblia(Long versiculoId, Integer versiculos) {
+        try {
+            if (versiculoId > 1) {
+                versiculoId--;
+            }
+            log.debug("Biblia entre {} : {}", versiculoId, versiculoId + versiculos);
+            Query query = em.createQuery("select v from Rv2000 v where v.id between :inicio and :fin order by v.id");
+            query.setParameter("inicio", versiculoId);
+            query.setParameter("fin", versiculoId + versiculos);
+            return query.getResultList();
+        } catch (NoResultException e) {
             log.error("No encontre ningun versiculo", e);
             throw new RuntimeException("No encontre ningun versiculo", e);
         }

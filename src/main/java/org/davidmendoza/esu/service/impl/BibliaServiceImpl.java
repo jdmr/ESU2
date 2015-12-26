@@ -48,4 +48,10 @@ public class BibliaServiceImpl extends BaseService implements BibliaService {
         log.info("Biblia: {} : {} : {} : {}", libro, capitulo, versiculo, versiculos);
         return bibliaDao.biblia(libro, capitulo, versiculo, versiculos);
     }
+
+    @Override
+    public List<Rv2000> biblia(Long versiculoId, Integer versiculos) {
+        log.info("Biblia: {} : {}", versiculoId, versiculos);
+        return bibliaDao.biblia(versiculoId, versiculos);
+    }
 }

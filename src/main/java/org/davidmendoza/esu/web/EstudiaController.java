@@ -88,17 +88,18 @@ public class EstudiaController extends BaseController {
     }
 
     @RequestMapping(value = "/{anio}/{trimestre}/{leccion}/{dia}")
-    public String leccion(@ModelAttribute Inicio inicio, Model model, HttpSession session) {
-        log.info("Estudia: {} : {} : {} : {}", inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getDia());
+    public String leccion(Model model, @ModelAttribute Inicio inicio, HttpSession session, TimeZone timeZone) {
         
         session.setAttribute("anio", inicio.getAnio());
         session.setAttribute("trimestre", inicio.getTrimestre());
         session.setAttribute("leccion", inicio.getLeccion());
         session.setAttribute("dia", inicio.getDia());
 
+        log.info("Estudia: {} : {} : {} : {}", inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getDia());
+        
         inicio = inicioService.inicio(inicio);
         
-        Inicio hoy = inicioService.inicio(Calendar.getInstance());
+        Inicio hoy = inicioService.inicio(timeZone);
         if (inicio.getAnio().equals(hoy.getAnio()) 
                 && inicio.getTrimestre().equals(hoy.getTrimestre())
                 && inicio.getLeccion().equals(hoy.getLeccion())

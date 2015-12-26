@@ -33,5 +33,7 @@ import org.davidmendoza.esu.model.Rv2000;
 public interface BibliaDao {
 
     public List<Rv2000> biblia(Integer libro, Integer capitulo, Integer versiculo, Integer versiculos);
+
+    public List<Rv2000> biblia(Long versiculoId, Integer versiculos);
     
 }

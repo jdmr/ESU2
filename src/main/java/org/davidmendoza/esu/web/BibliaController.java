@@ -40,29 +40,34 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
 @Controller
-@RequestMapping("/biblia")
 public class BibliaController extends BaseController {
 
     @Autowired
     private BibliaService bibliaService;
     private static final Integer versiculos = 6;
 
-    @RequestMapping(value = "/{libro}", method = RequestMethod.GET)
+    @RequestMapping(value = "/biblia/{libro}", method = RequestMethod.GET)
     public @ResponseBody
     Biblia libro(@PathVariable Integer libro) {
         return convierte(bibliaService.biblia(libro, 1, 1, versiculos));
     }
 
-    @RequestMapping(value = "/{libro}/{capitulo}", method = RequestMethod.GET)
+    @RequestMapping(value = "/biblia/{libro}/{capitulo}", method = RequestMethod.GET)
     public @ResponseBody
     Biblia capitulo(@PathVariable Integer libro, @PathVariable Integer capitulo) {
         return convierte(bibliaService.biblia(libro, capitulo, 1, versiculos));
     }
 
-    @RequestMapping(value = "/{libro}/{capitulo}/{versiculo}", method = RequestMethod.GET)
+    @RequestMapping(value = "/biblia/{libro}/{capitulo}/{versiculo}", method = RequestMethod.GET)
     public @ResponseBody
     Biblia versiculo(@PathVariable Integer libro, @PathVariable Integer capitulo, @PathVariable Integer versiculo) {
         return convierte(bibliaService.biblia(libro, capitulo, versiculo, versiculos));
+    }
+    
+    @RequestMapping(value = "/versiculo/{versiculoId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Biblia versiculo(@PathVariable Long versiculoId) {
+        return convierte(bibliaService.biblia(versiculoId, versiculos));
     }
 
     public Biblia convierte(List<Rv2000> lista) {
@@ -71,21 +76,25 @@ public class BibliaController extends BaseController {
         int lid = 0;
         int cid = 0;
         List<String> contenido = new ArrayList<>();
+        log.debug("Versiculos: {}", lista.size());
         for (int i = 0; i < lista.size(); i++) {
             Rv2000 v = lista.get(i);
-            if (i == 0 && v.getId() > 1) {
+            if (i == 0 && v.getId() - 4 >= 1) {
                 StringBuilder anterior = new StringBuilder();
-                anterior.append("/").append(v.getLibro().getId());
-                anterior.append("/").append(v.getCapitulo());
-                anterior.append("/").append(v.getVersiculo());
+                anterior.append("/").append(v.getId() - 4);
+                log.debug("Anterior: {}", anterior.toString());
                 biblia.setAnterior(anterior.toString());
                 continue;
+            } else if (i == 0) {
+                StringBuilder anterior = new StringBuilder();
+                anterior.append("/").append(1);
+                log.debug("Anterior: {}", anterior.toString());
+                biblia.setAnterior(anterior.toString());
             }
             if (i == (lista.size() - 1)) {
                 StringBuilder siguiente = new StringBuilder();
-                siguiente.append("/").append(v.getLibro().getId());
-                siguiente.append("/").append(v.getCapitulo());
-                siguiente.append("/").append(v.getVersiculo());
+                siguiente.append("/").append(v.getId());
+                log.debug("Siguiente: {}", siguiente.toString());
                 biblia.setSiguiente(siguiente.toString());
                 break;
             }
