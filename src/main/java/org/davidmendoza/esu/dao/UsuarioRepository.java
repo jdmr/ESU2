@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.dao;
 
+import java.util.List;
 import org.davidmendoza.esu.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,9 +37,12 @@ import org.springframework.data.repository.query.Param;
  */
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long> {
 
-    Usuario findByUsernameIgnoreCase(String username);
+    public Usuario findByUsernameIgnoreCase(String username);
     
-    Page<Usuario> findByUsernameLikeOrNombreLikeOrApellidoLikeAllIgnoreCase(String username, String nombre, String apellido, Pageable pageable);
+    public Page<Usuario> findByUsernameLikeOrNombreLikeOrApellidoLikeAllIgnoreCase(String username, String nombre, String apellido, Pageable pageable);
+    
+    @Query("select u from Usuario u where upper(u.nombre) like :filtro or upper(u.apellido) like :filtro order by u.nombre, u.apellido")
+    public List<Usuario> busca(@Param("filtro")String filtro);
     
     @Query("select new Usuario( u.password, u.dateCreated ) from Usuario u where u.id = :usuarioId")
     public Usuario dateCreated(@Param("usuarioId") Long usuarioId);

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.davidmendoza.esu.dao.RolRepository;
-import org.davidmendoza.esu.dao.UsuarioDao;
 import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Usuario;
@@ -50,8 +49,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioServiceImpl extends BaseService implements UsuarioService {
 
     @Autowired
-    private UsuarioDao usuarioDao;
-    @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -62,12 +59,12 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     
     @Override
     public List<Usuario> busca(String filtro) {
-        return usuarioDao.busca(filtro);
+        return usuarioRepository.busca(filtro);
     }
 
     @Override
     public Usuario obtiene(String username) {
-        return usuarioDao.obtiene(username);
+        return usuarioRepository.findByUsernameIgnoreCase(username);
     }
 
     @Override
@@ -146,7 +143,7 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
 
     @Override
     public List<Perfil> buscaAutores(String filtro) {
-        List<Usuario> usuarios = usuarioDao.busca(filtro);
+        List<Usuario> usuarios = usuarioRepository.busca(filtro);
         List<Perfil> perfiles = new ArrayList<>();
         for(Usuario usuario : usuarios) {
             perfiles.add(perfilService.obtienePorUsuario(usuario));

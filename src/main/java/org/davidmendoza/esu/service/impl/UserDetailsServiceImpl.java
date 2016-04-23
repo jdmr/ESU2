@@ -23,7 +23,7 @@
  */
 package org.davidmendoza.esu.service.impl;
 
-import org.davidmendoza.esu.dao.UsuarioDao;
+import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,19 +43,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
-    
+
     @Autowired
-    private UsuarioDao usuarioDao;
-    
+    private UsuarioRepository usuarioRepository;
+
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("loadUserByUsername: {}", username);
-        Usuario usuario = usuarioDao.obtiene(username);
+        Usuario usuario = usuarioRepository.findByUsernameIgnoreCase(username);
         if (usuario == null) {
-            throw new UsernameNotFoundException("No se encontro al usuario "+username);
+            throw new UsernameNotFoundException("No se encontro al usuario " + username);
         }
         return (UserDetails) usuario;
     }
-    
+
 }
