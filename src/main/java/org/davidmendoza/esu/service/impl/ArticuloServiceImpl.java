@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.dao.ArticuloRepository;
-import org.davidmendoza.esu.dao.PublicacionDao;
+import org.davidmendoza.esu.dao.PublicacionRepository;
 import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.ReporteArticulo;
@@ -59,7 +59,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     @Autowired
     private ArticuloRepository articuloRepository;
     @Autowired
-    private PublicacionDao publicacionDao;
+    private PublicacionRepository publicacionRepository;
     @Autowired
     private SendGrid sendgrid;
     @Autowired
@@ -119,7 +119,7 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
     @Override
     @SuppressWarnings("unchecked")
     public List<ReporteArticulo> articulosDelMes(Date date) {
-        List<Map<String, Object>> x = publicacionDao.todas();
+        List<Map<String, Object>> x = publicacionRepository.todas();
         Map<Long, Object> publicaciones = new HashMap<>();
         Long articuloId = 0l;
         for (Map<String, Object> a : x) {

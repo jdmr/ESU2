@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 J. David Mendoza.
+ * Copyright 2016 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package org.davidmendoza.esu.dao;
+
+import java.util.Date;
+import java.util.List;
+import org.davidmendoza.esu.model.Vista;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
- * @author J. David Mendoza <jdmendozar@gmail.com>
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface InicioDao {
-    
+public interface VistaRepository extends JpaRepository<Vista, Long> {
+ 
+    @Query("select new Vista(v.cantidad, v.articulo.id) from Vista v where v.fecha between :fecha1 and :fecha2 order by v.articulo.id")
+    public List<Vista> vistas(@Param("fecha1") Date fecha1, @Param("fecha2") Date fecha2);
 }
