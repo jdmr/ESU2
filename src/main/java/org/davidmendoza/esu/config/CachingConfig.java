@@ -25,6 +25,8 @@ package org.davidmendoza.esu.config;
 
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.SizeOfPolicyConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -39,8 +41,11 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class CachingConfig {
 
+    private static final Logger log = LoggerFactory.getLogger(CachingConfig.class);
+    
     @Bean
     public net.sf.ehcache.CacheManager ehCacheManager() {
+        log.info("Configuracion de caches");
         CacheConfiguration roles = new CacheConfiguration();
         roles.setName("org.davidmendoza.esu.model.Rol");
 
@@ -101,6 +106,7 @@ public class CachingConfig {
 
     @Bean
     public CacheManager cacheManager() {
+        log.info("Creando instancia de cacheManager");
         return new EhCacheCacheManager(ehCacheManager());
     }
 }
