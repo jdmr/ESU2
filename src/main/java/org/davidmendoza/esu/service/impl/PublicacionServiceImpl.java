@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.model.Articulo;
@@ -57,8 +56,6 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     @Autowired
     private TrimestreService trimestreService;
     @Autowired
-    private ArticuloDao articuloDao;
-    @Autowired
     private ArticuloRepository articuloRepository;
 
     @Transactional(readOnly = true)
@@ -71,7 +68,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     @Override
     public Publicacion obtiene(String titulo) {
         log.debug("Buscando por {}", titulo);
-        List<Articulo> articulos = articuloDao.buscarPorTitulo(titulo);
+        List<Articulo> articulos = articuloRepository.findByTitulo(titulo);
         if (!articulos.isEmpty()) {
             Articulo articulo = articulos.get(0);
             List<Publicacion> publicaciones = publicacionDao.publicaciones(articulo);

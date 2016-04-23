@@ -23,7 +23,9 @@
  */
 package org.davidmendoza.esu.dao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.davidmendoza.esu.model.Articulo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,5 +45,8 @@ public interface ArticuloRepository extends PagingAndSortingRepository<Articulo,
     public Articulo dateCreated(@Param("articuloId") Long articuloId);
     
     public List<Articulo> findByTitulo(String titulo);
+    
+    @Query("select new map(v.articulo.id as articuloId, v.articulo.titulo as articulo, v.articulo.autor.nombre as nombre, v.articulo.autor.apellido as apellido, v.cantidad as vistas) from Vista v where v.fecha between :fecha1 and :fecha2 order by v.cantidad desc")
+    public List<Map<String, Object>> articulosDelDia(@Param("fecha1") Date fecha1, @Param("fecha2") Date fecha2);
     
 }

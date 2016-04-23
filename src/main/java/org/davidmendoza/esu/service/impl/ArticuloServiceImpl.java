@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
-import org.davidmendoza.esu.dao.ArticuloDao;
 import org.davidmendoza.esu.dao.ArticuloRepository;
 import org.davidmendoza.esu.dao.PublicacionDao;
 import org.davidmendoza.esu.dao.UsuarioRepository;
@@ -59,8 +58,6 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
 
     @Autowired
     private ArticuloRepository articuloRepository;
-    @Autowired
-    private ArticuloDao articuloDao;
     @Autowired
     private PublicacionDao publicacionDao;
     @Autowired
@@ -134,7 +131,12 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             }
         }
 
-        List<Map<String, Object>> lista = articuloDao.articulosDelDia(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        Date fecha1 = cal.getTime();
+
+        List<Map<String, Object>> lista = articuloRepository.articulosDelDia(fecha1, date);
 
         log.debug("Lista: {}", lista.size());
         List<ReporteArticulo> articulos = new ArrayList<>();
@@ -162,11 +164,13 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             }
         }
 
-        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MONTH, -1);
+        Date fecha2 = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        fecha1 = cal.getTime();
 
-        lista = articuloDao.articulosDelDia(cal.getTime());
+        lista = articuloRepository.articulosDelDia(fecha1, fecha2);
         for (Map<String, Object> a : lista) {
             if (publicaciones.get((Long) a.get("articuloId")) != null) {
                 ReporteArticulo b = mapa.get((Long) a.get("articuloId"));
@@ -176,9 +180,13 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             }
         }
 
-        cal.add(Calendar.MONTH, -1);
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, -2);
+        fecha2 = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        fecha1 = cal.getTime();
 
-        lista = articuloDao.articulosDelDia(cal.getTime());
+        lista = articuloRepository.articulosDelDia(fecha1, fecha2);
         for (Map<String, Object> a : lista) {
             if (publicaciones.get((Long) a.get("articuloId")) != null) {
                 ReporteArticulo b = mapa.get((Long) a.get("articuloId"));
@@ -188,9 +196,13 @@ public class ArticuloServiceImpl extends BaseService implements ArticuloService 
             }
         }
 
-        cal.add(Calendar.MONTH, -1);
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, -3);
+        fecha2 = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        fecha1 = cal.getTime();
 
-        lista = articuloDao.articulosDelDia(cal.getTime());
+        lista = articuloRepository.articulosDelDia(fecha1, fecha2);
         for (Map<String, Object> a : lista) {
             if (publicaciones.get((Long) a.get("articuloId")) != null) {
                 ReporteArticulo b = mapa.get((Long) a.get("articuloId"));
