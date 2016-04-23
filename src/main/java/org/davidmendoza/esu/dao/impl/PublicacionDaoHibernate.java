@@ -275,34 +275,34 @@ public class PublicacionDaoHibernate extends BaseDao implements PublicacionDao {
             } else {
                 vistas = vista.getCantidad();
             }
-            List<Long> articulos = map.get(vistas);
-            if (articulos == null) {
-                articulos = new ArrayList<>();
+            List<Long> ids = map.get(vistas);
+            if (ids == null) {
+                ids = new ArrayList<>();
             }
-            articulos.add(vista.getArticulo().getId());
-            map.put(vistas, articulos);
+            ids.add(vista.getArticulo().getId());
+            map.put(vistas, ids);
         }
         List<Integer> keys = new ArrayList<>(map.keySet());
         log.debug("Keys: {}", keys.size());
-        List<Long> articulos = new ArrayList<>();
+        List<Long> ids = new ArrayList<>();
         if (!keys.isEmpty()) {
             posicion = keys.size() - 1 - posicion;
-            int a = posicion - 10;
-            if (a < 0) {
-                a = 0;
+            int i = posicion - 10;
+            if (i < 0) {
+                i = 0;
             }
-            for (Integer key : keys.subList(a, posicion)) {
-                List<Long> b = map.get(key);
-                for (Long c : b) {
-                    if (articulos.size() < 10 && !articulos.contains(c)) {
-                        articulos.add(c);
+            for (Integer key : keys.subList(i, posicion)) {
+                List<Long> j = map.get(key);
+                for (Long k : j) {
+                    if (ids.size() < 10 && !ids.contains(k)) {
+                        ids.add(k);
                     }
                 }
             }
         }
-        log.debug("Articulos: {}", articulos.size());
+        log.debug("Articulos: {}", ids.size());
 
-        return articulos;
+        return ids;
     }
 
 }
