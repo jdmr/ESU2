@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 J. David Mendoza.
+ * Copyright 2016 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,15 +25,20 @@ package org.davidmendoza.esu.dao;
 
 import java.util.List;
 import org.davidmendoza.esu.model.Rv2000;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface BibliaDao {
+public interface BibliaRepository extends JpaRepository<Rv2000, Long> {
 
-    public List<Rv2000> biblia(Integer libro, Integer capitulo, Integer versiculo, Integer versiculos);
+    @Query("select v.id from Rv2000 v where v.libro.id = :libro and v.capitulo = :capitulo and v.versiculo = :versiculo")
+    public Long getVersiculoId(@Param("libro") Integer libro, @Param("capitulo") Integer capitulo, @Param("versiculo") Integer versiculo);
 
-    public List<Rv2000> biblia(Long versiculoId, Integer versiculos);
-    
+    @Query("select v from Rv2000 v where v.id between :inicio and :fin order by v.id")
+    public List<Rv2000> getVersiculos(@Param("inicio") Long inicio, @Param("fin") Long fin);
+
 }

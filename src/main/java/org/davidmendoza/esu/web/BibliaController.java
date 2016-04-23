@@ -79,12 +79,12 @@ public class BibliaController extends BaseController {
         log.debug("Versiculos: {}", lista.size());
         for (int i = 0; i < lista.size(); i++) {
             Rv2000 v = lista.get(i);
-            if (i == 0 && v.getId() - 4 >= 1) {
+            if (i == 0 && v.getId() - 6 >= 1) {
                 StringBuilder anterior = new StringBuilder();
-                anterior.append("/").append(v.getId() - 4);
+                anterior.append("/").append(v.getId() - 6);
                 log.debug("Anterior: {}", anterior.toString());
                 biblia.setAnterior(anterior.toString());
-                continue;
+                //continue;
             } else if (i == 0) {
                 StringBuilder anterior = new StringBuilder();
                 anterior.append("/").append(1);

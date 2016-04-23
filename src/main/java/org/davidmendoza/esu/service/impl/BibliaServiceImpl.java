@@ -24,7 +24,7 @@
 package org.davidmendoza.esu.service.impl;
 
 import java.util.List;
-import org.davidmendoza.esu.dao.BibliaDao;
+import org.davidmendoza.esu.dao.BibliaRepository;
 import org.davidmendoza.esu.model.Rv2000;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.BibliaService;
@@ -39,19 +39,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class BibliaServiceImpl extends BaseService implements BibliaService {
-    
+
     @Autowired
-    private BibliaDao bibliaDao;
+    private BibliaRepository bibliaRepository;
 
     @Override
     public List<Rv2000> biblia(Integer libro, Integer capitulo, Integer versiculo, Integer versiculos) {
         log.info("Biblia: {} : {} : {} : {}", libro, capitulo, versiculo, versiculos);
-        return bibliaDao.biblia(libro, capitulo, versiculo, versiculos);
+        Long versiculoId = bibliaRepository.getVersiculoId(libro, capitulo, versiculo);
+        log.info("Biblia: {} : {}", versiculoId, versiculoId + versiculos);
+        return bibliaRepository.getVersiculos(versiculoId, versiculoId + versiculos);
     }
 
     @Override
     public List<Rv2000> biblia(Long versiculoId, Integer versiculos) {
         log.info("Biblia: {} : {}", versiculoId, versiculos);
-        return bibliaDao.biblia(versiculoId, versiculos);
+        return bibliaRepository.getVersiculos(versiculoId, versiculoId + versiculos);
     }
 }
