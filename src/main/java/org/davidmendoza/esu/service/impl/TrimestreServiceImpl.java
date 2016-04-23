@@ -24,7 +24,6 @@
 package org.davidmendoza.esu.service.impl;
 
 import java.util.Date;
-import org.davidmendoza.esu.dao.TrimestreDao;
 import org.davidmendoza.esu.dao.TrimestreRepository;
 import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.service.BaseService;
@@ -45,20 +44,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class TrimestreServiceImpl extends BaseService implements TrimestreService {
 
     @Autowired
-    private TrimestreDao trimestreDao;
-    @Autowired
     private TrimestreRepository trimestreRepository;
 
     @Transactional(readOnly = true)
     @Override
     public Trimestre obtiene(Date fecha) {
-        return trimestreDao.obtiene(fecha);
+        return trimestreRepository.obtiene(fecha);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Trimestre obtiene(String nombre) {
-        return trimestreDao.obtiene(nombre);
+        return trimestreRepository.findByNombre(nombre);
     }
 
     @Transactional(readOnly = true)
