@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="articulosDiv">
                 <div class="col-md-6" th:each="publicacion : ${inicio.articulos}">
                     <th:block th:if="${publicacion.tipo == 'dialoga'}">
                         <h1><a href="#" th:href="@{'/profundiza/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.tema}}" th:utext="${publicacion.articulo.titulo}">Dialoga</a></h1>
@@ -106,6 +106,50 @@
             <script src="../../static/scripts/plugins.js" th:src="@{/scripts/plugins.js}"></script>
             <script src="../../static/scripts/main.js" th:src="@{/scripts/main.js}"></script>
         </div>
-        
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            "use strict";
+            var popularesUrl = /*[[@{/populares}]]*/ '/populares';
+            var profundizaUrl = /*[[@{/profundiza}]]*/ '/profundiza';
+            var comparteUrl = /*[[@{/comparte}]]*/ '/comparte';
+            var estudiaUrl = /*[[@{/estudia}]]*/ '/estudia';
+            var page = 1;
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+                    console.log("Getting data("+page+")");
+                    var div = $('div#articulosDiv');
+                    $.get(popularesUrl, {"page": page++}, function (data) {
+                        $.each(data, function (i, publicacion) {
+                            if (publicacion.tipo === 'dialoga') {
+                                var html = "<div class='col-md-6'>";
+                                html += "<h1><a href='"+profundizaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"'>"+publicacion.articulo.titulo+"</a></h1>";
+                                html += "<h3>Por "+publicacion.articulo.autor.nombreCompleto+"</h3>";
+                                html += "<p>"+publicacion.articulo.descripcion+"</p>";
+                                html += "<p><a href='"+profundizaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"' class='btn btn-primary btn-lg btn-block btn-cta'>Leer m&aacute;s...</a></p>";
+                                html += '</div>';
+                                div.append(html);
+                            } else if (publicacion.tipo === 'comunica') {
+                                var html = "<div class='col-md-6'>";
+                                html += "<h1><a href='"+comparteUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"'>"+publicacion.articulo.titulo+"</a></h1>";
+                                html += "<h3>Por "+publicacion.articulo.autor.nombreCompleto+"</h3>";
+                                html += "<p>"+publicacion.articulo.descripcion+"</p>";
+                                html += "<p><a href='"+comparteUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"' class='btn btn-primary btn-lg btn-block btn-cta'>Leer m&aacute;s...</a></p>";
+                                html += '</div>';
+                                div.append(html);
+                            } else if (publicacion.tipo === 'leccion') {
+                                var html = "<div class='col-md-6'>";
+                                html += "<h1><a href='"+estudiaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.dia+"'>"+publicacion.articulo.titulo+"</a></h1>";
+                                html += "<p>"+publicacion.articulo.descripcion+"</p>";
+                                html += "<p><a href='"+estudiaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.dia+"' class='btn btn-primary btn-lg btn-block btn-cta'>Leer m&aacute;s...</a></p>";
+                                html += '</div>';
+                                div.append(html);
+                            }
+                        });
+                    });
+                }
+            });
+            /*]]>*/
+        </script> 
     </body>
 </html>

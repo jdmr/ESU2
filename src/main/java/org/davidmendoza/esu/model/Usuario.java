@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,14 +94,17 @@ public class Usuario implements Serializable, UserDetails {
     @Basic(optional = false)
     @NotNull
     @Column(name = "version", nullable = false)
+    @JsonIgnore
     private Long version = 0L;
     @Basic(optional = false)
     @NotNull
     @Column(name = "account_expired", nullable = false)
+    @JsonIgnore
     private Boolean accountExpired = false;
     @Basic(optional = false)
     @NotNull
     @Column(name = "account_locked", nullable = false)
+    @JsonIgnore
     private Boolean accountLocked = false;
     @Field
     @Analyzer(definition = "customanalyzer")
@@ -112,20 +116,24 @@ public class Usuario implements Serializable, UserDetails {
     @Basic(optional = false)
     @NotNull
     @Column(name = "articulos", nullable = false)
+    @JsonIgnore
     private Integer totalArticulos = 0;
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date dateCreated;
     @Basic(optional = false)
     @NotNull
     @Column(name = "enabled", nullable = false)
+    @JsonIgnore
     private Boolean enabled = true;
     @Basic(optional = false)
     @NotNull
     @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date lastUpdated;
     @Field
     @Analyzer(definition = "customanalyzer")
@@ -138,39 +146,51 @@ public class Usuario implements Serializable, UserDetails {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "password", nullable = false, length = 255)
+    @JsonIgnore
     private String password;
     @Basic(optional = false)
     @NotNull
     @Column(name = "password_expired", nullable = false)
+    @JsonIgnore
     private Boolean passwordExpired = false;
     @Basic(optional = false)
     @NotNull
     @Column(name = "publicaciones", nullable = false)
+    @JsonIgnore
     private Integer totalPublicaciones = 0;
     @Field
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "username", nullable = false, length = 255)
+    @JsonIgnore
     private String username;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = {
         @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "rol_id", referencedColumnName = "id", nullable = false)})
+    @JsonIgnore
     private List<Rol> roles = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "autor")
+    @JsonIgnore
     private List<Articulo> articulos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @JsonIgnore
     private List<Perfil> perfiles;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "editor")
+    @JsonIgnore
     private List<Publicacion> publicaciones;
     @Transient
+    @JsonIgnore
     private Boolean admin = false;
     @Transient
+    @JsonIgnore
     private Boolean editor = false;
     @Transient
+    @JsonIgnore
     private Boolean autor = false;
     @Transient
+    @JsonIgnore
     private Boolean user = true;
 
     public Usuario() {
@@ -228,6 +248,7 @@ public class Usuario implements Serializable, UserDetails {
     /**
      * @return the accountExpired
      */
+    @JsonIgnore
     public boolean isAccountExpired() {
         return accountExpired;
     }
@@ -242,6 +263,7 @@ public class Usuario implements Serializable, UserDetails {
     /**
      * @return the accountLocked
      */
+    @JsonIgnore
     public boolean isAccountLocked() {
         return accountLocked;
     }
@@ -299,6 +321,7 @@ public class Usuario implements Serializable, UserDetails {
      * @return the enabled
      */
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return enabled;
     }
@@ -483,6 +506,7 @@ public class Usuario implements Serializable, UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new LinkedHashSet<>();
         authorities.addAll(roles);
@@ -490,16 +514,19 @@ public class Usuario implements Serializable, UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return !accountExpired;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return !accountLocked;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return !passwordExpired;
     }

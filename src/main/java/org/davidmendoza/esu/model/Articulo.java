@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -94,6 +95,7 @@ public class Articulo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "version", nullable = false)
+    @JsonIgnore
     private long version;
     @Field
     @Analyzer(definition = "customanalyzer")
@@ -106,6 +108,7 @@ public class Articulo implements Serializable {
     @NotNull
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date dateCreated;
     @Field
     @Analyzer(definition = "customanalyzer")
@@ -116,6 +119,7 @@ public class Articulo implements Serializable {
     @NotNull
     @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date lastUpdated;
     @Field
     @Analyzer(definition = "customanalyzer")
@@ -134,8 +138,10 @@ public class Articulo implements Serializable {
     private Usuario autor;
     @IndexedEmbedded
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo")
+    @JsonIgnore
     private List<Publicacion> publicaciones;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articulo")
+    @JsonIgnore
     private List<Vista> historial;
 
     public Articulo() {

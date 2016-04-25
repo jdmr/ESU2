@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -76,6 +77,7 @@ public class Publicacion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "version", nullable = false)
+    @JsonIgnore
     private Long version;
     @Field
     @Basic(optional = false)
@@ -86,6 +88,7 @@ public class Publicacion implements Serializable {
     @NotNull
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date dateCreated;
     @Field
     @Size(max = 10)
@@ -96,16 +99,19 @@ public class Publicacion implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "estatus", nullable = false, length = 10)
+    @JsonIgnore
     private String estatus;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date fecha;
     @Basic(optional = false)
     @NotNull
     @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date lastUpdated;
     @Field
     @Basic(optional = false)
@@ -134,9 +140,11 @@ public class Publicacion implements Serializable {
     private Articulo articulo;
     @JoinColumn(name = "padre_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Trimestre padre;
     @JoinColumn(name = "editor_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Usuario editor;
 
     public Publicacion() {
@@ -323,6 +331,7 @@ public class Publicacion implements Serializable {
         return "org.davidmendoza.esu.model.Publicacion[ id=" + id + " ]";
     }
 
+    @JsonIgnore
     public String getNombre() {
         StringBuilder sb = new StringBuilder();
         sb.append(anio);

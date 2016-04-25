@@ -28,6 +28,7 @@ import java.util.List;
 import org.davidmendoza.esu.model.Articulo;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -53,7 +54,7 @@ public interface PublicacionService {
 
     public Long elimina(Long publicacionId);
 
-    public List<Publicacion> populares(Integer anio, String trimestre, String leccion, Integer posicion);
+    public List<Publicacion> populares(Pageable pageable);
     
     public void populares();
 }

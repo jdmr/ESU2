@@ -43,6 +43,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Weeks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,7 +136,9 @@ public class InicioServiceImpl extends BaseService implements InicioService {
 
         List<Publicacion> comunica = publicacionService.obtiene(anio, trimestre, leccion, "comunica");
         
-        List<Publicacion> populares = publicacionService.populares(anio, trimestre, leccion, 0);
+        PageRequest page = new PageRequest(0, 10, Sort.Direction.DESC, "id");
+        
+        List<Publicacion> populares = publicacionService.populares(page);
         
         Trimestre t = trimestreService.obtiene(anio + trimestre);
         if (t != null) {

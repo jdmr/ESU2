@@ -23,19 +23,24 @@
  */
 package org.davidmendoza.esu.web;
 
+import java.util.List;
 import java.util.TimeZone;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
+import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.service.InicioService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -100,11 +105,12 @@ public class InicioController extends BaseController {
         return "inicio/inicio";
     }
     
-    @RequestMapping(value = "/populares", method = RequestMethod.GET)
+    @RequestMapping(value = "/populares", params={"page"}, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody    
-    public String populares() {
-        publicacionService.populares();
-        return "OK";
+    @ResponseBody
+    public List<Publicacion> populares(@RequestParam Integer page) {
+        PageRequest pageRequest = new PageRequest(page, 10, Sort.Direction.DESC, "id");
+        List<Publicacion> publicaciones = publicacionService.populares(pageRequest);
+        return publicaciones;
     }
 }
