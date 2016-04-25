@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 J. David Mendoza.
+ * Copyright 2016 J. David Mendoza.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,39 +21,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package org.davidmendoza.esu.model;
 
-package org.davidmendoza.esu.service;
-
-import java.util.List;
-import org.davidmendoza.esu.model.Articulo;
-import org.davidmendoza.esu.model.Publicacion;
-import org.davidmendoza.esu.model.Usuario;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
- * @author J. David Mendoza <jdmendozar@gmail.com>
+ * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface PublicacionService {
+@Entity
+@Table(name = "populares")
+public class Popular implements Serializable {
 
-    public Publicacion obtiene(Integer anio, String trimestre, String leccion, String dia, String tipo);
-    
-    public Publicacion obtiene(String nombre);
+    @Id
+    private Integer id;
+    @OneToOne(optional = false)
+    private Publicacion publicacion;
 
-    public List<Publicacion> obtiene(Integer anio, String trimestre, String leccion, String tipo);
-    
-    public Integer agregarVista(Articulo articulo);
-    
-    public void actualizaVistasDelDia();
+    public Popular() {
+    }
 
-    public List<Publicacion> publicaciones(Usuario autor);
+    public Popular(Integer id, Publicacion publicacion) {
+        this.id = id;
+        this.publicacion = publicacion;
+    }
 
-    public List<Publicacion> publicacionesUnicasDeArticulos(Usuario usuario);
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-    public void nueva(Publicacion publicacion);
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public Long elimina(Long publicacionId);
+    /**
+     * @return the publicacion
+     */
+    public Publicacion getPublicacion() {
+        return publicacion;
+    }
 
-    public List<Publicacion> populares(Integer anio, String trimestre, String leccion, Integer posicion);
-    
-    public void populares();
+    /**
+     * @param publicacion the publicacion to set
+     */
+    public void setPublicacion(Publicacion publicacion) {
+        this.publicacion = publicacion;
+    }
 }

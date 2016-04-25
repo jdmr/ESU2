@@ -25,6 +25,7 @@ package org.davidmendoza.esu.service.impl;
 
 import com.sendgrid.SendGrid;
 import com.sendgrid.SendGridException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,15 +37,20 @@ import java.util.Set;
 import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.dao.ArticuloRepository;
+import org.davidmendoza.esu.dao.PopularRepository;
 import org.davidmendoza.esu.dao.PublicacionRepository;
 import org.davidmendoza.esu.dao.VistaRepository;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.model.Popular;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.model.Usuario;
 import org.davidmendoza.esu.model.Vista;
 import org.davidmendoza.esu.service.BaseService;
 import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.service.TrimestreService;
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
 import org.jsoup.Jsoup;
 import org.jsoup.examples.HtmlToPlainText;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +77,8 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     private VistaRepository vistaRepository;
     @Autowired
     private SendGrid sendgrid;
+    @Autowired
+    private PopularRepository popularRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -123,8 +131,8 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         log.info("Iniciando proceso de actualizacion de vistas del dia.");
         Date fecha = new Date();
         List<Map> articulos = articuloRepository.articulosConVistas();
-        for(Map a : articulos) {
-            Articulo articulo = articuloRepository.findOne((Long)a.get("id"));
+        for (Map a : articulos) {
+            Articulo articulo = articuloRepository.findOne((Long) a.get("id"));
             Vista vista = new Vista((Integer) a.get("vistas"), fecha, articulo);
             vistaRepository.save(vista);
         }
@@ -177,22 +185,22 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
     @Override
     public List<Publicacion> populares(Integer anio, String trimestre, String leccion, Integer posicion) {
         List<Publicacion> articulos = new ArrayList<>();
-        List<Publicacion> a = publicacionRepository.findByAnioAndTrimestreAndLeccionAndTipoAndEstatus(anio, trimestre, leccion, "dialoga","PUBLICADO");
-        List<Publicacion> b = publicacionRepository.findByAnioAndTrimestreAndLeccionAndTipoAndEstatus(anio, trimestre, leccion, "comunica","PUBLICADO");
+        List<Publicacion> a = publicacionRepository.findByAnioAndTrimestreAndLeccionAndTipoAndEstatus(anio, trimestre, leccion, "dialoga", "PUBLICADO");
+        List<Publicacion> b = publicacionRepository.findByAnioAndTrimestreAndLeccionAndTipoAndEstatus(anio, trimestre, leccion, "comunica", "PUBLICADO");
 
         Calendar cal = Calendar.getInstance();
         Date date1 = cal.getTime();
         cal.add(Calendar.DAY_OF_YEAR, -1);
         Date date2 = cal.getTime();
-        
+
         List<Vista> dia1 = vistaRepository.vistas(date2, date1);
-        
+
         date1 = date2;
         cal.add(Calendar.DAY_OF_YEAR, -2);
         date2 = cal.getTime();
 
         List<Vista> dia2 = vistaRepository.vistas(date2, date1);
-        
+
         Map<Long, Vista> x = new HashMap<>();
         dia2.stream().forEach((vista) -> {
             x.put(vista.getArticulo().getId(), vista);
@@ -234,7 +242,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
             }
         }
         log.debug("Articulos: {}", ids.size());
-        
+
         List<Publicacion> c = publicacionRepository.findByEstatusAndArticuloIdIn("PUBLICADO", ids);
 
         int max = Math.max(a.size(), b.size());
@@ -287,6 +295,64 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
             }
         });
         return publicaciones;
+    }
+
+    @Scheduled(cron = "0 0 3 * * ?")
+    @Override
+    public void populares() {
+
+        Calendar cal = Calendar.getInstance();
+        Date date1 = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        Date date2 = cal.getTime();
+
+        List<Vista> dia1 = vistaRepository.vistas(date2, date1);
+
+        date1 = date2;
+        cal.add(Calendar.DAY_OF_YEAR, -2);
+        date2 = cal.getTime();
+
+        List<Vista> dia2 = vistaRepository.vistas(date2, date1);
+
+        Map<Long, Vista> x = new HashMap<>();
+        dia2.stream().forEach((vista) -> {
+            x.put(vista.getArticulo().getId(), vista);
+        });
+
+        Map<Integer, List<Long>> map = new TreeMap<>();
+
+        for (Vista vista : dia1) {
+            Integer vistas;
+            Vista y = x.get(vista.getArticulo().getId());
+            if (y != null) {
+                vistas = vista.getCantidad() - y.getCantidad();
+            } else {
+                vistas = vista.getCantidad();
+            }
+            List<Long> ids = map.get(vistas);
+            if (ids == null) {
+                ids = new ArrayList<>();
+                map.put(vistas, ids);
+            }
+            ids.add(vista.getArticulo().getId());
+        }
+        List<Integer> keys = new ArrayList<>(map.keySet());
+        log.debug("Keys: {}", keys.size());
+
+        if (!keys.isEmpty()) {
+            popularRepository.deleteAll();
+
+            int id = 0;
+            for (Integer a : keys) {
+                for (Long b : map.get(a)) {
+                    List<Long> pubs = publicacionRepository.getByArticuloId(b);
+                    if (pubs != null && !pubs.isEmpty()) {
+                        Popular popular = new Popular(++id, publicacionRepository.getOne(pubs.get(0)));
+                        popularRepository.save(popular);
+                    }
+                }
+            }
+        }
     }
 
 }

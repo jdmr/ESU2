@@ -29,6 +29,7 @@ import java.util.Map;
 import org.davidmendoza.esu.model.Publicacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -49,6 +50,11 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Long> 
     public List<Publicacion> findByEstatusAndArticuloAutorIdAndTipoInOrderByDateCreated(String estatus, Long articuloAutorId, Collection<String> tipos);
     
     public List<Publicacion> findByEstatusAndArticuloIdIn(String estatus, Collection<Long> ids);
+    
+    public List<Publicacion> findByEstatusAndArticuloId(String estatus, Integer id);
+    
+    @Query("select p.id from Publicacion p where p.estatus = 'PUBLICADO' and p.articulo.id = :articuloId")
+    public List<Long> getByArticuloId(@Param("articuloId") Long articuloId); 
     
     @Query("select new map(p.id as publicacionId, p.tipo as tipo, p.estatus as estatus, p.articulo.id as articuloId, p.anio as anio, p.trimestre as trimestre, p.leccion as leccion, p.tema as tema) from Publicacion p order by p.articulo")
     public List<Map<String, Object>> todas();

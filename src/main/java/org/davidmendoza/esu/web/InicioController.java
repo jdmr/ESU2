@@ -28,23 +28,29 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
 import org.davidmendoza.esu.service.InicioService;
+import org.davidmendoza.esu.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
 @Controller
-@RequestMapping({"/", "/inicio"})
+@RequestMapping("/")
 public class InicioController extends BaseController {
 
     @Autowired
     private InicioService inicioService;
+    @Autowired
+    private PublicacionService publicacionService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String inicio(HttpSession session, TimeZone timeZone) {
@@ -92,5 +98,13 @@ public class InicioController extends BaseController {
         model.addAttribute("inicio", inicio);
 
         return "inicio/inicio";
+    }
+    
+    @RequestMapping(value = "/populares", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody    
+    public String populares() {
+        publicacionService.populares();
+        return "OK";
     }
 }
