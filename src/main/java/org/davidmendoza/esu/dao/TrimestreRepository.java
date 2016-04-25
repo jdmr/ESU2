@@ -42,5 +42,6 @@ public interface TrimestreRepository extends PagingAndSortingRepository<Trimestr
     @Query("SELECT t FROM Trimestre t WHERE :fecha BETWEEN t.inicia AND t.termina AND t.publicado = true")
     public Trimestre obtiene(@Param("fecha") Date fecha);
     
-    public Trimestre findByNombre(String nombre);
+    @Query("select t from Trimestre t where nombre = :nombre")
+    public Trimestre buscaPorNombre(@Param("nombre") String nombre);
 }

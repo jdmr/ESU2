@@ -55,7 +55,8 @@ public class TrimestreServiceImpl extends BaseService implements TrimestreServic
     @Transactional(readOnly = true)
     @Override
     public Trimestre obtiene(String nombre) {
-        return trimestreRepository.findByNombre(nombre);
+        log.debug("Buscando trimestre: " + nombre);
+        return trimestreRepository.buscaPorNombre(nombre);
     }
 
     @Transactional(readOnly = true)
