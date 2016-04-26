@@ -138,7 +138,8 @@ public class ComparteController extends BaseController {
 
         return "comparte/tema";
     }
-    
+
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
     @ResponseBody
     public Map popular(@PathVariable Integer posicion) {
