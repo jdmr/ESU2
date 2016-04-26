@@ -164,6 +164,7 @@ public class EstudiaController extends BaseController {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
     @ResponseBody
     public Map popular(@PathVariable Integer posicion) throws ParseException {

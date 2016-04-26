@@ -139,6 +139,7 @@ public class ProfundizaController extends BaseController {
         return "profundiza/tema";
     }
     
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
     @ResponseBody
     public Map popular(@PathVariable Integer posicion) {
