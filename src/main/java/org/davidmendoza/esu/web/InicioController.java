@@ -109,7 +109,7 @@ public class InicioController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<Publicacion> populares(@RequestParam Integer page) {
-        PageRequest pageRequest = new PageRequest(page, 10, Sort.Direction.DESC, "id");
+        PageRequest pageRequest = new PageRequest(page, 10, Sort.Direction.ASC, "id");
         List<Publicacion> publicaciones = publicacionService.populares(pageRequest);
         return publicaciones;
     }

@@ -26,6 +26,7 @@ package org.davidmendoza.esu.service;
 
 import java.util.List;
 import org.davidmendoza.esu.model.Articulo;
+import org.davidmendoza.esu.model.Popular;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
 import org.springframework.data.domain.Pageable;
@@ -57,4 +58,6 @@ public interface PublicacionService {
     public List<Publicacion> populares(Pageable pageable);
     
     public void populares();
+
+    public Popular obtieneSiguientePopularProfundiza(Integer posicion);
 }

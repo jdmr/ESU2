@@ -136,7 +136,7 @@ public class InicioServiceImpl extends BaseService implements InicioService {
 
         List<Publicacion> comunica = publicacionService.obtiene(anio, trimestre, leccion, "comunica");
         
-        PageRequest page = new PageRequest(0, 10, Sort.Direction.DESC, "id");
+        PageRequest page = new PageRequest(0, 10, Sort.Direction.ASC, "id");
         
         List<Publicacion> populares = publicacionService.populares(page);
         

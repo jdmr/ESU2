@@ -50,6 +50,7 @@ import org.jsoup.examples.HtmlToPlainText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -180,10 +181,10 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
 
     @Override
     public List<Publicacion> populares(Pageable pageable) {
-        
+
         Page<Popular> page = popularRepository.findAll(pageable);
         List<Publicacion> publicaciones = new ArrayList<>();
-        for(Popular popular : page.getContent()) {
+        for (Popular popular : page.getContent()) {
             publicaciones.add(popular.getPublicacion());
         }
 
@@ -265,8 +266,8 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
             popularRepository.deleteAll();
 
             int id = 0;
-            for (Integer a : keys) {
-                for (Long b : map.get(a)) {
+            for (int a = keys.size() - 1; a >= 0; a--) {
+                for (Long b : map.get(keys.get(a))) {
                     List<Long> pubs = publicacionRepository.getByArticuloId(b);
                     if (pubs != null && !pubs.isEmpty()) {
                         Popular popular = new Popular(++id, publicacionRepository.getOne(pubs.get(0)));
@@ -275,6 +276,16 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
                 }
             }
         }
+    }
+
+    @Override
+    public Popular obtieneSiguientePopularProfundiza(Integer posicion) {
+        PageRequest pageRequest = new PageRequest(0, 1);
+        List<Popular> populares = popularRepository.obtieneSiguientePopularProfundiza(posicion, pageRequest);
+        if (populares != null && !populares.isEmpty()) {
+            return populares.get(0);
+        }
+        return null;
     }
 
 }

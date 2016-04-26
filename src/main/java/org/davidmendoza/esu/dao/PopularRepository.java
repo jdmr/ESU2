@@ -23,13 +23,20 @@
  */
 package org.davidmendoza.esu.dao;
 
+import java.util.List;
 import org.davidmendoza.esu.model.Popular;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
 public interface PopularRepository extends JpaRepository<Popular, Integer> {
-    
+
+    @Query("select p from Popular p where p.id > :posicion and p.publicacion.tipo = 'dialoga' order by id")
+    public List<Popular> obtieneSiguientePopularProfundiza(@Param("posicion") Integer posicion, Pageable pageable);
+
 }

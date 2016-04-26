@@ -23,6 +23,7 @@
  */
 package org.davidmendoza.esu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,25 +67,32 @@ public class Perfil implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "version", nullable = false)
+    @JsonIgnore
     private long version;
     @Type(type="org.hibernate.type.BinaryType")
     @Column(name = "archivo")
+    @JsonIgnore
     private byte[] archivo;
     @Size(max = 255)
     @Column(name = "nombre_imagen", length = 255)
+    @JsonIgnore
     private String nombreImagen;
     @Column(name = "tamano")
+    @JsonIgnore
     private Long tamano;
     @Size(max = 2000)
     @Column(name = "texto", length = 2000)
     private String texto;
     @Size(max = 255)
     @Column(name = "tipo_contenido", length = 255)
+    @JsonIgnore
     private String tipoContenido;
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Usuario usuario;
     @Transient
+    @JsonIgnore
     private List<Publicacion> publicacionesUnicas = new ArrayList<>();
 
     public Perfil() {
