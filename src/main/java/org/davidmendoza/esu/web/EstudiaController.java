@@ -23,25 +23,34 @@
  */
 package org.davidmendoza.esu.web;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
+import org.davidmendoza.esu.model.Popular;
 import org.davidmendoza.esu.model.Publicacion;
+import org.davidmendoza.esu.model.Trimestre;
 import org.davidmendoza.esu.service.InicioService;
 import org.davidmendoza.esu.service.PublicacionService;
+import org.davidmendoza.esu.service.TrimestreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -55,6 +64,8 @@ public class EstudiaController extends BaseController {
     private InicioService inicioService;
     @Autowired
     private PublicacionService publicacionService;
+    @Autowired
+    private TrimestreService trimestreService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String estudia(HttpSession session, TimeZone timeZone) {
@@ -89,18 +100,18 @@ public class EstudiaController extends BaseController {
 
     @RequestMapping(value = "/{anio}/{trimestre}/{leccion}/{dia}")
     public String leccion(Model model, @ModelAttribute Inicio inicio, HttpSession session, TimeZone timeZone) {
-        
+
         session.setAttribute("anio", inicio.getAnio());
         session.setAttribute("trimestre", inicio.getTrimestre());
         session.setAttribute("leccion", inicio.getLeccion());
         session.setAttribute("dia", inicio.getDia());
 
         log.info("Estudia: {} : {} : {} : {}", inicio.getAnio(), inicio.getTrimestre(), inicio.getLeccion(), inicio.getDia());
-        
+
         inicio = inicioService.inicio(inicio);
-        
+
         Inicio hoy = inicioService.inicio(timeZone);
-        if (inicio.getAnio().equals(hoy.getAnio()) 
+        if (inicio.getAnio().equals(hoy.getAnio())
                 && inicio.getTrimestre().equals(hoy.getTrimestre())
                 && inicio.getLeccion().equals(hoy.getLeccion())
                 && inicio.getDia().equals(hoy.getDia())) {
@@ -152,4 +163,51 @@ public class EstudiaController extends BaseController {
             return null;
         }
     }
+
+    @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
+    @ResponseBody
+    public Map popular(@PathVariable Integer posicion) throws ParseException {
+        Map resultado = new HashMap();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", new Locale("es"));
+        Popular popular = publicacionService.obtieneSiguientePopularEstudia(posicion);
+        popular.getPublicacion().getArticulo().setVistas(publicacionService.agregarVista(popular.getPublicacion().getArticulo()));
+        Trimestre t = trimestreService.obtiene(popular.getPublicacion().getAnio() + popular.getPublicacion().getTrimestre());
+        if (t != null) {
+            Calendar cal = new GregorianCalendar(Locale.ENGLISH);
+            cal.setTime(t.getInicia());
+            cal.add(Calendar.SECOND, 1);
+            cal.set(Calendar.DAY_OF_WEEK, obtieneDia(popular.getPublicacion().getDia()));
+            NumberFormat nf = NumberFormat.getInstance();
+            int weeks = ((Long) nf.parse(popular.getPublicacion().getLeccion().substring(1))).intValue();
+            if (popular.getPublicacion().getDia().equals("sabado")) {
+                weeks--;
+            }
+            cal.add(Calendar.WEEK_OF_YEAR, weeks);
+            Date hoy = cal.getTime();
+            resultado.put("dia", hoy);
+            resultado.put("diaString", sdf.format(hoy));
+        }
+        resultado.put("publicacion", popular.getPublicacion());
+        resultado.put("posicion", popular.getId());
+        return resultado;
+    }
+    
+    private Integer obtieneDia(String dia) {
+        switch (dia) {
+            case "domingo":
+                return Calendar.SUNDAY;
+            case "lunes":
+                return Calendar.MONDAY;
+            case "martes":
+                return Calendar.TUESDAY;
+            case "miercoles":
+                return Calendar.WEDNESDAY;
+            case "jueves":
+                return Calendar.THURSDAY;
+            case "viernes":
+                return Calendar.FRIDAY;
+            default:
+                return Calendar.SATURDAY;
+        }
+    }    
 }

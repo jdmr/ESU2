@@ -42,7 +42,7 @@
 
             </div>
 
-            <div class="row">
+            <div class="row leccion">
                 <div class="col-md-8">
                     <div class="well versiculo" th:utext="${estudia.versiculo.articulo.contenido}" th:if="${estudia.versiculo != null}">
                         <p>Porque de tal manera amo Dios al mundo...</p>
@@ -65,7 +65,7 @@
                     </div>
 
                     <h1 class="text-center" th:utext="${estudia.publicacion.articulo.titulo}">Titulo Leccion</h1>
-                    <div class="leccion" th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
+                    <div th:utext="${estudia.publicacion.articulo.contenido}">Texto de la leccion</div>
                     <p><th:block th:text="#{visitas(${estudia.publicacion.articulo.vistas})}">0 Visitas</th:block> <span class="fa fa-eye"></span></p>
 
                     <div class="addthis_sharing_toolbox"></div>
@@ -93,6 +93,9 @@
                     </script>
                     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                     <a href="http://disqus.com" class="dsq-brlink">comments powered by <div class="logo-disqus">Disqus</div></a>
+                    <div class="text-center" id="temaDiv">
+                        <span class="fa fa-spinner fa-spin"></span>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <a href="#" th:href="@{${estudia.hoyLiga}}" th:unless="${estudia.esHoy}" class="btn btn-primary btn-lg btn-block btn-cta">Lección de Hoy</a>
@@ -116,6 +119,10 @@
                             <p><a href="#" th:href="@{'/estudia/'+${publicacion.anio}+'/'+${publicacion.trimestre}+'/'+${publicacion.leccion}+'/'+${publicacion.dia}}" th:text="#{leer.mas}" class="btn btn-primary btn-lg btn-block btn-cta">Leer mas...</a></p>
                         </th:block>
                     </th:block>
+
+                    <div id="articulosDiv" class="text-center">
+                        <span class="fa fa-spinner fa-spin"></span>
+                    </div>
 
                 </div>
             </div>
@@ -167,31 +174,44 @@
 
         <script th:inline="javascript">
             /*<![CDATA[*/
+            "use strict";
             var bibliaUrl = /*[[@{/versiculo}]]*/ '/biblia';
             var date = /*[[${#dates.format(estudia.hoy, 'dd/MM/yyyy')}]]*/ '';
+            var popularesUrl = /*[[@{/populares}]]*/ '/populares';
+            var profundizaUrl = /*[[@{/profundiza}]]*/ '/profundiza';
+            var comparteUrl = /*[[@{/comparte}]]*/ '/comparte';
+            var estudiaUrl = /*[[@{/estudia}]]*/ '/estudia';
+            var perfilUrl = /*[[@{/perfil}]]*/ '/perfil';
+            var estudiaPopularUrl = /*[[@{/estudia/popular}]]*/ '/estudia/popular';
+            var posicion = 0;
+            var actual = -1;
+            var page = 1;
+            var actualPage = 0;
 
             $(function () {
-                $(".leccion a").click(function (e) {
-                    e.preventDefault();
-
+                $(".leccion").on("click", "a",function (e) {
                     var link = $(this).attr('href');
+                    if (link.startsWith("/biblia") || link.startsWith("/versiculo")) {
+                        
+                        e.preventDefault();
 
-                    $.getJSON(link, function (data) {
-                        $("#bibliaContenido").html(data.contenido);
-                        if (data.anterior !== null) {
-                            $("#anteriorBtn").show();
-                            $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
-                        } else {
-                            $("#anteriorBtn").hide();
-                        }
-                        if (data.siguiente !== null) {
-                            $("#siguienteBtn").show();
-                            $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
-                        } else {
-                            $("#siguienteBtn").hide();
-                        }
-                        $("#bibliaModal").modal();
-                    });
+                        $.getJSON(link, function (data) {
+                            $("#bibliaContenido").html(data.contenido);
+                            if (data.anterior !== null) {
+                                $("#anteriorBtn").show();
+                                $("#anteriorBtn").prop("href", bibliaUrl + data.anterior);
+                            } else {
+                                $("#anteriorBtn").hide();
+                            }
+                            if (data.siguiente !== null) {
+                                $("#siguienteBtn").show();
+                                $("#siguienteBtn").prop("href", bibliaUrl + data.siguiente);
+                            } else {
+                                $("#siguienteBtn").hide();
+                            }
+                            $("#bibliaModal").modal();
+                        });
+                    }
                 });
 
                 $("#fechaLink").click(function (e) {
@@ -233,6 +253,70 @@
 
             });
 
+            function isScrolledIntoView(elem) {
+                var $elem = $(elem);
+                var $window = $(window);
+
+                var docViewTop = $window.scrollTop();
+                var docViewBottom = docViewTop + $window.height();
+
+                var elemTop = $elem.offset().top;
+                var elemBottom = elemTop + $elem.height();
+
+                return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+            }
+
+            $(window).scroll(function () {
+                
+                if (isScrolledIntoView($("div#temaDiv"))) {
+                    if (posicion !== actual) {
+                        console.log('Buscando popular de estudia('+posicion+')');
+                        actual = posicion;
+                        $.get(estudiaPopularUrl+'/'+posicion, function (data) {
+                            var html = "<h1>"+data.publicacion.articulo.titulo+"</h1>";
+                            html += "<h3>"+data.diaString+", "+moment(data.dia).locale("es").format("DD/MM/YYYY")+"</h3>";
+                            html += data.publicacion.articulo.contenido;
+                            html += "<p>"+data.publicacion.articulo.vistas+" Vistas <span class='fa fa-eye'></span></p>";
+                            html += "<hr/>";
+                            $('div#temaDiv').before(html);
+                            posicion = data.posicion;
+                        });
+                    }
+                }
+                
+                if (isScrolledIntoView($("div#articulosDiv"))) {
+                    if (page !== actualPage) {
+                        console.log("Getting data("+page+")");
+                        var div = $('div#articulosDiv');
+                        actualPage = page;
+                        $.get(popularesUrl, {"page": page}, function (data) {
+                            $.each(data, function (i, publicacion) {
+                                if (publicacion.tipo === 'dialoga') {
+                                    var html = "<h1><a href='"+profundizaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"'>"+publicacion.articulo.titulo+"</a></h1>";
+                                    html += "<h3>Por "+publicacion.articulo.autor.nombreCompleto+"</h3>";
+                                    html += "<p>"+publicacion.articulo.descripcion+"</p>";
+                                    html += "<p><a href='"+profundizaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"' class='btn btn-primary btn-lg btn-block btn-cta'>Leer m&aacute;s...</a></p>";
+                                    div.before(html);
+                                } else if (publicacion.tipo === 'comunica') {
+                                    var html = "<h1><a href='"+comparteUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"'>"+publicacion.articulo.titulo+"</a></h1>";
+                                    html += "<h3>Por "+publicacion.articulo.autor.nombreCompleto+"</h3>";
+                                    html += "<p>"+publicacion.articulo.descripcion+"</p>";
+                                    html += "<p><a href='"+comparteUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.tema+"' class='btn btn-primary btn-lg btn-block btn-cta'>Leer m&aacute;s...</a></p>";
+                                    div.before(html);
+                                } else if (publicacion.tipo === 'leccion') {
+                                    var html = "<h1><a href='"+estudiaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.dia+"'>"+publicacion.articulo.titulo+"</a></h1>";
+                                    html += "<p>"+publicacion.articulo.descripcion+"</p>";
+                                    html += "<p><a href='"+estudiaUrl+"/"+publicacion.anio+"/"+publicacion.trimestre+"/"+publicacion.leccion+"/"+publicacion.dia+"' class='btn btn-primary btn-lg btn-block btn-cta'>Leer m&aacute;s...</a></p>";
+                                    div.before(html);
+                                }
+                            });
+                            page++;
+                        });
+                        
+                    }
+                }
+                
+            });
             /*]]>*/
         </script>
 
