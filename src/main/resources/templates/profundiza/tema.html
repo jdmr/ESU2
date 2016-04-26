@@ -152,7 +152,7 @@
             $(window).scroll(function () {
                 
                 if (isScrolledIntoView($("div#temaDiv"))) {
-                    if (posicion != actual) {
+                    if (posicion !== actual) {
                         console.log('Buscando popular de profundiza('+posicion+')');
                         actual = posicion;
                         $.get(profundizaPopularUrl+'/'+posicion, function (data) {
@@ -179,7 +179,7 @@
                 }
                 
                 if (isScrolledIntoView($("div#articulosDiv"))) {
-                    if (page != actualPage) {
+                    if (page !== actualPage) {
                         console.log("Getting data("+page+")");
                         var div = $('div#articulosDiv');
                         actualPage = page;

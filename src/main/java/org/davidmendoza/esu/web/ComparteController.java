@@ -24,10 +24,13 @@
 package org.davidmendoza.esu.web;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.model.Inicio;
+import org.davidmendoza.esu.model.Popular;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.service.InicioService;
 import org.davidmendoza.esu.service.PerfilService;
@@ -36,8 +39,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -104,7 +109,12 @@ public class ComparteController extends BaseController {
         }
         
         if (notFound) {
-            return "redirect:/inicio";
+            Popular popular = publicacionService.obtieneSiguientePopularComunica(0);
+            popular.getPublicacion().getArticulo().setVistas(publicacionService.agregarVista(popular.getPublicacion().getArticulo()));
+            model.addAttribute("tema", popular.getPublicacion());
+            model.addAttribute("posicion", popular.getId());
+            model.addAttribute("perfil", perfilService.obtienePorUsuario(popular.getPublicacion().getArticulo().getAutor()));
+//            return "redirect:/inicio";
         }
 
         Inicio hoy = inicioService.inicio(Calendar.getInstance());
@@ -128,4 +138,16 @@ public class ComparteController extends BaseController {
 
         return "comparte/tema";
     }
+    
+    @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
+    @ResponseBody
+    public Map popular(@PathVariable Integer posicion) {
+        Map resultado = new HashMap();
+        Popular popular = publicacionService.obtieneSiguientePopularComunica(posicion);
+        popular.getPublicacion().getArticulo().setVistas(publicacionService.agregarVista(popular.getPublicacion().getArticulo()));
+        resultado.put("publicacion", popular.getPublicacion());
+        resultado.put("posicion", popular.getId());
+        resultado.put("perfil", perfilService.obtienePorUsuario(popular.getPublicacion().getArticulo().getAutor()));
+        return resultado;
+    } 
 }

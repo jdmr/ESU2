@@ -60,4 +60,6 @@ public interface PublicacionService {
     public void populares();
 
     public Popular obtieneSiguientePopularProfundiza(Integer posicion);
+
+    public Popular obtieneSiguientePopularComunica(Integer posicion);
 }

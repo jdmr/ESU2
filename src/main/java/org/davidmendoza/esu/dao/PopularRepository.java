@@ -39,4 +39,7 @@ public interface PopularRepository extends JpaRepository<Popular, Integer> {
     @Query("select p from Popular p where p.id > :posicion and p.publicacion.tipo = 'dialoga' order by id")
     public List<Popular> obtieneSiguientePopularProfundiza(@Param("posicion") Integer posicion, Pageable pageable);
 
+    @Query("select p from Popular p where p.id > :posicion and p.publicacion.tipo = 'comunica' order by id")
+    public List<Popular> obtieneSiguientePopularComunica(@Param("posicion") Integer posicion, Pageable pageable);
+
 }

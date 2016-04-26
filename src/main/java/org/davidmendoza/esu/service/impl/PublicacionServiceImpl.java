@@ -288,4 +288,14 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         return null;
     }
 
+    @Override
+    public Popular obtieneSiguientePopularComunica(Integer posicion) {
+        PageRequest pageRequest = new PageRequest(0, 1);
+        List<Popular> populares = popularRepository.obtieneSiguientePopularComunica(posicion, pageRequest);
+        if (populares != null && !populares.isEmpty()) {
+            return populares.get(0);
+        }
+        return null;
+    }
+
 }
