@@ -143,6 +143,7 @@ public class ProfundizaController extends BaseController {
     @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
     @ResponseBody
     public Map popular(@PathVariable Integer posicion) {
+        log.info("Populares Profundiza({})", posicion);
         Map resultado = new HashMap();
         Popular popular = publicacionService.obtieneSiguientePopularProfundiza(posicion);
         popular.getPublicacion().getArticulo().setVistas(publicacionService.agregarVista(popular.getPublicacion().getArticulo()));

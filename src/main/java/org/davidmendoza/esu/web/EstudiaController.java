@@ -168,6 +168,7 @@ public class EstudiaController extends BaseController {
     @RequestMapping(value = "/popular/{posicion}", method = RequestMethod.GET)
     @ResponseBody
     public Map popular(@PathVariable Integer posicion) throws ParseException {
+        log.info("Populares Estudia({})", posicion);
         Map resultado = new HashMap();
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE", new Locale("es"));
         Popular popular = publicacionService.obtieneSiguientePopularEstudia(posicion);

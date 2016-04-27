@@ -76,6 +76,26 @@ public class CachingConfig {
         equipoCache.setTimeToLiveSeconds(3600);
         equipoCache.setTimeToIdleSeconds(3600);
 
+        CacheConfiguration popularesCache = new CacheConfiguration();
+        popularesCache.setName("popularesCache");
+        popularesCache.setTimeToLiveSeconds(3600);
+        popularesCache.setTimeToIdleSeconds(3600);
+
+        CacheConfiguration popularProfundizaCache = new CacheConfiguration();
+        popularProfundizaCache.setName("popularProfundizaCache");
+        popularProfundizaCache.setTimeToLiveSeconds(3600);
+        popularProfundizaCache.setTimeToIdleSeconds(3600);
+
+        CacheConfiguration popularComunicaCache = new CacheConfiguration();
+        popularComunicaCache.setName("popularComunicaCache");
+        popularComunicaCache.setTimeToLiveSeconds(3600);
+        popularComunicaCache.setTimeToIdleSeconds(3600);
+
+        CacheConfiguration popularEstudiaCache = new CacheConfiguration();
+        popularEstudiaCache.setName("popularEstudiaCache");
+        popularEstudiaCache.setTimeToLiveSeconds(3600);
+        popularEstudiaCache.setTimeToIdleSeconds(3600);
+
         CacheConfiguration defaultConfig = new CacheConfiguration();
         defaultConfig.setEternal(false);
         defaultConfig.setTimeToLiveSeconds(21600);
@@ -100,6 +120,10 @@ public class CachingConfig {
         config.addCache(diaCache);
         config.addCache(inicioCache);
         config.addCache(equipoCache);
+        config.addCache(popularesCache);
+        config.addCache(popularProfundizaCache);
+        config.addCache(popularComunicaCache);
+        config.addCache(popularEstudiaCache);
 
         return net.sf.ehcache.CacheManager.newInstance(config);
     }

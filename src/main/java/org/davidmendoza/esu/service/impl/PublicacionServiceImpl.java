@@ -49,6 +49,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.examples.HtmlToPlainText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -185,6 +186,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         return articuloId;
     }
 
+    @Cacheable(value = "popularesCache")
     @Override
     public List<Publicacion> populares(Pageable pageable) {
 
@@ -284,6 +286,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         }
     }
 
+    @Cacheable(value = "popularProfundizaCache")
     @Override
     public Popular obtieneSiguientePopularProfundiza(Integer posicion) {
         PageRequest pageRequest = new PageRequest(0, 1);
@@ -294,6 +297,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         return null;
     }
 
+    @Cacheable(value = "popularComunicaCache")
     @Override
     public Popular obtieneSiguientePopularComunica(Integer posicion) {
         PageRequest pageRequest = new PageRequest(0, 1);
@@ -304,6 +308,7 @@ public class PublicacionServiceImpl extends BaseService implements PublicacionSe
         return null;
     }
 
+    @Cacheable(value = "popularEstudiaCache")
     @Override
     public Popular obtieneSiguientePopularEstudia(Integer posicion) {
         PageRequest pageRequest = new PageRequest(0, 1);
