@@ -135,7 +135,8 @@
             var actual = -1;
             var page = 1;
             var actualPage = 0;
-            var articulos = [/*[[${tema.articulo.id}]]*/];
+            var articulos = [];
+            articulos.push(/*[[${tema.articulo.id}]]*/);
             
             function isScrolledIntoView(elem) {
                 var $elem = $(elem);
