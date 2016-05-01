@@ -41,6 +41,13 @@
                     <ul>
                         <li th:each="rol : ${usuario.roles}" th:text="${rol.authority}">Rol</li>
                     </ul>
+                    <hr/>
+                    <div>
+                        <img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" th:alt="${usuario.nombre + ' ' + usuario.apellido}" style="height:200px;float:left;padding-right: 10px;padding-bottom: 10px;"/>
+                        <h4>Descripci&oacute;n</h4>
+                        <p th:text="${perfil.texto}">Nombre</p>
+                    </div>
+                    
                     <a href="#" th:href="@{'/admin/usuario'}" class="btn btn-default"><span class="fa fa-undo"></span> Regresar</a>
                     <a href="#" th:href="@{'/admin/usuario/editar/'+${usuario.id}}" class="btn btn-primary"><span class="fa fa-edit"></span> Editar</a>
                     <a href="#" th:href="@{'/admin/usuario/eliminar/'+${usuario.id}}" class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar este usuario?');"><span class="fa fa-trash-o"></span> Eliminar</a>

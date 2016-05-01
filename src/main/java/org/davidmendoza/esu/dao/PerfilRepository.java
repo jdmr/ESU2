@@ -39,4 +39,6 @@ public interface PerfilRepository extends PagingAndSortingRepository<Perfil, Lon
     
     @Query("select p from #{#entityName} p order by p.usuario.nombre, p.usuario.apellido")
     public List<Perfil> todos();
+
+    public Perfil findByUsuarioId(Long usuarioId);
 }

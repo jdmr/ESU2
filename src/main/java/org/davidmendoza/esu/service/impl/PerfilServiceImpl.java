@@ -23,11 +23,15 @@
  */
 package org.davidmendoza.esu.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.davidmendoza.esu.dao.PerfilRepository;
+import org.davidmendoza.esu.dao.RolRepository;
+import org.davidmendoza.esu.dao.UsuarioRepository;
 import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Publicacion;
 import org.davidmendoza.esu.model.Usuario;
@@ -36,6 +40,7 @@ import org.davidmendoza.esu.service.PublicacionService;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +56,12 @@ public class PerfilServiceImpl extends BaseController implements PerfilService {
     private PerfilRepository perfilRepository;
     @Autowired
     private PublicacionService publicacionService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RolRepository rolRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -82,4 +93,49 @@ public class PerfilServiceImpl extends BaseController implements PerfilService {
         }
         return perfiles;
     }
+
+    @Override
+    public Perfil obtienePorUsuario(Long usuarioId) {
+        return perfilRepository.findByUsuarioId(usuarioId);
+    }
+
+    @Override
+    public void actualiza(Perfil perfil) {
+        Usuario usuario = perfil.getUsuario();
+        Usuario u = usuarioRepository.dateCreated(usuario.getId());
+        usuario.setDateCreated(u.getDateCreated());
+        usuario.setLastUpdated(new Date());
+        if (!usuario.getPassword().equals(u.getPassword())) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+
+        usuario.getRoles().clear();
+        if (usuario.getAdmin()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_ADMIN"));
+        }
+        if (usuario.getEditor()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_EDITOR"));
+        }
+        if (usuario.getAutor()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_AUTOR"));
+        }
+        if (usuario.getUser()) {
+            usuario.getRoles().add(rolRepository.findByAuthorityIgnoreCase("ROLE_USER"));
+        }
+
+        usuarioRepository.save(usuario);
+
+        if (perfil.getFile() != null) {
+            try {
+                perfil.setTamano(perfil.getFile().getSize());
+                perfil.setTipoContenido(perfil.getFile().getContentType());
+                perfil.setNombreImagen(perfil.getFile().getOriginalFilename());
+                perfil.setArchivo(perfil.getFile().getBytes());
+            } catch (IOException e) {
+                log.warn("No se pudo subir la imagen", e);
+            }
+        }
+        perfilRepository.save(perfil);
+    }
+
 }

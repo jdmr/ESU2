@@ -41,9 +41,9 @@
                     <div class="addthis_sharing_toolbox"></div>
                     <div class="addthis_recommended_horizontal"></div>
 
-                    <div th:if="${perfil != null}">
+                    <div class="perfil" th:if="${perfil != null}">
                         <h3>Acerca del Autor</h3>
-                        <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${tema.articulo.autor.nombreCompleto}" style="float:left;width: 200px;" /></a>
+                        <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><img src="#" th:src="@{'/perfil/imagen/'+${perfil.id}}" alt="#" th:alt="${tema.articulo.autor.nombreCompleto}" style="float:left;width: 200px;padding: 10px 10px 10px 0;" /></a>
                         <a href="#" th:href="@{'/perfil/'+${perfil.id}}"><h2 th:text="${tema.articulo.autor.nombreCompleto}">Nombre</h2></a>
                         <p th:text="${perfil.texto}">Descripcion</p>
                         <a href="#" th:href="@{'/perfil/'+${perfil.id}}">Artículos de <th:block th:text="${tema.articulo.autor.nombreCompleto}">Autor</th:block></a>
@@ -131,10 +131,12 @@
             var estudiaUrl = /*[[@{/estudia}]]*/ '/estudia';
             var perfilUrl = /*[[@{/perfil}]]*/ '/perfil';
             var compartePopularUrl = /*[[@{/comparte/popular}]]*/ '/comparte/popular';
-            var posicion = /*[[${posicion}]]*/ 0;
-            var actual = 0;
+            var posicion = 0;
+            var actual = -1;
             var page = 1;
             var actualPage = 0;
+            var articulos = [];
+            articulos.push(/*[[${tema.articulo.id}]]*/);
             
             function isScrolledIntoView(elem) {
                 var $elem = $(elem);
@@ -148,6 +150,15 @@
 
                 return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
             }
+            
+            function contains(a, obj) {
+                for (var i = 0; i < a.length; i++) {
+                    if (a[i] === obj) {
+                        return true;
+                    }
+                }
+                return false;
+            }
 
             $(window).scroll(function () {
                 
@@ -156,23 +167,26 @@
                         console.log('Buscando popular de comparte('+posicion+')');
                         actual = posicion;
                         $.get(compartePopularUrl+'/'+posicion, function (data) {
-                            var html = "<h1>"+data.publicacion.articulo.titulo+"</h1>";
-                            html += "<h3>Por "+data.publicacion.articulo.autor.nombreCompleto+"</h3>";
-                            html += data.publicacion.articulo.contenido;
-                            html += "<p>"+data.publicacion.articulo.vistas+" Vistas <span class='fa fa-eye'></span></p>";
-                            html += "<div>";
-                            html += "<h3>Acerca del Autor</h3>";
-                            html += "<a href='"+perfilUrl+"/"+data.perfil.id+"'><img src='"+perfilUrl+"/imagen/"+data.perfil.id+"' alt='"+data.publicacion.articulo.autor.nombreCompleto+"' style='float:left;width:200px;'/></a>";
-                            html += "<a href='"+perfilUrl+"/"+data.perfil.id+"'><h2>"+data.publicacion.articulo.autor.nombreCompleto+"</h2></a>";
-                            if (data.perfil.texto) {
-                                html += "<p>"+data.perfil.texto+"</p>";
-                                html += "<p style='padding-bottom: 20px;'><a href='"+perfilUrl+"/"+data.perfil.id+"' >Art&iacute;culos de "+data.publicacion.articulo.autor.nombreCompleto+"</a></p>";
-                            } else {
-                                html += "<p style='padding-bottom: 100px;'><a href='"+perfilUrl+"/"+data.perfil.id+"' >Art&iacute;culos de "+data.publicacion.articulo.autor.nombreCompleto+"</a></p>";
+                            if (!contains(articulos, data.publicacion.articulo.id)) {
+                                var html = "<h1>"+data.publicacion.articulo.titulo+"</h1>";
+                                html += "<h3>Por "+data.publicacion.articulo.autor.nombreCompleto+"</h3>";
+                                html += data.publicacion.articulo.contenido;
+                                html += "<p>"+data.publicacion.articulo.vistas+" Vistas <span class='fa fa-eye'></span></p>";
+                                html += "<div>";
+                                html += "<h3>Acerca del Autor</h3>";
+                                html += "<a href='"+perfilUrl+"/"+data.perfil.id+"'><img src='"+perfilUrl+"/imagen/"+data.perfil.id+"' alt='"+data.publicacion.articulo.autor.nombreCompleto+"' style='float:left;width:200px;padding: 10px 10px 10px 0;'/></a>";
+                                html += "<a href='"+perfilUrl+"/"+data.perfil.id+"'><h2>"+data.publicacion.articulo.autor.nombreCompleto+"</h2></a>";
+                                if (data.perfil.texto) {
+                                    html += "<p>"+data.perfil.texto+"</p>";
+                                    html += "<p style='padding-bottom: 20px;'><a href='"+perfilUrl+"/"+data.perfil.id+"' >Art&iacute;culos de "+data.publicacion.articulo.autor.nombreCompleto+"</a></p>";
+                                } else {
+                                    html += "<p style='padding-bottom: 100px;'><a href='"+perfilUrl+"/"+data.perfil.id+"' >Art&iacute;culos de "+data.publicacion.articulo.autor.nombreCompleto+"</a></p>";
+                                }
+                                html += "<hr/>";
+                                html += "</div>";
+                                $('div#temaDiv').before(html);
+                                //articulos.push(data.publicacion.articulo.id);
                             }
-                            html += "<hr/>";
-                            html += "</div>";
-                            $('div#temaDiv').before(html);
                             posicion = data.posicion;
                         });
                     }

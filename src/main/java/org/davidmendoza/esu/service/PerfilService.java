@@ -38,4 +38,8 @@ public interface PerfilService {
     public Perfil obtiene(Long perfilId);
 
     public List<Perfil> todos();
+
+    public Perfil obtienePorUsuario(Long usuarioId);
+
+    public void actualiza(Perfil perfil);
 }

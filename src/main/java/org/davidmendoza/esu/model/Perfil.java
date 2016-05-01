@@ -42,6 +42,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -94,6 +95,9 @@ public class Perfil implements Serializable {
     @Transient
     @JsonIgnore
     private List<Publicacion> publicacionesUnicas = new ArrayList<>();
+    @Transient
+    @JsonIgnore
+    private MultipartFile file;
 
     public Perfil() {
     }
@@ -208,6 +212,20 @@ public class Perfil implements Serializable {
      */
     public void setPublicacionesUnicas(List<Publicacion> publicacionesUnicas) {
         this.publicacionesUnicas = publicacionesUnicas;
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

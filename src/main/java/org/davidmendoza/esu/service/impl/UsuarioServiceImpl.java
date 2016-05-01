@@ -150,5 +150,5 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
         }
         return perfiles;
     }
-    
+
 }

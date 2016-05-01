@@ -26,9 +26,12 @@ package org.davidmendoza.esu.web.admin;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.davidmendoza.esu.Constants;
+import org.davidmendoza.esu.model.Perfil;
 import org.davidmendoza.esu.model.Rol;
 import org.davidmendoza.esu.model.Usuario;
+import org.davidmendoza.esu.service.PerfilService;
 import org.davidmendoza.esu.service.UsuarioService;
+import org.davidmendoza.esu.validation.PerfilValidator;
 import org.davidmendoza.esu.validation.UsuarioValidator;
 import org.davidmendoza.esu.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +59,10 @@ public class UsuarioController extends BaseController {
     private UsuarioService usuarioService;
     @Autowired
     private UsuarioValidator usuarioValidator;
+    @Autowired
+    private PerfilService perfilService;
+    @Autowired
+    private PerfilValidator perfilValidator;
 
     @RequestMapping(value = {"", "/lista"}, method = RequestMethod.GET)
     public String lista(Model model,
@@ -66,8 +73,8 @@ public class UsuarioController extends BaseController {
         log.debug("Pagina: {}", pagina);
 
         if (StringUtils.isBlank(ordena)) {
-            ordena = "id";
-            direccion = "desc";
+            ordena = "nombre";
+            direccion = "asc";
         }
         Map<String, Object> params = preparaPaginacion(pagina, ordena, direccion, filtro);
 
@@ -112,14 +119,16 @@ public class UsuarioController extends BaseController {
 
     @RequestMapping(value = "/ver/{usuarioId}", method = RequestMethod.GET)
     public String ver(@PathVariable("usuarioId") Long usuarioId, Model model) {
-        Usuario usuario = usuarioService.obtiene(usuarioId);
-        model.addAttribute("usuario", usuario);
+        Perfil perfil = perfilService.obtienePorUsuario(usuarioId);
+        model.addAttribute("perfil", perfil);
+        model.addAttribute("usuario", perfil.getUsuario());
         return "admin/usuario/ver";
     }
 
     @RequestMapping(value = "/editar/{usuarioId}", method = RequestMethod.GET)
     public String editar(@PathVariable Long usuarioId, Model model) {
-        Usuario usuario = usuarioService.obtiene(usuarioId);
+        Perfil perfil = perfilService.obtienePorUsuario(usuarioId);
+        Usuario usuario = perfil.getUsuario();
         for(Rol rol : usuario.getRoles()) {
             if (rol.getAuthority().equals("ROLE_ADMIN")) {
                 usuario.setAdmin(Boolean.TRUE);
@@ -136,20 +145,21 @@ public class UsuarioController extends BaseController {
                 usuario.setUser(Boolean.FALSE);
             }
         }
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("perfil", perfil);
         return "admin/usuario/editar";
     }
 
     @RequestMapping(value = "/editar", method = RequestMethod.POST)
-    public String editar(@ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        usuarioValidator.validate(usuario, bindingResult);
+    public String editar(@ModelAttribute("perfil") Perfil perfil, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        perfilValidator.validate(perfil, bindingResult);
         if (bindingResult.hasErrors()) {
             log.warn("No se pudo actualizar usuario. {}", bindingResult.getAllErrors());
             return "admin/usuario/editar";
         }
+        Usuario usuario = perfil.getUsuario();
 
         try {
-            usuarioService.actualiza(usuario);
+            perfilService.actualiza(perfil);
         } catch (Exception e) {
             log.error("No se pudo actualizar usuario", e);
             bindingResult.reject("No se pudo actualizar usuario. {}", e.getMessage());

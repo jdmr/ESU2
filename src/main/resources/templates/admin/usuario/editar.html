@@ -33,48 +33,57 @@
                 </div>
                 <div class="col-md-9">
                     <h1>Editar Usuario</h1>
-                    <form action="#" th:action="@{'/admin/usuario/editar'}" method="POST" th:object="${usuario}">
+                    <form action="#" th:action="@{'/admin/usuario/editar'}" method="POST" th:object="${perfil}" enctype="multipart/form-data">
                         <input type="hidden" th:field="*{id}" />
                         <input type="hidden" th:field="*{version}" />
+                        <input type="hidden" th:field="*{usuario.id}" />
                         <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                             <h4>Error</h4>
                             <ul>
                                 <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Incorrect input</li>
                             </ul>
                         </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('nombre')}?'has-error'">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('usuario.nombre')}?'has-error'">
                             <label for="nombre">Nombre</label>
-                            <input type="text" th:field="*{nombre}" id="nombre" class="form-control" autofocus="autofocus" />
+                            <input type="text" th:field="*{usuario.nombre}" id="nombre" class="form-control" autofocus="autofocus" />
                         </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('apellido')}?'has-error'">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('usuario.apellido')}?'has-error'">
                             <label for="apellido">Apellido</label>
-                            <input type="text" th:field="*{apellido}" id="apellido" class="form-control" />
+                            <input type="text" th:field="*{usuario.apellido}" id="apellido" class="form-control" />
                         </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('username')}?'has-error'">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('usuario.username')}?'has-error'">
                             <label for="username">Usuario</label>
-                            <input type="text" th:field="*{username}" id="username" class="form-control" />
+                            <input type="text" th:field="*{usuario.username}" id="username" class="form-control" />
                         </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('password')}?'has-error'">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('usuario.password')}?'has-error'">
                             <label for="password">Contraseña</label>
-                            <input type="password" th:value="*{password}" id="password" name="password" class="form-control" />
+                            <input type="password" th:value="*{usuario.password}" id="password" name="usuario.password" class="form-control" />
                         </div>
-                        <div class="checkbox" th:classappend="${#fields.hasErrors('roles')}?'has-error'">
+                        <div class="checkbox" th:classappend="${#fields.hasErrors('usuario.roles')}?'has-error'">
                             <label>
-                                <input type="checkbox" th:field="*{admin}" id="admin" />
+                                <input type="checkbox" th:field="*{usuario.admin}" id="admin" />
                                 ADMIN
                             </label><br/>
                             <label>
-                                <input type="checkbox" th:field="*{editor}" id="editor" />
+                                <input type="checkbox" th:field="*{usuario.editor}" id="editor" />
                                 EDITOR
                             </label><br/>
                             <label>
-                                <input type="checkbox" th:field="*{autor}" id="autor" />
+                                <input type="checkbox" th:field="*{usuario.autor}" id="autor" />
                                 AUTOR
                             </label><br/>
                             <label>
-                                <input type="checkbox" th:field="*{user}" id="usuario" />
+                                <input type="checkbox" th:field="*{usuario.user}" id="usuario" />
                                 USUARIO
                             </label>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('texto')}?'has-error'">
+                            <label for="texto">Descripci&oacute;n</label>
+                            <textarea th:field="*{texto}" id="texto" class="form-control" ></textarea>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('file')}?'has-error'">
+                            <label for="file">Imagen</label>
+                            <input type="file" th:field="*{file}" id="file" class="form-control" />
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-floppy-o"></span> Actualizar</button>
                         <a href="#" th:href="@{'/admin/usuario'}" class="btn btn-default btn-lg"><span class="fa fa-undo"></span> Cancelar</a>
