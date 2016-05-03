@@ -59,6 +59,8 @@ public class UsuarioServiceImpl extends BaseService implements UsuarioService {
     
     @Override
     public List<Usuario> busca(String filtro) {
+        filtro = ("%"+filtro+"%").toUpperCase();
+        log.debug("Busca: {}", filtro);
         return usuarioRepository.busca(filtro);
     }
 
