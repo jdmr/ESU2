@@ -25,6 +25,7 @@ package org.davidmendoza.esu.service.impl;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -161,7 +162,18 @@ public class InicioServiceImpl extends BaseService implements InicioService {
                 inicio.setPodcast(podcast);
                 inicio.setVersiculo(versiculo);
                 inicio.setHoy(hoy);
-                inicio.setArticulos(populares);
+                int max = Math.max(dialoga.size(), comunica.size());
+                List<Publicacion> articulos = new ArrayList<>();
+                for(int i = 0; i < max; i++) {
+                    if (i < dialoga.size()) {
+                        articulos.add(dialoga.get(i));
+                    }
+                    if (i < comunica.size()) {
+                        articulos.add(comunica.get(i));
+                    }
+                }
+                articulos.addAll(populares);
+                inicio.setArticulos(articulos);
 
                 return inicio;
             } catch (ParseException e) {
